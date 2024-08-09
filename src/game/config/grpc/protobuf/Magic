@@ -9,6 +9,15 @@ message PlayerMagicDataMsg {
     optional MagicFreeAdData magicFreeAd = 7; 
     optional bool pieceShopOpen = 8; 
     optional int32 curUsePresetsIndex = 9; 
+    repeated MagicSeparationMarkMsg separationMarkMsg = 10;
+}
+message MagicSeparationMarkMsg{
+    optional int32 separationIdx = 1;
+    repeated MagicPresetsMarkMsg presetsMarkMsgList = 2;
+}
+message MagicPresetsMarkMsg{
+    optional int32 presetsIdx = 1;
+    repeated int32 markList = 2;
 }
 message MagicFreeAdData{
     optional int32 freeTimes = 1; 

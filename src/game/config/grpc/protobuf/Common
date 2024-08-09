@@ -35,3 +35,14 @@ message EquipUniverseSkillMsg {
     required int32 skillId = 2; 
     optional int32 skillLv = 3;
 }
+message UnionServerIdData {
+    optional string unionName = 1;
+    optional int64 serverId = 2; 
+}
+message PlayerSuppressAttribute {
+  repeated EquipmentDataMsg equipList = 1; 
+  optional int32 preRealms = 2; 
+  optional int32 afterRealms = 3; 
+  repeated AttributeDataMsg preAttribute = 4;                
+  repeated AttributeDataMsg afterAttribute = 5;                
+}

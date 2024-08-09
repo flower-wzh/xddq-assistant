@@ -35,7 +35,7 @@ message UnionBaseData {
     optional int32 limitRealmsId = 6;               
     optional int64 serverId = 7;                    
     optional int32 memberNum = 8;                   
-    optional int32 dan = 9;                       
+    optional int32 dan = 9;                         
     optional int32 danStar = 10;                    
     optional bool cross = 11;                       
 }

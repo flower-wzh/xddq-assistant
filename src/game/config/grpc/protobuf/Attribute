@@ -3,6 +3,7 @@ import "Common";
 import "PlayerChara";
 import "Talent";
 import "Spirit";
+import "Magic";
     message PlayerAttributeDataMsg {
         required int32 realmsId = 1;                                       
         required string exp = 2;                                           
@@ -32,6 +33,7 @@ import "Spirit";
         optional int32 equipAppearanceId = 15; 
         repeated EquipUniverseSkillMsg equipUniverseSkillMsg = 16; 
         optional int32 universeLevel = 17;  
+        repeated MagicDataMsg equipMagicMsgList = 18; 
     }
     message PupilDetailDataMsg {
         repeated AttributeDataMsg baseAttr = 1;     
@@ -87,6 +89,7 @@ import "Spirit";
         optional int64 dreamLvUpEndTime = 3; 
         optional int64 freeSpeedUpCdEndTime = 4; 
         optional int32 freeSpeedUpTimes = 5; 
+        optional int32 dailyGoldenPeachCost = 6; 
     }
     message UnDealEquipmentDataMsg {
         required EquipmentDataMsg unDealEquipmentData = 1;              

@@ -719,6 +719,12 @@
             "smMethod": "RespShareTaskDone"
         },
         {
+            "key": "S_ACTIVITY_OPEN_TO_DESK",
+            "comment": "从PC打开",
+            "cmMethod": "ReqShareTaskDone",
+            "smMethod": "RespShareTaskDone"
+        },
+        {
             "key": "S_ACTIVITY_GET_BATTLE_PASS_CONDITION_REWARD",
             "comment": "领取活动战令任务奖励",
             "cmMethod": "ReqGetActivityConditionReward",
@@ -990,6 +996,24 @@
             "comment": "切换灵兽联动形象",
             "cmMethod": "PetSwitchLinkageSkinReq",
             "smMethod": "PetSwitchLinkageSkinResp"
+        },
+        {
+            "key": "S_PET_SKIN_SWITCH",
+            "comment": "切换灵兽皮肤",
+            "cmMethod": "PetSwitchSkinReq",
+            "smMethod": "PetSwitchSkinResp"
+        },
+        {
+            "key": "S_PET_SKIN_UP",
+            "comment": "激活、升级灵兽皮肤",
+            "cmMethod": "PetUpSkinLevelReq",
+            "smMethod": "PetUpSkinLevelResp"
+        },
+        {
+            "key": "S_PET_SKIN_COMBINE",
+            "comment": "激活、升级灵兽羁绊",
+            "cmMethod": "PetUpSkinCombineReq",
+            "smMethod": "PetUpSkinCombineResp"
         }
     ],
     "WorldMessage": [
@@ -1270,6 +1294,12 @@
             "comment": "切换精怪联动形象",
             "cmMethod": "SpiritSwitchLinkageSkinReq",
             "smMethod": "SpiritSwitchLinkageSkinResp"
+        },
+        {
+            "key": "S_SPIRIT_LV_UNLOCK_SHOW",
+            "comment": "精怪等级解锁展示",
+            "cmMethod": "SpiritLevelUnlockShowReq",
+            "smMethod": "SpiritLevelUnlockShowResp"
         }
     ],
     "PrivilegeCard": [
@@ -1749,6 +1779,12 @@
             "key": "S_RANK_BATTLE_LOGIN_SYNC",
             "comment": "斗法登录同步",
             "smMethod": "RankBattleSync"
+        },
+        {
+            "key": "S_RANK_BATTLE_SERVERLIST",
+            "comment": "获取跨服斗法参与区服",
+            "cmMethod": "RankBattleServerListReq",
+            "smMethod": "RankBattleServerListResp"
         }
     ],
     "FundsActivity": [
@@ -2951,6 +2987,12 @@
             "comment": "法宝升星",
             "cmMethod": "MagicTreasureStarUpReq",
             "smMethod": "MagicTreasureStarUpRsp"
+        },
+        {
+            "key": "S_MAGIC_TREASURE_LINK_CHANGE_REQ",
+            "comment": "法宝形象切换",
+            "cmMethod": "MagicTreasureSwitchLinkageSkinReq", 
+            "smMethod": "MagicTreasureSwitchLinkageSkinResp"
         }
     ],
     "MallShield": [
@@ -4145,6 +4187,24 @@
             "comment": "画中仙境-检测仙泽",
             "cmMethod": "CheckFairyPoolReq",
             "smMethod": "CheckFairyPoolResp"
+        },
+        {
+            "key": "S_SHURA_BATTLE_APPLY_CANCEL",
+            "comment": "申请、撤销",
+            "cmMethod": "ShuraBattleApplyReq",
+            "smMethod": "ShuraBattleApplyResp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_JOIN_TEAM",
+            "comment": "三界征途-申请加入队伍",
+            "cmMethod": "PlanesTrialJoinTeamReq",
+            "smMethod": "PlanesTrialJoinTeamRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_CHALLENGE_TIME",
+            "comment": "三界征途-获取挑战次数",
+            "cmMethod": "PlanesTrialChallengeTimeReq",
+            "smMethod": "PlanesTrialChallengeTimeRsp"
         }
     ],
     "SignInFundActivity": [
@@ -4357,6 +4417,111 @@
             "smMethod": "FestivalCelebrationsWorshipResp"
         }
     ],
+    "UnionTreasure":[
+        {
+            "key": "S_UNION_TREASURE_ENTER",
+            "comment": "妖盟寻宝进入界面",
+            "cmMethod": "UnionTreasureEnterReq",
+            "smMethod": "UnionTreasureEnterResp"
+        },
+        {
+            "key": "S_UNION_TREASURE_ASK_FOR",
+            "comment": "妖盟寻宝索要",
+            "cmMethod": "UnionTreasureAskForReq",
+            "smMethod": "UnionTreasureAskForResp"
+        },
+        {
+            "key": "S_UNION_TREASURE_DRWA_CHIP",
+            "comment": "妖盟寻宝地图互动",
+            "cmMethod": "UnionTreasureDrawChipReq",
+            "smMethod": "UnionTreasureDrawChipResp"
+        },
+        {
+            "key": "S_UNION_TREASURE_SEND_CHIP",
+            "comment": "妖盟寻宝碎片赠送",
+            "cmMethod": "UnionTreasureSendChipReq",
+            "smMethod": "UnionTreasureSendChipResp"
+        },
+        {
+            "key": "S_UNION_TREASURE_BATTALE_RELIC",
+            "comment": "妖盟寻宝遗迹互动",
+            "cmMethod": "UnionTreasureBattleRelicReq",
+            "smMethod": "UnionTreasureBattleRelicResp"
+        },
+        {
+            "key": "S_UNION_TREASURE_GET_CHIP",
+            "comment": "妖盟寻宝获得碎片",
+            "cmMethod": "UnionTreasureGetGiveChipReq",
+            "smMethod": "UnionTreasureGetGiveChipResp"
+        },
+        {
+            "key": "S_UNION_TREASURE_BOSS_HELP",
+            "comment": "妖盟寻宝分享协助",
+            "cmMethod": "UnionTreasureShareRelicReq",
+            "smMethod": "UnionTreasureShareRelicResp"
+        },
+        {
+            "key": "S_UNION_TREASURE_RUINS_DATA",
+            "comment": "妖盟寻宝遗迹数据请求",
+            "cmMethod": "UnionTreasureAskForRelicReq",
+            "smMethod": "UnionTreasureAskForRelicResp"
+        },
+        {
+            "key": "S_UNION_TREASURE_HUNT_TREASURE",
+            "comment": "妖盟寻宝遗迹挖宝",
+            "cmMethod": "UnionTreasureHuntTreasureReq",
+            "smMethod": "UnionTreasureHuntTreasureResp"
+        },
+        {
+            "key": "S_UNION_TREASURE_FILL_CHIP",
+            "comment": "妖盟寻宝遗迹激活碎片",
+            "cmMethod": "UnionTreasureFillChipReq",
+            "smMethod": "UnionTreasureFillChipResp"
+        },
+        {
+            "key": "S_UNION_TREASURE_MESSAGE_VALID",
+            "comment": "妖盟寻宝遗迹消息过期",
+            "cmMethod": "checkMessageValidReq",
+            "smMethod": "checkMessageValidResp"
+        },
+        {
+            "key": "S_UNION_TREASURE_EXIT",
+            "comment": "妖盟寻宝退出请求",
+            "cmMethod": "UnionTreasureExitReq",
+            "smMethod": "UnionTreasureExitResp"
+        },
+        {
+            "key": "S_UNION_TREASURE_TIME_ASYNC",
+            "comment": "妖盟寻宝时间同步",
+            "cmMethod": "",
+            "smMethod": "UnionTreasuretLoginSync"
+        },
+        {
+            "key": "S_UNION_TREASURE_RELIC_DATA_SYNC",
+            "comment": "妖盟寻宝主要数据同步",
+            "cmMethod": "",
+            "smMethod": "UnionTreasureCollectMsg"
+        },
+        {
+            "key": "S_UNION_TREASURE_LEVEL_UP",
+            "comment": "妖盟寻宝升级弹窗",
+            "cmMethod": "",
+            "smMethod": "UnionTreasureLvUpWindowsMsg"
+        },
+        {
+            "key": "S_UNION_TREASURE_GIVEN_LIST",
+            "comment": "妖盟寻宝赠送请求",
+            "cmMethod": "UnionTreasureGetCollectGiveMsgReq",
+            "smMethod": "UnionTreasureGetCollectGiveMsgResp"
+        },
+        {
+            "key": "S_UNION_TREASURE_BATTLE_RECORD",
+            "comment": "妖盟寻宝战斗记录",
+            "cmMethod": "UnionTreasureGetBattleRecordReq",
+            "smMethod": "UnionTreasureGetBattleRecordResp"
+        }
+
+    ],
     "PetKernel": [
         {
             "key": "S_PET_KERNEL_DRAW",
@@ -4401,10 +4566,68 @@
             "smMethod": "PetKernelPlayerDataMsg"
         }
     ],
-    "GodDemonBattle":[
+    "GodDemonBattle": [
         {
             "comment": "活动表配置",
             "byteDecode": "GodDemonBattleConfig"
+        },
+        {
+            "key": "S_GOD_DEMON_BATTLE_GET_PLAYER_SETTLEMENT",
+            "comment": "获取玩家结算信息",
+            "cmMethod": "GodDemonBattleGetPlayerSettlementReq",
+            "smMethod": "GodDemonBattleGetPlayerSettlementResp"
+        },
+        {
+            "key": "S_GOD_DEMON_BATTLE_GET_CAMP_SETTLEMENT",
+            "comment": "获取阵营结算信息",
+            "cmMethod": "GodDemonBattleGetCampSettlementReq",
+            "smMethod": "GodDemonBattleGetCampSettlementResp"
+        }
+    ],
+    "GroupInfo":[
+        {
+            "key": "S_GET_GROUP_INFO",
+            "comment": "获取系统分组信息",
+            "cmMethod": "GetSystemGroupInfoReq",
+            "smMethod": "GetSystemGroupInfoResp"
+        }
+    ], 
+    "MeiTuanSubscribe": [
+        {
+            "key": "S_MEI_TUAN_SUBSCRIBE_SYNC",
+            "comment": "同步美团订阅数据",
+            "smMethod": "SyncMeiTuanSubscribeMsg"
+        },
+        {
+            "key": "S_MEI_TUAN_SUBSCRIBE_SUCCEED",
+            "comment": "美团订阅成功",
+            "cmMethod": "MeiTuanSubscribeSucceedReq",
+            "smMethod": "MeiTuanSubscribeSucceedResp"
+        },
+        {
+            "key": "S_MEI_TUAN_SUBSCRIBE_REWARD",
+            "comment": "美团订阅领取",
+            "cmMethod": "MeiTuanSubscribeRewardReq",
+            "smMethod": "MeiTuanSubscribeRewardResp"
+        }
+    ],
+    "MeiTuanDaily": [
+        {
+            "key": "S_MEI_TUAN_DAILY_SYNC",
+            "comment": "同步美团日常信息",
+            "smMethod": "SyncMeiTuanDailyMsg"
+        },
+        {
+            "key": "S_MEI_TUAN_DAILY_LOGIN",
+            "comment": "美团二楼登录",
+            "cmMethod": "MeiTuanDailyLoginReq",
+            "smMethod": "MeiTuanDailyLoginResp"
+        },
+        {
+            "key": "S_MEI_TUAN_DAILY_REWARD",
+            "comment": "美团登录领取",
+            "cmMethod": "MeiTuanDailyRewardReq",
+            "smMethod": "MeiTuanDailyRewardResp"
         }
     ],
     "Pupil": [

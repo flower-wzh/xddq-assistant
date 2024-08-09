@@ -50,6 +50,7 @@ message UnionBountyEnterMapResp {
     optional bool settlementRedPoint = 8;            
     optional bool askHelpRedPoint = 9;               
     repeated UnionBountyMonsterMsg monsterList = 10;   
+    optional int32 groupType = 11;                   
 }
 message UnionBountyOpenEscortCartDetailReq{
     optional int64 playerId = 1;

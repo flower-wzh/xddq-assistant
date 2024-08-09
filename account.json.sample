@@ -56,7 +56,7 @@
                 "levelOffset": 5,
                 "_comment_levelOffset": "如果新装备等级高于现装备5级以上, 那么概率就会放低要求",
                 "probOffsetLowLv": 0.2,
-                "_comment_probOffset": "概率偏移值 概率大于该百分比直接穿上 比如当前是 16% 的概率 设置为0.2 那么大于16% x ( 1 + 0.2 ) = 19.2%  等级差低于levelOffset 使用的偏移值",
+                "_comment_probOffsetLowLv": "概率偏移值 概率大于该百分比直接穿上 比如当前是 16% 的概率 设置为0.2 那么大于16% x ( 1 + 0.2 ) = 19.2%  等级差低于levelOffset 使用的偏移值",
                 "probOffset": 0.2,
                 "_comment_probOffset": "概率偏移值 概率大于该百分比直接穿上 比如当前是 16% 的概率 设置为0.2 那么大于16% x ( 1 + 0.2 ) = 19.2%  等级差高于levelOffset 使用的偏移值",
                 "condition":[
@@ -85,7 +85,51 @@
                 "_comment_strictConditions": "元体: 反击&抗晕 阳神: 连爆&抗闪 阴身: 闪避&抗暴"
             }
         },
-
+        "talent": {
+            "showResult": true,
+            "_comment_showResult": "显示灵脉结果 防焦虑",
+            "separation": {
+                "quality": 5,
+                "_comment_quality": "最低品质",
+                "_comment_quality_dict": "1: 凡品 2: 下品 3: 中品 4: 上品 5: 极品 6: 仙品 7: 完美 8: 先天 9: 至宝",
+                "condition": [
+                    {
+                        "attribute": [
+                            4,
+                            14
+                        ],
+                        "skillId": [
+                            50006
+                        ],
+                        "priority": 0
+                    },
+                    {
+                        "attribute": [
+                            4,
+                            11,
+                            14
+                        ],
+                        "skillId": [
+                            50005
+                        ],
+                        "priority": 1
+                    },
+                    {
+                        "attribute": [
+                            4,
+                            11,
+                            12
+                        ],
+                        "skillId": [
+                            50004
+                        ],
+                        "priority": 2
+                    }
+                ],
+                "_comment_condition": "元体 击晕 阳神 连爆 阴身 闪避",
+                "_comment_condition_dict": "4: 敏捷 11: 抗击晕 12: 抗暴击 13: 抗连击 14: 抗闪避 15: 抗反击 16: 抗吸血 50001: 玄武, 50002: 白虎, 50003: 螣蛇, 50004: 勾陈, 50005: 青龙, 50006: 朱雀"
+            }
+        },
         "reconnectInterval": 300000,
         "_comment_reconnectInterval": "重连间隔 默认为60 * 1000 * 5 即5分钟"
     },

@@ -194,9 +194,10 @@ message SearchPlayerResp {
    optional SearchPlayerMsg playerData = 2; 
 }
 message CommonSearchPlayerReq {
-   required string searchKey = 1; 
-   optional int64 serverId = 2; 
-   optional int32 systemId = 3; 
+    required string searchKey = 1; 
+    optional int64 serverId = 2; 
+    optional int32 systemId = 3; 
+    optional int32 activityId = 4 ; 
 }
 message CommonSearchPlayerResp {
    required int32 ret = 1;

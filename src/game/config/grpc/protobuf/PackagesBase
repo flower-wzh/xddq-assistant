@@ -4,6 +4,7 @@ import "WatchPlayer";
 import "WorldMessage";
 import "Common";
 import "Battle";
+import "Palace";
 enum PackagesBaseProtocols{
     SkyWarPb_Login_Sync = 208414;                     
     SYNC_UNION_DUEL_MSG = 208501;                     
@@ -32,6 +33,7 @@ enum PackagesBaseProtocols{
     FairyLandPb_Sync_Server_Data = 214211;              
     S_PAINT_FAIRYLAND_BEING_SYNC = 214670;            
     S_PAINT_FAIRYLAND_CHECK_POOL = 214698;            
+    ShuraBattle_applyJoinTeam =  215910; 
 }
 message SkyWarDataLoginSync {
     optional int32 battleTimes = 1; 
@@ -145,6 +147,23 @@ message MountainSeaChallengeTimeReq{
 message MountainSeaChallengeTimeRsp{
     required int32 ret = 1;
     optional int32 challengeTimes = 2;
+}
+message PlanesTrialJoinTeamReq {
+    required int64 teamId = 1;
+    optional int32 realmsId = 2;
+}
+message PlanesTrialJoinTeamRsp {
+    required int32 ret = 1;
+}
+message PlanesTrialChallengeTimeReq{
+}
+message PlanesTrialChallengeTimeRsp{
+    required int32 ret = 1;
+    optional int32 challengeTimes = 2;
+    optional int32 stageId = 3;
+    optional int32 type = 4;
+    optional bool isGroup = 5;
+    optional bool achiRewardRed = 6; 
 }
 message HolyLandBattleApplyDataSyncReq{
 }
@@ -432,6 +451,7 @@ message UniverseLookMsg{
   optional int32 universeLv = 1;
   optional PlayerHeadAndNameMsg headInfo = 2; 
   optional int32 robotId = 3; 
+  optional bool isTop = 4; 
 }
 message PlayerFairyLandDataMsg {
     required int32 soarStatus = 1; 
@@ -496,4 +516,13 @@ message CheckFairyPoolReq {
 }
 message CheckFairyPoolResp {
     required int32 ret = 1; 
+}
+message ShuraBattleApplyReq {
+  required int32 activityId = 1;  
+  required int64 teamId = 2; 
+  required bool join =  3; 
+}
+message ShuraBattleApplyResp {
+  required int32 ret = 1;
+  repeated int64 applyTeamIdList = 7; 
 }

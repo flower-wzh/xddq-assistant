@@ -42,6 +42,31 @@ class Attribute {
         logger.debug(`佩戴装备 & 分解旧装备`);
         return GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_EQUIPMENT_DEAL_MSG, { type: 2, idList: [id] }, null);
     }
+
+    static RandomTalentReq(times) {
+        logger.debug(`[灵脉] 随机灵脉 ${times} 次`);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_RANDOM_TALENT, { randomTimes: times }, null);
+    }
+
+    static CheckUnfinishedTalent() {
+        logger.debug(`查看掉落灵脉`);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_GET_UNDEAL_TALENT_MSG, {}, null);
+    }
+
+    // static DealTalentEnum_Equip() {
+    //     logger.debug(`给当前分身装备灵脉`);
+    //     return GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_DEAL_TALENT, { dealData: [{ index: 0, type: 0 }] }, null);
+    // }
+
+    static DealTalentEnum_Resolve() {
+        logger.debug(`粉碎灵脉`);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_DEAL_TALENT, { dealData: [{ index: 0, type: 1 }] }, null);
+    }
+
+    static DealTalentEnum_EquipAndResolveOld() {
+        logger.debug(`佩戴灵脉 & 分解旧灵脉`);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_DEAL_TALENT, { dealData: [{ index: 0, type: 2 }] }, null);
+    }
 }
 
 export default class PlayerAttributeMgr {
@@ -54,17 +79,36 @@ export default class PlayerAttributeMgr {
             1: "阳神",
             2: "阴身"
         };
-        this.equipmentData = { 0: [], 1: [], 2: [] };
-        this.treeLevel = 1;                                         // 树等级
-        this.treeInitialized = false;                               // 树是否初始化
-        this.chopTimes = 1;                                         // 根据树等级计算砍树次数
         this.useSeparationIdx = null;                               // 使用的分身
 
+        // 仙树及砍树
+        this.treeInitialized = false;                               // 树是否初始化
+
+        this.equipmentData = { 0: [], 1: [], 2: [] };
+        this.treeLevel = 1;                                         // 树等级
+        this.chopTimes = 1;                                         // 根据树等级计算砍树次数
+
         this.unDealEquipmentDataMsg = [];                           // 未处理装备数据
-        this.chopEnabled = global.account.switch.chopTree || false;        // 用于存储 chopTree 的定时任务
+        this.chopEnabled = global.account.switch.chopTree || false; // 是否开启砍树
         this.previousPeachNum = 0;                                  // 用于存储上一次的桃子数量
 
-        // 🔒储存状态防止同时砍树和灵脉时候出现问题
+        // 灵脉
+        this.talentData = { 0: [], 1: [], 2: [] };                  // 灵脉数据
+        this.talentCreateLevel = 1;                                 // 灵脉等级
+        this.talentCreateTimes = 1;                                 // 砍灵脉次数
+
+        this.unDealTalentDataMsg = [];                              // 未处理灵脉数据
+        this.talentEnabled = global.account.switch.talent || false; // 是否开启砍灵脉
+        this.previousFlowerNum = 0;                                 // 用于存储上一次的灵脉花数量
+
+        // 确保 talentEnabled 和 chopEnabled 不同时开启
+        if (this.chopEnabled && this.talentEnabled) {
+            logger.error('灵脉 和 砍树 不能同时开启。');
+            this.chopEnabled = false;
+            this.talentEnabled = false;
+        }
+
+        // 🔒储存状态防止出现问题
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
@@ -111,6 +155,7 @@ export default class PlayerAttributeMgr {
             t.useSeparationDataMsg.forEach((data) => {
                 if (data.hasOwnProperty("index")) {
                     this.equipmentData[data.index] = data.equipmentList || [];
+                    this.talentData[data.index] = data.talentData || [];
                 }
             });
         }
@@ -259,10 +304,6 @@ export default class PlayerAttributeMgr {
     }
 
     doChopTree() {
-        // if (this.haveUnDealEquipment()) {
-        //     logger.debug(`[砍树] 有未处理装备`);
-        //     return;
-        // }
         const peachNum = BagMgr.inst.getGoodsNum(100004);
         if (peachNum < global.account.chopTree.stop.num || this.level <= global.account.chopTree.stop.level) {
             logger.warn(`[砍树] 停止任务`);
@@ -348,6 +389,215 @@ export default class PlayerAttributeMgr {
         }
     
         return result;
+    }
+
+    // 621 灵脉数据初始化
+    handlerTalentInit(body) {
+        logger.debug("[灵脉] 初始化灵脉数据");
+        this.talentCreateLevel = body.talentCreateLevel || 1;
+        this.calculateTalentMultiplier(this.talentCreateLevel);
+    }
+
+    calculateTalentMultiplier(level) {
+        // level 大于40 为3次 20-39为2次 0-19为1次
+        if (level >= 40) {
+            this.talentCreateTimes = 3;
+        } else if (level >= 20) {
+            this.talentCreateTimes = 2;
+        } else {
+            this.talentCreateTimes = 1;
+        }
+    }
+
+    // 625 处理灵脉
+    async handlerTalent(t) {
+        if (t.ret === 0) {
+            if (t.unDealTalentDataMsg.length === 0) {
+                logger.debug(`[灵脉] 无未处理灵脉数据`);
+                return;
+            }
+
+            if (this.isProcessing) {
+                logger.debug(`[灵脉] 忙碌中，跳过处理`);
+                return;
+            }
+
+            this.isProcessing = true;
+
+            this.unDealTalentDataMsg = t.unDealTalentDataMsg;
+
+            for (let i = 0; i < this.unDealTalentDataMsg.length; i++) {
+                
+                const u = this.unDealTalentDataMsg[i].talentData; // 该灵脉的未处理数据
+                const name = DBMgr.inst.getLanguageWord(`Talent_Name-${u.talentId}`);  // 灵脉名称
+
+                let processed = await this.processTalent(u, name);
+
+                if (!processed) {
+                    logger.debug(`[灵脉] 分解 ${name}`);
+                    Attribute.DealTalentEnum_Resolve()
+                }
+            }
+
+            this.isProcessing = false;
+        }
+    }
+
+    async processTalent(u, name) {
+        const showResult = global.account.talent.showResult || false;
+        const separation = global.account.talent.separation;
+
+        const quality = u.quality;       // 灵脉品质
+        const talentType = u.type -1 ;   // 灵脉类型 就是孔位 对应身体实际的需要减1
+        let originalTalentDesc;
+        const newTalentDesc = `${DBMgr.inst.getEquipmentQuality(quality)} ${u.attributeData.map(attr => `${DBMgr.inst.getAttribute(attr.type)}: ${attr.value}`).join(', ')}`;
+
+        // 判断是否为特殊灵脉
+        let isSpecial = false;
+        if ([2, 4, 8, 10].includes(talentType)) {
+            
+            let skillIds = [...new Set(separation.condition.flatMap(condition => [...condition.skillId]))]
+            if (!skillIds.includes(u.skillId)) {
+                logger.warn(`[灵脉] ${name} 特殊灵脉为${DBMgr.inst.getAttribute(u.skillId)} 不匹配`);
+                return false
+            }
+            isSpecial = true;
+        }
+
+        let betterAttributes = false;
+        let existingExist = true;
+        let index;
+        
+        if (quality >= separation.quality) {
+            if (showResult) logger.info("[灵脉] 灵脉品质符合");
+
+            // 符合哪个分身的条件
+            index = this.checkTalentCondition(u, separation.condition, isSpecial);
+            if (index == -1) {
+                if (showResult) logger.info(`[灵脉] 粗筛不符合条件`);
+                return false;
+            }
+            
+            // 如果分身没装备就直接穿上
+            if (!this.talentData[index][talentType]) {
+                betterAttributes = true;
+                existingExist = false;
+                logger.warn(`[灵脉] 分身${this.separationNames[index]} 未装备灵脉`);
+            }
+
+            if (existingExist) {
+                if (showResult) logger.info("[灵脉] 分身已装备灵脉, 比较详细数值");
+                originalTalentDesc = `${DBMgr.inst.getEquipmentQuality(this.talentData[index][talentType].quality)} ${this.talentData[index][talentType].attributeData.map(attr => `${DBMgr.inst.getAttribute(attr.type)}: ${attr.value}`).join(', ')}`;
+
+                // 已装备的灵脉不符合条件 直接换新
+                const talentAttributes = this.talentData[index][talentType].attributeData.map(attr => parseInt(attr.type));
+                const requiredAttributes = separation.condition[index].attribute;
+                const isMatching = requiredAttributes.every(attr => talentAttributes.includes(attr));
+                if (!isMatching) {
+                    if (showResult) logger.info("[灵脉] 已装备的灵脉不符合条件 直接换新");
+                    betterAttributes = true;
+                }
+
+                // 打分制比较需要比较的属性值
+                if (!betterAttributes) {
+                    betterAttributes = this.detailedCompareTalent(this.talentData[index][talentType].attributeData, u.attributeData, separation.condition[index].attribute);
+                }
+            }
+        }
+
+        if (betterAttributes) {
+            if (existingExist) {
+                logger.info(`[灵脉] 分身${this.separationNames[index]} ${name} 原灵脉 ${originalTalentDesc}`);
+            }
+            logger.error(`[灵脉] 分身${this.separationNames[index]} ${name} 新灵脉 ${newTalentDesc}`);
+
+            if (this.useSeparationIdx !== index) {
+                logger.info(`[灵脉] 分身切换至 ${this.separationNames[index]}`);
+                Attribute.SwitchSeparation(index);
+            }
+            Attribute.DealTalentEnum_EquipAndResolveOld();
+            Attribute.FetchSeparation();
+            return true;
+        }
+
+        return false;
+    }
+
+    detailedCompareTalent(oldAttr, newAttr, condition) {
+        let oldScore = 0;
+        let newScore = 0;
+    
+        condition.forEach(attrType => {
+            const oldAttribute = oldAttr.find(attr => attr.type === attrType);
+            const newAttribute = newAttr.find(attr => attr.type === attrType);
+    
+            const oldValue = oldAttribute ? parseInt(oldAttribute.value) : 0;
+            const newValue = newAttribute ? parseInt(newAttribute.value) : 0;
+    
+            // 如果新值比旧值大，newAttr加分，否则oldAttr加分
+            if (newValue > oldValue) {
+                newScore++;
+            } else if (oldValue > newValue) {
+                oldScore++;
+            }
+        });
+    
+        // 如果newAttr的得分超过oldAttr，返回true
+        return newScore > oldScore;
+    }
+
+    checkTalentCondition(u, condition, isSpecial) {
+        const talentAttributes = u.attributeData.map(attr => parseInt(attr.type));
+        const talentValues = u.attributeData.reduce((acc, attr) => {
+            acc[attr.type] = parseInt(attr.value);
+            return acc;
+        }, {});
+    
+        let matchedCondition = -1;
+        let highestScore = -1;
+        let highestPriority = Infinity;
+    
+        for (let i = 0; i < condition.length; i++) {
+            const c = condition[i];
+    
+            // 检查属性是否严格匹配
+            const attributesMatch = c.attribute.every(attr => talentAttributes.includes(attr));
+    
+            let skillIdMatch = true;
+            if (isSpecial) {
+                skillIdMatch = c.skillId.includes(u.skillId);
+            }
+    
+            // 如果属性和技能ID都严格匹配
+            if (attributesMatch && skillIdMatch) {
+                // 计算当前条件的得分
+                let currentScore = 0;
+                c.attribute.forEach(attrType => {
+                    if (talentValues[attrType] !== undefined) {
+                        currentScore += talentValues[attrType];
+                    }
+                });
+    
+                // 如果当前条件的得分更高，或者得分相同但优先级更高
+                if ((currentScore > highestScore) || (currentScore === highestScore && c.priority < highestPriority)) {
+                    matchedCondition = i;
+                    highestScore = currentScore;
+                    highestPriority = c.priority;
+                }
+            }
+        }
+    
+        return matchedCondition;
+    }    
+
+    doAutoTalent() {
+        const flowerNum = BagMgr.inst.getGoodsNum(100007);
+        if (flowerNum !== this.previousFlowerNum) {
+            logger.info(`[灵脉] 还剩 ${flowerNum} 灵脉花`);
+            this.previousFlowerNum = flowerNum; // 更新上一次数量
+        }
+        Attribute.RandomTalentReq(this.talentCreateTimes);
+        Attribute.CheckUnfinishedTalent();
     }
 
     // 207 仙树初始化以及自动升级
@@ -451,6 +701,11 @@ export default class PlayerAttributeMgr {
             // 自动砍树
             if (this.chopEnabled && this.separation) {
                 this.doChopTree();
+            }
+
+            // 自动砍灵脉
+            if (this.talentEnabled && this.separation) {
+                this.doAutoTalent();
             }
         } catch (error) {
             logger.error(`[PlayerAttributeMgr] loopUpdate error: ${error}`);
