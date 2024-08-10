@@ -9,6 +9,7 @@ export default class InvadeMgr {
         this.idx = global.account.switch.invade_index || 0;
         this.enabled = global.account.switch.invade || false;
         this.maxCount = 5
+        this.battleNum = 0;
 
         LoopMgr.inst.add(this);
     }
@@ -22,35 +23,37 @@ export default class InvadeMgr {
         LoopMgr.inst.remove(this);
     }
     InvadeDataMsg(t) {
-        if (this.isProcessing) return
-        this.isProcessing = true
-        if (!this.enabled) {
-            return
-        }
-        if (t.count >= this.maxCount) {
-            logger.info(`[异兽入侵]已完成挑战,挑战次数:${t.count}`);
-            return
-        }
-        try {
-            logger.debug("[异兽入侵] 初始化");
-            this.count = t.count || 0;
-            this.curInvadeId = t.curInvadeId || 0
-            logger.info(`[异兽入侵]当前次数:${t.count}`);
-            //切换到分身
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_SWITCH_SEPARATION_REQ, { separationIdx: this.idx }, null);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {}, null);
-            //挑战
-            GameNetMgr.inst.sendPbMsg(Protocol.S_INVADE_CHALLENGE, {}, null);
-        } catch (error) {
-            logger.error(`[异兽入侵] InvadeDataMsg error: ${error}`);
-        } finally {
-            this.isProcessing = false
-        }
+        this.battleNum = t.count
+        this.curInvadeId=t.curInvadeId
     }
 
     InvadeChallengeResp(t) {
         if (t.ret == 0) {
             logger.info(`[异兽入侵]挑战成功`);
+        }
+    }
+    async loopUpdate() {
+        if (!this.enabled) return
+        if (this.isProcessing) return
+        this.isProcessing = true
+        try {
+            if (this.battleNum >= this.maxCount) {
+                logger.info(`[异兽入侵] 任务完成`)
+                this.clear()
+                return
+            }
+            logger.debug("[异兽入侵] 初始化");
+            logger.info(`[异兽入侵]当前次数:${this.battleNum}`);
+            //切换到分身
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_SWITCH_SEPARATION_REQ, { separationIdx: this.idx }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {}, null);
+            //挑战
+            GameNetMgr.inst.sendPbMsg(Protocol.S_INVADE_CHALLENGE, {}, null);
+            this.battleNum++
+        } catch (error) {
+            logger.error(`[异兽入侵] InvadeDataMsg error: ${error}`);
+        } finally {
+            this.isProcessing = false
         }
     }
 }

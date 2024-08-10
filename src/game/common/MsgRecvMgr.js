@@ -24,6 +24,8 @@ import HomelandMgr from "#game/mgr/HomelandMgr.js";
 import InvadeMgr from "#game/mgr/InvadeMgr.js";
 import StarTrialMgr from "#game/mgr/StarTrialMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
+import RuleTrialMgr from "#game/mgr/RuleTrialMgr.js";
+import PetsMgr from "#game/mgr/PetsMgr.js";
 
 class MsgRecvMgr {
     constructor() {
@@ -354,7 +356,24 @@ class MsgRecvMgr {
         logger.debug("[MsgRecvMgr] 星宿试炼数据同步");
         StarTrialMgr.inst.SyncStarTrialData(t)
     }
-    
+
+    //9105 法则试练速战数据同步
+    static RuleTrialDataSync(t) {
+        logger.debug("[MsgRecvMgr] 法则试练速战数据同步");
+        RuleTrialMgr.inst.RuleTrialDataSync(t)
+    }
+
+    // 740 同步玩家灵兽数据
+    static PlayerPetDataSync(t) {
+        logger.debug("[MsgRecvMgr] 同步玩家灵兽数据");
+        PetsMgr.inst.SyncPlayerPetDataMsg(t.playerPetData);
+    }
+    //11706 抽取灵兽内丹结果同步
+    static PetKernelDrawResp(t) {
+        logger.debug("[MsgRecvMgr] 抽取灵兽内丹结果同步");
+        PetsMgr.inst.SyncPlayerPetDataMsg(t.playerPetData);
+    }
+
 // TODO: 以下代码未完成
 // import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 //     // 102 系统解锁同步
