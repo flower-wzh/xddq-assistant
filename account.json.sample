@@ -15,11 +15,11 @@
             { "ItemId": 100044, "minItemLv": 5, "isCheck": false, "description": "天衍令" },
             { "ItemId": 100047, "minItemLv": 5, "isCheck": false, "description": "昆仑铁" }
         ],
+        "_comment_rules": "福地规则 每个规则对应一个物品 minItemLv为最低品质 isCheck为是否开启检查",
         "homeland": {
             "ignoreTimeCheck": false,
             "_comment_ignoreTimeCheck": "福地忽略时间检测",
         },
-        "_comment_rules": "福地规则 每个规则对应一个物品 minItemLv为最低品质 isCheck为是否开启检查",
         "switch": {
             "homeland": true,
             "_comment_homeland": "福地自动总开关",

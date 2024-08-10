@@ -611,6 +611,12 @@ export default class PlayerAttributeMgr {
             logger.info(`[灵脉] 还剩 ${flowerNum} 灵脉花`);
             this.previousFlowerNum = flowerNum; // 更新上一次数量
         }
+        
+        if (flowerNum < this.talentCreateTimes) {
+            logger.warn(`[灵脉] 停止任务`);
+            this.talentEnabled = false;
+            return;
+        }
         Attribute.RandomTalentReq(this.talentCreateTimes);
         Attribute.CheckUnfinishedTalent();
     }
