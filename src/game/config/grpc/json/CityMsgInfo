@@ -4791,5 +4791,25 @@
             "comment": "MarriageRecordTempMsg解析",
             "byteDecode": "MarriageRecordTempMsg"
         }
+    ],
+    "RuleTrial":[       
+        {
+            "key": "S_RULE_TRIAL_CHALLENGE",
+            "comment": "请求法则试炼挑战",
+            "cmMethod": "RuleTrialChallengeReq",
+            "smMethod": "RuleTrialChallengeResp"
+        },
+        {
+            "key": "S_RULE_ONE_KEY_TRIAL_REPEAT",
+            "comment": "请求法则试炼一键扫荡",
+            "cmMethod": "RuleTrialRepeatAllReq",
+            "smMethod": "RuleTrialRepeatAllResp"
+        },
+        {
+            "key":"S_RULE_TRIAL_VIEW_MONSTER_ATTR",
+            "comment":"请求法则试炼Boss数据",
+            "cmMethod": "RuleTrialMonsterAttrReq",
+            "smMethod":"RuleTrialMonsterAttrResp"
+        }
     ]
 }

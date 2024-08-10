@@ -211996,9 +211996,19 @@
     null,
     null,
     null,
+    {
+        "comment": "请求法则试炼挑战",
+        "smMsgId": 9101,
+        "cmMethod": "CityMsg.RuleTrialChallengeReq",
+        "smMethod": "CityMsg.RuleTrialChallengeResp"
+    },
     null,
-    null,
-    null,
+    {
+        "comment": "请求法则试炼一键扫荡",
+        "smMsgId": 9103,
+        "cmMethod": "CityMsg.RuleTrialRepeatAllReq",
+        "smMethod": "CityMsg.RuleTrialRepeatAllResp"
+    },
     {
         "comment": "同步法则试炼Boss妖力",
         "smMsgId": 9104,
@@ -212009,7 +212019,12 @@
         "smMsgId": 9105,
         "smMethod": "CityMsg.RuleTrialDataSync"
     },
-    null,
+    {
+        "comment": "请求法则试炼Boss数据",
+        "smMsgId": 9106,
+        "cmMethod": "CityMsg.RuleTrialMonsterAttrReq",
+        "smMethod": "CityMsg.RuleTrialMonsterAttrResp"
+    },
     null,
     null,
     null,

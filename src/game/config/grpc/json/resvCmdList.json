@@ -10276,16 +10276,22 @@
     null,
     null,
     null,
+    {
+        "smMethod": "CityMsg.RuleTrialChallengeResp"
+    },
     null,
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.RuleTrialRepeatAllResp"
+    },
     {
         "smMethod": "CityMsg.RuleTrialBossConfigSyncMsg"
     },
     {
         "smMethod": "CityMsg.RuleTrialDataSync"
     },
-    null,
+    {
+        "smMethod": "CityMsg.RuleTrialMonsterAttrResp"
+    },
     null,
     null,
     null,
