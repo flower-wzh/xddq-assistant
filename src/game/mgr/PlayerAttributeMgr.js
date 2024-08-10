@@ -5,6 +5,7 @@ import LoopMgr from "#game/common/LoopMgr.js";
 import DBMgr from "#game/common/DBMgr.js";
 import BagMgr from "#game/mgr/BagMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
+import UnionMgr from "#game/mgr/UnionMgr.js";
 
 class Attribute {
     static Chop(times = 1) {
@@ -91,6 +92,8 @@ export default class PlayerAttributeMgr {
         this.unDealEquipmentDataMsg = [];                           // 未处理装备数据
         this.chopEnabled = global.account.switch.chopTree || false; // 是否开启砍树
         this.previousPeachNum = 0;                                  // 用于存储上一次的桃子数量
+        this.initPeachNum = -1;                                     // 用于存储初始桃子数量
+        this.doneUnionTask = false;                                 // 是否开启妖盟任务
 
         // 灵脉
         this.talentData = { 0: [], 1: [], 2: [] };                  // 灵脉数据
@@ -305,6 +308,10 @@ export default class PlayerAttributeMgr {
 
     doChopTree() {
         const peachNum = BagMgr.inst.getGoodsNum(100004);
+        if (this.initPeachNum == -1) {
+            this.initPeachNum = peachNum;
+        }
+
         if (peachNum < global.account.chopTree.stop.num || this.level <= global.account.chopTree.stop.level) {
             logger.warn(`[砍树] 停止任务`);
             this.chopEnabled = false;
@@ -316,6 +323,14 @@ export default class PlayerAttributeMgr {
             }
             Attribute.Chop(this.chopTimes);
             Attribute.CheckUnfinishedEquipment();
+        }
+
+        // TODO 加个counter 当大于350后 且在妖盟中 触发下面任务
+        if (UnionMgr.inst.inUnion && !this.doneUnionTask) {
+            if (peachNum - this.initPeachNum >= 350) {
+                GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120001,120002,120003,120004,120005] }, null);
+                this.doneUnionTask = true;
+            }
         }
     }
 

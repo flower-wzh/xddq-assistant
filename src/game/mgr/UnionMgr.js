@@ -145,7 +145,7 @@ export default class UnionMgr {
         ];
     
         for (const action of actions) {
-            if (t.progress >= action.threshold && (!t.taskList || !t.taskList.includes(action.index))) {
+            if (t.progress >= action.threshold) {
                 logger.info(`[妖盟管理] 领取任务收益`);
                 GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_GETDAILYTASK, { actIndex: action.index }, null);
             }
