@@ -370,8 +370,8 @@ class MsgRecvMgr {
     }
     //11706 抽取灵兽内丹结果同步
     static PetKernelDrawResp(t) {
-        logger.debug("[MsgRecvMgr] 抽取灵兽内丹结果同步");
-        PetsMgr.inst.SyncPlayerPetDataMsg(t.playerPetData);
+        logger.debug("[MsgRecvMgr] 抽取灵兽内丹结果同步 ");
+        PetsMgr.inst.PetKernelDrawResp(t);
     }
 
 // TODO: 以下代码未完成

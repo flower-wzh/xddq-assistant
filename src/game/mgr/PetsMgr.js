@@ -7,7 +7,6 @@ import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 export default class PetsMgr {
     constructor() {
         this.isProcessing = false;
-        this.isRepeated = false
         this.freeDrawTimes = 0//免费内胆数量
         this.AD_REWARD_DAILY_DRAW_MAX_NUM = 2 //免费内胆上限
         LoopMgr.inst.add(this);
@@ -47,6 +46,8 @@ export default class PetsMgr {
                 this.clear()
                 return
             }
+            
+            this.PetKernelDraw()
         } catch (error) {
             logger.error(`[灵兽内丹] loopUpdate error: ${error}`);
         } finally {
