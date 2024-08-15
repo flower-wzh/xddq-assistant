@@ -25,6 +25,8 @@
             "_comment_homeland": "福地自动总开关",
             "chopTree": false,
             "_comment_chopTree": "自动砍树",
+            "talent": false,
+            "_comment_talent": "自动灵脉，不能和自动砍树同时开启",
             "herorank": false,
             "_comment_herorank": "光速群英榜",
             "challenge": 50,
