@@ -8,6 +8,7 @@ export default class PetsMgr {
     constructor() {
         this.isProcessing = false;
         this.freeDrawTimes = 0//免费内胆数量
+        this.enabled = global.account.switch.pets || false;
         this.AD_REWARD_DAILY_DRAW_MAX_NUM = 2 //免费内胆上限
         LoopMgr.inst.add(this);
     }
@@ -38,6 +39,7 @@ export default class PetsMgr {
     }
 
     async loopUpdate() {
+        if(!this.enabled) return
         if (this.isProcessing) return
         this.isProcessing = true
         try {
