@@ -12,7 +12,10 @@ export default class UnionMgr {
         this.memberList = null;           // 妖盟成员列表
         this.lastCheckTime = 0;           // 上次检查时间
         this.CHECK_CD = 1000 * 60 * 10;   // 每次间隔时间
-
+        this.buyUnionGoodLists = global.account.buyUnionGoodLists || [];
+        this.buyUnionGoodListsDict = global.account._comment_buyUnionGoodLists_dict || {};
+        this.unionBargainNum = global.account.unionBargainNum || 0
+        this.unionBargainPrice = global.account.unionBargainPrice || 0
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
@@ -50,26 +53,14 @@ export default class UnionMgr {
             logger.info("[妖盟管理] 妖盟广告");
             GameNetMgr.inst.sendPbMsg(Protocol.S_WATCH_AD_TASK, { activityId: 0, conditionId: 120006, isUseADTime: false }, null);
             GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120006] }, null);
-
-            if (BagMgr.inst.isMallCountZero(230000011)) {
-                logger.info("[自动买买买] 妖盟商店 买桃免费");
-                GameNetMgr.inst.sendPbMsg(Protocol.S_MALL_BUY_GOODS, { mallId: 230000011, count: 1, activityId: 0 }, null);
-                BagMgr.inst.setMallCount(230000011, 1);
-            }
-            if (BagMgr.inst.isMallCountZero(230000001)) {
-                logger.info("[自动买买买] 妖盟商店 买桃1");
-                GameNetMgr.inst.sendPbMsg(Protocol.S_MALL_BUY_GOODS, { mallId: 230000001, count: 1, activityId: 0 }, null);
-                BagMgr.inst.setMallCount(230000001, 1);
-            }
-            if (BagMgr.inst.isMallCountZero(230000002)) {
-                logger.info("[自动买买买] 妖盟商店 买桃2");
-                GameNetMgr.inst.sendPbMsg(Protocol.S_MALL_BUY_GOODS, { mallId: 230000002, count: 1, activityId: 0 }, null);
-                BagMgr.inst.setMallCount(230000002, 1);
-            }
-            if (BagMgr.inst.isMallCountZero(230000012)) {
-                logger.info("[自动买买买] 妖盟商店 买腾蛇信物");
-                GameNetMgr.inst.sendPbMsg(Protocol.S_MALL_BUY_GOODS, { mallId: 230000012, count: 3, activityId: 0 }, null);
-                BagMgr.inst.setMallCount(230000012, 3);
+            //购买妖盟商店的商品~
+            for (const goodsId of this.buyUnionGoodLists) {
+                const name = this.buyUnionGoodListsDict[goodsId]?this.buyUnionGoodListsDict[goodsId]:"未知商品";
+                if (BagMgr.inst.isMallCountZero(goodsId)) {
+                    logger.info(`[自动买买买] 妖盟商店 ${name}`);
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_MALL_BUY_GOODS, { mallId: goodsId, count: 1, activityId: 0 }, null);
+                    BagMgr.inst.setMallCount(goodsId, 1);
+                }
             }
         }
     }
@@ -82,7 +73,7 @@ export default class UnionMgr {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_CUT_PRICE_BARGAIN, { bussinessId: t.bussinessId }, null);
             }
 
-            if (t.status == 1 && t.bargainPrice.toNumber() >= 2888 && t.bargainTimes == t.bargainNum) {
+            if (t.status == 1 && t.bargainPrice.toNumber() >= 2888 - this.unionBargainPrice && t.bargainTimes == t.bargainNum - this.unionBargainNum) {
                 logger.info(`[妖盟管理] 砍到最低价，开始购买`);
                 GameNetMgr.inst.sendPbMsg(Protocol.S_CUT_PRICE_BUY, { bussinessId: t.bussinessId }, null);
             }
