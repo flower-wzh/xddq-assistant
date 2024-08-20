@@ -1,7 +1,7 @@
 import GameNetMgr from "#game/net/GameNetMgr.js";
-import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
+
 export default class AdRewardMgr {
     constructor() {
         this.isProcessing = false;
@@ -22,24 +22,23 @@ export default class AdRewardMgr {
         logger.info(`[广告管理] 同步VIP状态 ${isVip}`);
         this.INTERVAL = isVip ? 1000 : 12000;
     }
-    // {
-    //     protoId,
-    //     data,
-    //     logStr
-    // }
+
     AddAdRewardTask(adTask) {
         logger.info(`[广告管理] 增加待执行任务 ${adTask.protoId}  ${adTask.logStr}`);
         this.taskList.push(adTask);
-        // return GameNetMgr.inst.sendPbMsg(Protocol.S_HOMELAND_REFRESH_RESOURCE, { type: 1, position: -1, itemId: 0, isUseADTime: false }, null);
     }
 
-    RunAdRewardTask() {
+    async RunAdRewardTask() {
         if (this.taskList.length > 0) {
-            let firstTask = this.taskList[0]
+            let firstTask = this.taskList[0];
             if (firstTask.protoId && firstTask.data) {
                 logger.info(`[广告管理] 执行任务 ${firstTask.logStr}`);
-                GameNetMgr.inst.sendPbMsg(firstTask.protoId, firstTask.data, null);
-                this.taskList.splice(0, 1)
+                try {
+                    GameNetMgr.inst.sendPbMsg(firstTask.protoId, firstTask.data, null);
+                    this.taskList.splice(0, 1); // 确保在任务执行后移除任务
+                } catch (error) {
+                    logger.error(`[广告管理] 执行任务失败: ${error}`);
+                }
             }
         }
     }
@@ -56,13 +55,12 @@ export default class AdRewardMgr {
             const now = Date.now();
             if (now - this.lastExecuteTime >= this.INTERVAL) {
                 this.lastExecuteTime = now;
-                this.RunAdRewardTask();
+                await this.RunAdRewardTask();
             }
-
         } catch (error) {
             logger.error(`[广告管理] loopUpdate error: ${error}`);
         } finally {
-            this.isProcessing = false;
+            this.isProcessing = false; // 确保无论如何都重置 isProcessing
         }
     }
 }
