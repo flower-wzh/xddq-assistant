@@ -29,6 +29,8 @@ export default class PetsMgr {
 
     //抽取灵兽内丹结果同步
     PetKernelDrawResp(t) {
+        //同步存在延迟可能会导致已经加入队列的数据再次追加
+        if (this.freeDrawTimes == 2) return
         this.freeDrawTimes = t.freeDrawTimes
     }
 
@@ -39,7 +41,7 @@ export default class PetsMgr {
     }
 
     async loopUpdate() {
-        if(!this.enabled) return
+        if (!this.enabled) return
         if (this.isProcessing) return
         this.isProcessing = true
         try {
@@ -48,8 +50,9 @@ export default class PetsMgr {
                 this.clear()
                 return
             }
-            
+
             this.PetKernelDraw()
+            this.freeDrawTimes += 1
         } catch (error) {
             logger.error(`[灵兽内丹] loopUpdate error: ${error}`);
         } finally {

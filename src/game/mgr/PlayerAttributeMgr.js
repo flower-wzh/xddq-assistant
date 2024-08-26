@@ -145,7 +145,7 @@ export default class PlayerAttributeMgr {
         if (t.useSeparationIdx !== null) {
             this.useSeparationIdx = t.useSeparationIdx;
         }
-        logger.info(`[属性管理] 等级: ${PlayerAttributeMgr.level} 境界: ${DBMgr.inst.getLanguageWord(realms.name)} 妖力: ${PlayerAttributeMgr.fightValue}`);
+        logger.info(`[属性管理] 当前分身: ${this.separationNames[this.useSeparationIdx]} 等级: ${PlayerAttributeMgr.level} 境界: ${DBMgr.inst.getLanguageWord(realms.name)} 妖力: ${PlayerAttributeMgr.fightValue}`);
     }
 
     // 215 同步分身数据
