@@ -5,9 +5,12 @@ import LoopMgr from "#game/common/LoopMgr.js";
 
 export default class SecretTowerMgr {
     constructor() {
+        this.isSyncing = false;
         this.isProcessing = false;
         this.challenge = global.account.switch.challenge || 0;
         this.showResult = global.account.switch.showResult || false;
+        this.challengeSuccessReset = global.account.switch.challengeSuccessReset || false;
+
         LoopMgr.inst.add(this);
     }
 
@@ -27,15 +30,21 @@ export default class SecretTowerMgr {
     }
 
     challengeResult(t) {
-        if (this.showResult) {
-            if (t.ret === 0) {
-                logger.info(`[真火秘境管理] ${t.allBattleRecord.isWin} 当前层数:${t.info.floor}`);
+        if (t.ret === 0) {
+            if (t.allBattleRecord.isWin) {
+                if (this.challengeSuccessReset) {
+                    this.challenge = global.account.switch.challenge || 0;
+                }
+            }
+
+            if (this.showResult) {
+                logger.info(`[真火秘境管理] ${t.allBattleRecord.isWin} 当前层数:${t.info.floor} 剩余次数:${this.challenge}`);
             }
         }
     }
 
     async loopUpdate() {
-        if (this.isProcessing) return;
+        if (this.isProcessing || this.isSyncing) return;
         this.isProcessing = true;
 
         try {
@@ -43,7 +52,7 @@ export default class SecretTowerMgr {
                 this.clear();
                 logger.info("[真火秘境管理] 任务完成停止循环");
             } else {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_SECRETTOWER_FIGHT, {type: 1 }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_SECRETTOWER_FIGHT, { type: 1 }, null);
                 this.challenge--;
                 await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
             }

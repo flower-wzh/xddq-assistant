@@ -18,7 +18,7 @@ export default class AdRewardMgr {
         return this._instance;
     }
 
-    SyncVip(isVip) { 
+    SyncVip(isVip) {
         logger.info(`[广告管理] 同步VIP状态 ${isVip}`);
         this.INTERVAL = isVip ? 1000 : 12000;
     }

@@ -38,7 +38,7 @@ export default class FrogMgr {
             // GameNetMgr.inst.sendPbMsg(Protocol.S_AD_REWARD_GET_REWARD, { isUseADTime: false }, null);
 
             const logContent = `[青蛙管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`;
-            AdRewardMgr.inst.AddAdRewardTask({protoId : Protocol.S_AD_REWARD_GET_REWARD, data : { isUseADTime: false }, logStr : logContent});
+            AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_AD_REWARD_GET_REWARD, data: { isUseADTime: false }, logStr: logContent });
 
             this.getAdRewardTimes++;
             this.lastAdRewardTime = now;

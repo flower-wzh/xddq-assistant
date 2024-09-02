@@ -11,7 +11,7 @@ export default async (username, password, serverId, app_pst, uid) => {
     try {
         // Login first, and then fetch the wsAddress and token
         let response;
-        
+
         try {
             if (app_pst && uid) {
                 logger.info("[Login] 尝试使用token登录...");
@@ -23,7 +23,7 @@ export default async (username, password, serverId, app_pst, uid) => {
             logger.warn("[Login] token登录失败, 尝试使用用户名密码登录...");
             response = await authServiceInstance.Login(username, password, serverId);
         }
-        
+
         // Initialize WebSocket
         const { wsAddress, playerId, token } = response;
         GameNetMgr.inst.connectGameServer(wsAddress, playerId, token);

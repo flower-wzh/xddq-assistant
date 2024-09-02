@@ -26,7 +26,7 @@ export default class RuleTrialMgr {
         if (this.isProcessing) return
         this.isProcessing = true
         try {
-            if(this.isRepeated){
+            if (this.isRepeated) {
                 logger.info(`[法则试练]速战已完成,终止任务`)
                 this.clear()
                 return

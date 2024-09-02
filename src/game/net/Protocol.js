@@ -2,7 +2,7 @@ class Protocol {
     static getProtocalIdRemainder(id) {
         return id >= 100000 ? id % 100000 : id % 10000;
     }
-    
+
     static S_SYSTEMSHIELD_DATA_SYNC = 17;
     static S_SYSTEMSHIELD_DATA_SYNC = 17;
     static S_PLAYER_LOGIN = 20001;

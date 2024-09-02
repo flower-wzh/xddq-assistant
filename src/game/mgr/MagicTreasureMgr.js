@@ -28,7 +28,7 @@ export default class MagicTreasureMgr {
     checkReward(t) {
         this.isProcessing = true;
         this.jackpotData = t.jackpotData;
-    
+
         // 有时候会出现奇怪的情况，需要重新初始化
         // 如果 jackpotData 的长度小于 jackpotConfig 的长度，则填充 jackpotData
         while (this.jackpotData.length < t.jackpotConfig.length) {
@@ -40,7 +40,7 @@ export default class MagicTreasureMgr {
                 lastAdTime: "0"
             });
         }
-    
+
         // 设置名称
         this.jackpotData.forEach((i, index) => {
             i.name = t.jackpotConfig[index].title;
@@ -57,16 +57,16 @@ export default class MagicTreasureMgr {
             if (pool.adFreeTimes < this.AD_REWARD_DAILY_MAX_NUM && now - pool.lastAdTime >= this.AD_REWARD_CD) {
                 logger.info(`[法宝管理] [${pool.name}] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - pool.adFreeTimes} 次广告激励`);
                 // GameNetMgr.inst.sendPbMsg(Protocol.S_MAGIC_TREASURE_DRAW_REQ, { drawTimes: 1, isAd: true, poolId: pool.poolId, isUseADTime: false }, null);
-                
+
                 const logContent = `[法宝] [${pool.name}] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - pool.adFreeTimes} 次广告激励`;
-                AdRewardMgr.inst.AddAdRewardTask({protoId : Protocol.S_MAGIC_TREASURE_DRAW_REQ, data : { drawTimes: 1, isAd: true, poolId: pool.poolId, isUseADTime: false }, logStr : logContent});
+                AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_MAGIC_TREASURE_DRAW_REQ, data: { drawTimes: 1, isAd: true, poolId: pool.poolId, isUseADTime: false }, logStr: logContent });
                 pool.adFreeTimes++;
                 pool.lastAdTime = now;
             }
 
             if (pool.freeDrawTimes < this.FREE_NUM) {
                 logger.info(`[法宝管理] [${pool.name}] 还剩 ${this.FREE_NUM - pool.freeDrawTimes} 次免费次数`);
-                GameNetMgr.inst.sendPbMsg(Protocol.S_MAGIC_TREASURE_DRAW_REQ, { drawTimes: 1, isAd: false, poolId: pool.poolId, itemId: pool.cost}, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_MAGIC_TREASURE_DRAW_REQ, { drawTimes: 1, isAd: false, poolId: pool.poolId, itemId: pool.cost }, null);
                 pool.freeDrawTimes++;
             }
         }
@@ -77,7 +77,7 @@ export default class MagicTreasureMgr {
         this.isProcessing = true;
 
         try {
-            if (this.jackpotData.every(i => i.adFreeTimes >= this.AD_REWARD_DAILY_MAX_NUM) 
+            if (this.jackpotData.every(i => i.adFreeTimes >= this.AD_REWARD_DAILY_MAX_NUM)
                 && this.jackpotData.every(i => i.freeDrawTimes >= this.FREE_NUM)) {
                 this.clear();
                 logger.info("[法宝管理] 达到每日最大领取次数，停止奖励领取");

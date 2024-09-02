@@ -48,7 +48,7 @@ export default class GatherEnergyMgr {
             // GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_GET_AD_AWARD, { isUseADTime: false }, null);
 
             const logContent = `[聚灵阵] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`;
-            AdRewardMgr.inst.AddAdRewardTask({protoId : Protocol.S_GATHER_ENERGY_GET_AD_AWARD, data : { isUseADTime: false }, logStr : logContent});
+            AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_GATHER_ENERGY_GET_AD_AWARD, data: { isUseADTime: false }, logStr: logContent });
 
             this.getAdRewardTimes++;
             this.lastAdRewardTime = now;

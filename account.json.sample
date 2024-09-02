@@ -63,6 +63,8 @@
             "_comment_challenge": "[挑战] 冒险/真火/镇妖塔 次数 0为不挑战",
             "showResult": false,
             "_comment_showResult": "[挑战] 冒险/真火/镇妖塔 显示战斗结果",
+            "challengeSuccessReset": false,
+            "_comment_challenge_success_reset": "[挑战] 冒险/真火/镇妖塔 挑战成功刷新次数",
             "invade": true,
             "_comment_invade": "[异兽入侵]开关",
             "invade_index": 2,
@@ -164,11 +166,15 @@
                 "_comment_condition_dict": "4: 敏捷 11: 抗击晕 12: 抗暴击 13: 抗连击 14: 抗闪避 15: 抗反击 16: 抗吸血 50001: 玄武, 50002: 白虎, 50003: 螣蛇, 50004: 勾陈, 50005: 青龙, 50006: 朱雀"
             }
         },
+        "fight": {
+            "ticket": 1
+            "_comment_ticket": "斗法券大于一定数量的时候自动斗法"
+        },
         "reconnectInterval": 300000,
         "_comment_reconnectInterval": "重连间隔 默认为60 * 1000 * 5 即5分钟"
     },
     {
-        ...账号二再复制一次
+        "//": "...账号二再复制一次"
     }
 ]
 

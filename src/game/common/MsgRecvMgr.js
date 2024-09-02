@@ -255,7 +255,7 @@ class MsgRecvMgr {
         logger.debug("[MsgRecvMgr] 真火秘境战斗结果");
         SecretTowerMgr.inst.challengeResult(t);
     }
-    
+
     // 5605 真火秘境 秘境数据同步
     static SynSecretTowerInfo(t) {
         logger.debug("[MsgRecvMgr] 真火秘境数据同步");
@@ -374,66 +374,66 @@ class MsgRecvMgr {
         PetsMgr.inst.PetKernelDrawResp(t);
     }
 
-// TODO: 以下代码未完成
-// import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
-//     // 102 系统解锁同步
-//     static SystemUnlockSync(t) {
-//         logger.debug("[MsgRecvMgr] 系统解锁同步");
-//         SystemUnlockMgr.inst.SystemUnlockSync(t);
-//     }
+    // TODO: 以下代码未完成
+    // import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
+    //     // 102 系统解锁同步
+    //     static SystemUnlockSync(t) {
+    //         logger.debug("[MsgRecvMgr] 系统解锁同步");
+    //         SystemUnlockMgr.inst.SystemUnlockSync(t);
+    //     }
 
-// TODO 以下暂时不想写
+    // TODO 以下暂时不想写
 
-// import CommonRedPacketMgr from "#game/mgr/CommonRedPacketMgr.js";
-//     // 140 红包状态同步 TODO 自动领取
-//     static RedPacketStateMsgSync(t) {
-//         logger.debug("[MsgRecvMgr] 红包状态同步");
-//         CommonRedPacketMgr.inst.syncRedPacketState(t);
-//     }
+    // import CommonRedPacketMgr from "#game/mgr/CommonRedPacketMgr.js";
+    //     // 140 红包状态同步 TODO 自动领取
+    //     static RedPacketStateMsgSync(t) {
+    //         logger.debug("[MsgRecvMgr] 红包状态同步");
+    //         CommonRedPacketMgr.inst.syncRedPacketState(t);
+    //     }
 
-// import EquipmentAdvanceMgr from "#game/mgr/EquipmentAdvanceMgr.js";
-//     // 5504 装备精炼数据同步
-//     static EquipmentAdvanceDataMsg(t) {
-//         logger.debug("[MsgRecvMgr] 装备精炼数据同步");
-//         EquipmentAdvanceMgr.inst.syncEquipmentData(t);
-//     }
+    // import EquipmentAdvanceMgr from "#game/mgr/EquipmentAdvanceMgr.js";
+    //     // 5504 装备精炼数据同步
+    //     static EquipmentAdvanceDataMsg(t) {
+    //         logger.debug("[MsgRecvMgr] 装备精炼数据同步");
+    //         EquipmentAdvanceMgr.inst.syncEquipmentData(t);
+    //     }
 
-// import PetsMgr from "#game/mgr/PetsMgr.js";
-//     // 740 同步玩家灵兽数据
-//     static PlayerPetDataSync(t) {
-//     //     logger.debug("[MsgRecvMgr] 同步玩家灵兽数据");
-//         PetsMgr.inst.SyncPlayerPetDataMsg(t.playerPetData);
-//     }
+    // import PetsMgr from "#game/mgr/PetsMgr.js";
+    //     // 740 同步玩家灵兽数据
+    //     static PlayerPetDataSync(t) {
+    //     //     logger.debug("[MsgRecvMgr] 同步玩家灵兽数据");
+    //         PetsMgr.inst.SyncPlayerPetDataMsg(t.playerPetData);
+    //     }
 
-//     // static PetKernelPlayerDataMsg(t) {
-//     //     logger.debug("[MsgRecvMgr] 内丹数据同步");
-//     //     PetsMgr.inst.pieceShopOpen = t.pieceShopOpen;
-//     // }
+    //     // static PetKernelPlayerDataMsg(t) {
+    //     //     logger.debug("[MsgRecvMgr] 内丹数据同步");
+    //     //     PetsMgr.inst.pieceShopOpen = t.pieceShopOpen;
+    //     // }
 
-// import TaskMgr from "#game/mgr/TaskMgr.js";
-//     // 501 玩家登录任务数据下发
-//     static TaskDataListMsg(t, e) {
-//         if (e == Protocol.getProtocalIdRemainder(Protocol.S_TASK_DATA_SEND)) {
-//             logger.debug("[MsgRecvMgr] 任务全量同步");
-//             TaskMgr.inst.initTaskList(t);
-//         } else {
-//             logger.debug("[MsgRecvMgr] 任务增量同步");
-//             TaskMgr.inst.syncTaskList(t);
-//         }
-//     }
+    // import TaskMgr from "#game/mgr/TaskMgr.js";
+    //     // 501 玩家登录任务数据下发
+    //     static TaskDataListMsg(t, e) {
+    //         if (e == Protocol.getProtocalIdRemainder(Protocol.S_TASK_DATA_SEND)) {
+    //             logger.debug("[MsgRecvMgr] 任务全量同步");
+    //             TaskMgr.inst.initTaskList(t);
+    //         } else {
+    //             logger.debug("[MsgRecvMgr] 任务增量同步");
+    //             TaskMgr.inst.syncTaskList(t);
+    //         }
+    //     }
 
-// import UniverseMgr from "#game/mgr/UniverseMgr.js";
-//     // static UniverseDataMsgSync(t) {
-//     //     logger.debug("[MsgRecvMgr] 小世界信息同步");
-//     //     UniverseMgr.inst.UniverseDataMsgSync(t);
-//     // }
+    // import UniverseMgr from "#game/mgr/UniverseMgr.js";
+    //     // static UniverseDataMsgSync(t) {
+    //     //     logger.debug("[MsgRecvMgr] 小世界信息同步");
+    //     //     UniverseMgr.inst.UniverseDataMsgSync(t);
+    //     // }
 
-// import WorldRuleMgr from "#game/mgr/WorldRuleMgr.js";
-//     // 9005 天地法则玩家数据同步
-//     static WorldRulePlayerDataMsg(t) {
-//         logger.debug("[MsgRecvMgr] 天地法则数据同步");
-//         WorldRuleMgr.inst.syncWorldRulePlayerDataMsg(t);
-//     }
+    // import WorldRuleMgr from "#game/mgr/WorldRuleMgr.js";
+    //     // 9005 天地法则玩家数据同步
+    //     static WorldRulePlayerDataMsg(t) {
+    //         logger.debug("[MsgRecvMgr] 天地法则数据同步");
+    //         WorldRuleMgr.inst.syncWorldRulePlayerDataMsg(t);
+    //     }
 }
 
 export default MsgRecvMgr;

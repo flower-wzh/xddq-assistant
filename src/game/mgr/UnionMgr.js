@@ -35,7 +35,7 @@ export default class UnionMgr {
     inUnion() {
         return this.unionId !== null; // 是否在妖盟中
     }
-    
+
     collectPlayerData(data) {
         return data.map(member => ({
             userId: member.playerData.playerId,
@@ -55,7 +55,7 @@ export default class UnionMgr {
             GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120006] }, null);
             //购买妖盟商店的商品~
             for (const goodsId of this.buyUnionGoodLists) {
-                const name = this.buyUnionGoodListsDict[goodsId]?this.buyUnionGoodListsDict[goodsId]:"未知商品";
+                const name = this.buyUnionGoodListsDict[goodsId] ? this.buyUnionGoodListsDict[goodsId] : "未知商品";
                 if (BagMgr.inst.isMallCountZero(goodsId)) {
                     logger.info(`[自动买买买] 妖盟商店 ${name}`);
                     GameNetMgr.inst.sendPbMsg(Protocol.S_MALL_BUY_GOODS, { mallId: goodsId, count: 1, activityId: 0 }, null);
@@ -77,17 +77,17 @@ export default class UnionMgr {
                 logger.info(`[妖盟管理] 砍到最低价，开始购买`);
                 GameNetMgr.inst.sendPbMsg(Protocol.S_CUT_PRICE_BUY, { bussinessId: t.bussinessId }, null);
             }
-        }      
+        }
     }
 
     SyncUnionBossMsg(t) {
         // 检查当前时间是否在允许刷新时间段
         const now = new Date();
         const hours = now.getHours();
-        
+
         // 一般是晚上0点到2点，中午11点到13点, 进行妖盟讨伐
-        const isBattleAllowed = 
-            (hours >= 0 && hours < 2) || 
+        const isBattleAllowed =
+            (hours >= 0 && hours < 2) ||
             (hours >= 11 && hours < 13);
 
         if (isBattleAllowed && t.addBuffCount < 1) {
@@ -102,7 +102,7 @@ export default class UnionMgr {
 
         if (t.battleCount == 1) {
             logger.info("[妖盟管理] 妖盟讨伐 领取成就奖励");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_RECEIVE_ACHIEVE_REWARD, {taskId: 180001}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_RECEIVE_ACHIEVE_REWARD, { taskId: 180001 }, null);
         }
     }
 
@@ -119,8 +119,8 @@ export default class UnionMgr {
         if (true == t.isApply && false == t.isRequest && true == t.isOpen) {
             try {
                 logger.info("[妖盟管理] 妖盟请战");
-                GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_FIGHT_REQUEST, {unionId:this.unionId}, null);
-            } catch{
+                GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_FIGHT_REQUEST, { unionId: this.unionId }, null);
+            } catch {
                 logger.info("[妖盟管理] 妖盟请战失败");
             }
         }
@@ -134,7 +134,7 @@ export default class UnionMgr {
             { threshold: 750, index: 3 },
             { threshold: 1000, index: 4 }
         ];
-    
+
         for (const action of actions) {
             if (t.progress >= action.threshold) {
                 logger.info(`[妖盟管理] 领取任务收益`);

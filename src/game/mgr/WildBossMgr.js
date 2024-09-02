@@ -27,7 +27,7 @@ export default class WildBossMgr {
 
     checkReward(t) {
         this.isProcessing = true;
-        this.getAdRewardTimes = t.data.useRepeatTimes  || 0;
+        this.getAdRewardTimes = t.data.useRepeatTimes || 0;
         this.passId = t.data.passId || 0;
         this.lastAdRewardTime = 0;
         this.isProcessing = false;

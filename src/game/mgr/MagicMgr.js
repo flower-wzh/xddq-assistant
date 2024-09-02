@@ -27,7 +27,7 @@ export default class MagicMgr {
 
     checkReward(t) {
         this.isProcessing = true;
-        this.getAdRewardTimes = t.magicFreeAd.freeTimes  || 0;
+        this.getAdRewardTimes = t.magicFreeAd.freeTimes || 0;
         this.lastAdRewardTime = t.magicFreeAd.lastAdTime || 0;
         this.freeDrawTimes = t.freeDrawTimes || 0;
         this.isProcessing = false;
@@ -39,7 +39,7 @@ export default class MagicMgr {
             logger.info(`[神通管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`);
             // GameNetMgr.inst.sendPbMsg(Protocol.S_MAGIC_DERIVATION, { times: 1, isAd: true, isUseADTime: false }, null);
             const logContent = `[神通] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`;
-            AdRewardMgr.inst.AddAdRewardTask({protoId : Protocol.S_MAGIC_DERIVATION, data : { times: 1, isAd: true, isUseADTime: false }, logStr : logContent});
+            AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_MAGIC_DERIVATION, data: { times: 1, isAd: true, isUseADTime: false }, logStr: logContent });
             this.getAdRewardTimes++;
             this.lastAdRewardTime = now;
         }

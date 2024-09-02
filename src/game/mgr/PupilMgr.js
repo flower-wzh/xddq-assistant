@@ -26,7 +26,7 @@ export default class PupilMgr {
 
     checkReward(t) {
         this.isProcessing = true;
-        this.getAdRewardTimes = t.getTimes  || 0;
+        this.getAdRewardTimes = t.getTimes || 0;
         this.lastAdRewardTime = 0;
         this.isProcessing = false;
     }
@@ -34,7 +34,7 @@ export default class PupilMgr {
     countElementsWithoutPupilData(siteList) {
         return siteList.filter((site) => !site.hasOwnProperty("pupilData")).length;
     }
-    
+
     getGraduationIndices(siteList) {
         return siteList
             .filter((site) => site.pupilData && site.trainTimeInfo && site.pupilData.level * 20 <= site.trainTimeInfo.trainTimes)
@@ -56,7 +56,7 @@ export default class PupilMgr {
                     await new Promise((resolve) => setTimeout(resolve, 1000));
                 }
             }
-    
+
             // 判断是否可以出师
             const graduationIndices = this.getGraduationIndices(t.siteList);
             if (graduationIndices.length > 0) {
@@ -76,7 +76,7 @@ export default class PupilMgr {
         if (this.getAdRewardTimes < this.AD_REWARD_DAILY_MAX_NUM && now - this.lastAdRewardTime >= this.AD_REWARD_CD) {
             logger.info(`[宗门管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`);
             const logContent = `[宗门] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`;
-            AdRewardMgr.inst.AddAdRewardTask({protoId : Protocol.S_PUPIL_GET_AD_REWARD, data : { isUseADTime: false }, logStr : logContent});
+            AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_PUPIL_GET_AD_REWARD, data: { isUseADTime: false }, logStr: logContent });
             // GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_GET_AD_REWARD, { isUseADTime: false }, null);
             this.getAdRewardTimes++;
             this.lastAdRewardTime = now;

@@ -10,6 +10,7 @@ export default class BagMgr {
         this.mallBuyCountList = [];
         this.isProcessing = false;
         this.initialized = false;
+        this.ticket = global.account.fight.ticket ?? 2;
 
         LoopMgr.inst.add(this);
     }
@@ -39,7 +40,7 @@ export default class BagMgr {
             logger.debug("[背包管理] 更新背包数据");
         }
         if (!this.initialized) {
-            logger.info(`[背包管理] 当前有仙桃: ${this.getGoodsNum(100004)} 仙玉: ${this.getGoodsNum(100000)}` );
+            logger.info(`[背包管理] 当前有仙桃: ${this.getGoodsNum(100004)} 仙玉: ${this.getGoodsNum(100000)}`);
             this.initialized = true;
         }
     }
@@ -81,9 +82,9 @@ export default class BagMgr {
             const fightTicket = this.getGoodsNum(100026);
 
             const vipLevel = (PlayerAttributeMgr.isMonthCardVip ? 1 : 0) + (PlayerAttributeMgr.isYearCardVip ? 1 : 0);
-            const count = 2 + vipLevel * 3;
+            const count = this.ticket + vipLevel * 3;
             if (fightTicket > count) {
-                logger.info(`[背包管理] 还剩 ${fightTicket} 张斗法券`);
+                logger.info(`[背包管理] 还剩 ${fightTicket} 张斗法券 自动斗法`);
                 GameNetMgr.inst.sendPbMsg(Protocol.S_RANK_BATTLE_GET_BATTLE_LIST, {}, null);
                 await new Promise((resolve) => setTimeout(resolve, 1000));
                 GameNetMgr.inst.sendPbMsg(Protocol.S_RANK_BATTLE_CHALLENGE, { index: 0 }, null);

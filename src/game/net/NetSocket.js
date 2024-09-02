@@ -84,7 +84,7 @@ class NetSocket {
                 const arrayBuffer = new Uint8Array(event.data);
                 if (this.parseArrayBuffMsg) this.parseArrayBuffMsg(arrayBuffer);
             }
-        };        
+        };
 
         this.sio.onclose = (event) => {
             setTimeout(() => {
@@ -178,7 +178,7 @@ class NetSocket {
             };
             parseMessage(msgData);
         }
-    }    
+    }
 }
 
 NetSocket.BYTES_OF_MSG_HEADER = 18;

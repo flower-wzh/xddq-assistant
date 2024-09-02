@@ -56,12 +56,12 @@ class LoopMgr {
     getCurZeroTime() {
         const utcOffset = 8; // 东八区
         const now = new Date();
-    
+
         const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
         const localTime = new Date(utcTime + (utcOffset * 3600000));
-    
+
         localTime.setHours(0, 0, 0, 0);
-    
+
         return localTime.getTime() / 1000;
     }
 

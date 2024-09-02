@@ -24,7 +24,7 @@ export default class InvadeMgr {
     }
     InvadeDataMsg(t) {
         this.battleNum = t.count
-        this.curInvadeId=t.curInvadeId
+        this.curInvadeId = t.curInvadeId
     }
 
     InvadeChallengeResp(t) {

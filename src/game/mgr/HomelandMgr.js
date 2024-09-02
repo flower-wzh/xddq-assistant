@@ -14,7 +14,7 @@ class Homeland {
         logger.debug("[福地管理] 福地管理");
         return GameNetMgr.inst.sendPbMsg(Protocol.S_HOMELAND_MANAGE, {}, null);
     }
-    
+
     static ExploreEnter(playerId) {
         logger.debug(`[福地管理] 进入${playerId}的福地`);
         return GameNetMgr.inst.sendPbMsg(Protocol.S_HOMELAND_ENTER, { playerId: playerId }, null);
@@ -80,7 +80,7 @@ export default class HomelandMgr {
             failure: 0,          // 记录探寻失败次数
             maxFailure: 6,       // 连续 6 x 5 分钟未发现合适的福地, 且不在高产时间区间, 停止刷新福地
         };
-        
+
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
@@ -148,7 +148,7 @@ export default class HomelandMgr {
     deepCopy(obj) {
         return JSON.parse(JSON.stringify(obj));
     }
-        
+
     doInit(t) {
         this.worker.free = t.freeWorkerNum || 0;
         this.worker.total = t.totalWorkerNum || 0;
@@ -168,9 +168,9 @@ export default class HomelandMgr {
     doManage(t) {
         const playerId = UserMgr.playerId.toString();
         const ongoing = [];
-    
+
         const now = new Date();
-    
+
         t.reward.forEach((i) => {
             const finishTime = new Date(parseInt(i.finishTime));
             const isOverTwoHours = (finishTime - now) > 2 * 60 * 60 * 1000;
@@ -194,7 +194,7 @@ export default class HomelandMgr {
                 }
             }
         });
-    
+
         this.player.ongoing = ongoing;
     }
 
@@ -305,16 +305,16 @@ export default class HomelandMgr {
         // 检查当前时间是否在允许刷新时间段
         const now = new Date();
         const hours = now.getHours();
-        
-        const isRefreshAllowed = 
-            (hours >= 10 && hours < 12) || 
-            (hours >= 18 && hours < 20) || 
+
+        const isRefreshAllowed =
+            (hours >= 10 && hours < 12) ||
+            (hours >= 18 && hours < 20) ||
             (hours >= 22 && hours < 24);
-    
+
         if (isRefreshAllowed) {
             this.counter.failure = 0;
         }
-        
+
         if (global.account.homeland.ignoreTimeCheck) {
             this.counter.failure = 0;
         }
@@ -367,7 +367,7 @@ export default class HomelandMgr {
             return reward.reward.indexOf("=") == -1 || reward.reward == -1 || reward.owner || reward.enemy || reward.isOnlyOwnerPull;
         }
     }
-    
+
     convertEnterData(data) {
         const playerId = data.homeland.owner.playerId.toString();
         const nickName = data.homeland.owner.nickName;

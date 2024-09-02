@@ -8,7 +8,7 @@ export default class CustomMgr {
         this.CUSTOM_INTERVAL = 1000 * 60 * 10; // 每次间隔时间(10分钟)
         this.lastExecuteTime = 0;
         this.initialized = false;
-        
+
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
@@ -25,10 +25,10 @@ export default class CustomMgr {
         LoopMgr.inst.remove(this);
     }
 
-    init() { 
+    init() {
         if (!this.initialized) {
             logger.info("[自定义管理] 初始化");
-            
+
             // 聚灵阵状态 TODO 判断是否开启聚灵阵
             GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {}, null);
             // 运势
@@ -52,7 +52,7 @@ export default class CustomMgr {
             }
             // 仙宫外部数据请求 TODO 判断是否开启仙宫
             GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_ENTER_OUTER, {}, null);
-        }    
+        }
     }
 
     async loopUpdate() {

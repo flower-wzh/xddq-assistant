@@ -80,7 +80,7 @@ export default class AuthService {
             uid: uid,
             uname: uname
         };
-    
+
         return encodeURIComponent(JSON.stringify(dataObj));
     }
 
@@ -89,16 +89,16 @@ export default class AuthService {
             'login_account': username,
             'password': this.encryptPwd(password)
         });
-    
+
         const config = {
             method: 'post',
             url: 'https://mysdk.37.com/index.php?c=api-login&a=act_login',
-            headers: { 
+            headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             data: data
         };
-    
+
         try {
             const response = await axios(config);
             return response.data;
@@ -115,16 +115,16 @@ export default class AuthService {
             'ptoken': ptoken,
             'puid': username
         });
-    
+
         const config = {
             method: 'post',
             url: 'https://apimyh5.37.com/index.php?c=sdk-login&a=act_login',
-            headers: { 
+            headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             data: data
         };
-    
+
         try {
             const response = await axios(config);
             return response.data;
@@ -136,7 +136,7 @@ export default class AuthService {
 
     async thirdRequest(serverId, token, uid, username) {
         const requestBody = this.createRequestBody(token, uid, username);
-    
+
         const data = JSON.stringify({
             "data": requestBody,
             "loginType": 0,
@@ -144,16 +144,16 @@ export default class AuthService {
             "appid": "37h5",
             "gameId": 223
         });
-    
+
         const config = {
             method: 'post',
             url: `https://proxy-xddq.hdnd01.com/s${serverId}_http/player/login`,
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json'
             },
             data: data
         };
-    
+
         try {
             const response = await axios(config);
             return response.data;
@@ -206,7 +206,7 @@ export default class AuthService {
                     serverId: server.serverId,
                     serverName: server.serverName
                 }));
-                
+
             return { servers };
         } catch (e) {
             logger.error("无法获取服务器列表");
@@ -238,7 +238,7 @@ export default class AuthService {
     async LoginWithToken(serverId, app_pst, uid, username, password) {
         try {
             const thirdResponse = await this.thirdRequest(serverId, app_pst, uid, username);
-        
+
             if (thirdResponse.ret !== 0) {
                 throw new Error("登陆失败");
             }
@@ -256,7 +256,7 @@ export default class AuthService {
                 "nickName": thirdResponse.nickName,
             };
             await updateAccount(filePath, targetAccount, newObject);
-        
+
             return thirdResponse;
         } catch (error) {
             throw new Error(error.message || "登陆失败");

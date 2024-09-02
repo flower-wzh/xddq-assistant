@@ -10,12 +10,12 @@ import UnionMgr from "#game/mgr/UnionMgr.js";
 class Attribute {
     static Chop(times = 1) {
         logger.debug(`[砍树] 砍树 ${times} 次`);
-    
+
         const separation = global.account.chopTree.separation;
         let attr = separation.strictMode
             ? [...new Set(separation.strictConditions.flatMap(condition => [...condition.primaryAttribute, ...condition.secondaryAttribute]))]
             : separation.condition.flat();
-    
+
         return GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_DREAM_MSG, { auto: true, attr: attr, times: times }, null);
     }
 
@@ -176,7 +176,7 @@ export default class PlayerAttributeMgr {
             this.unDealEquipmentDataMsg = t.undDealEquipmentDataMsg; // 就是这样写的...
 
             const listResolve = [];
-            
+
             for (let i = 0; i < this.unDealEquipmentDataMsg.length; i++) {
                 const equipment = this.unDealEquipmentDataMsg[i];
                 const u = equipment.unDealEquipmentData; // 该装备的未处理数据
@@ -216,16 +216,16 @@ export default class PlayerAttributeMgr {
             const defenseType = attributeList.defense.type;
             let originalEquipmentDesc;
             const newEquipmentDesc = `${DBMgr.inst.getEquipmentQuality(quality)} ${DBMgr.inst.getEquipmentName(equipmentId)} ${DBMgr.inst.getAttribute(attackType)}:${attributeList.attack.value / 10} ${DBMgr.inst.getAttribute(defenseType)}:${attributeList.defense.value / 10}`;
-    
+
             // 判断使用的条件类型
             const conditions = rule.strictMode ? rule.strictConditions : rule.condition;
             const { result, index } = this.checkMultipleConditions(attackType, [attackType, defenseType], conditions, rule.strictMode);
-    
+
             if (result) {
                 let betterAttributes = false;
                 let existingAttributeList = null;
                 let existingExist = true;
-    
+
                 // 如果分身没装备就直接穿上
                 if (!this.equipmentData[index][equipmentType]) {
                     betterAttributes = true;
@@ -240,8 +240,8 @@ export default class PlayerAttributeMgr {
                         logger.info(`[装备] ${newEquipmentDesc} 等级${level} 与原装备对比 ${originalEquipmentDesc} 等级${this.equipmentData[index][equipmentType].level}`);
                     }
                 }
-    
-                if ( !betterAttributes && quality >= rule.quality) {
+
+                if (!betterAttributes && quality >= rule.quality) {
                     // 比较等级
                     const levelOffset = rule.levelOffset || 5;
                     const lvLow = level - levelOffset > this.equipmentData[index][equipmentType].level;
@@ -250,13 +250,13 @@ export default class PlayerAttributeMgr {
 
                     const tempOffset = (lvLow ? probOffsetlow : rule.probOffset) / 4;
                     let offsetMultiplier = tempOffset;
-                    
+
                     // 如果装备等级比分身高{levelOffset}级以上，那么偏移值需要平方
                     if (lvLow) {
                         offsetMultiplier = 1 - tempOffset;
                         offsetMultiplier = Math.pow(offsetMultiplier, 2); // 进行平方计算
                     }
-                    else { 
+                    else {
                         offsetMultiplier = 1 + tempOffset;
                     }
 
@@ -264,7 +264,7 @@ export default class PlayerAttributeMgr {
                         if (showResult) logger.error(`[装备] ${newEquipmentDesc} 等级${level} 大于 分身${this.separationNames[index]} ${this.equipmentData[index][equipmentType].level} 且攻击属性 ${attributeList.attack.value} 大于 ${existingAttributeList.attack.value} * ${offsetMultiplier} = ${existingAttributeList.attack.value * offsetMultiplier}`);
                         betterAttributes = true;
                     }
-                    
+
                     if (rule.strictMode) {
                         // 严格模式下，检查主属性和副属性是否匹配
                         const primaryMatch = conditions[index].primaryAttribute.includes(existingAttributeList.attack.type);
@@ -280,19 +280,19 @@ export default class PlayerAttributeMgr {
                         }
                     }
                 }
-    
+
                 // 无视品质 属性高于概率偏移值
                 if (existingExist && parseFloat(attributeList.attack.value) >= parseFloat(existingAttributeList.attack.value) * (1 + rule.probOffset)) {
                     if (showResult) logger.error(`[装备] ${newEquipmentDesc} 攻击属性 ${attributeList.attack.value} 大于 分身${this.separationNames[index]} ${existingAttributeList.attack.value} * ${1 + rule.probOffset} = ${existingAttributeList.attack.value * (1 + rule.probOffset)}`);
                     betterAttributes = true;
                 }
-    
+
                 if (betterAttributes) {
                     if (existingExist) {
                         logger.info(`[装备] 分身${this.separationNames[index]} 原装备 ${originalEquipmentDesc}`);
                     }
                     logger.warn(`[装备] 分身${this.separationNames[index]} 新装备 ${newEquipmentDesc}`);
-    
+
                     if (this.useSeparationIdx !== index) {
                         logger.info(`[装备] 分身切换至 ${this.separationNames[index]}`);
                         Attribute.SwitchSeparation(index);
@@ -328,7 +328,7 @@ export default class PlayerAttributeMgr {
         // TODO 加个counter 当大于350后 且在妖盟中 触发下面任务
         if (UnionMgr.inst.inUnion && !this.doneUnionTask) {
             if (peachNum - this.initPeachNum >= 350) {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120001,120002,120003,120004,120005] }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120001, 120002, 120003, 120004, 120005] }, null);
                 this.doneUnionTask = true;
             }
         }
@@ -365,11 +365,11 @@ export default class PlayerAttributeMgr {
                 // 严格模式下的条件
                 const primary = condition[i].primaryAttribute || [];
                 const secondary = condition[i].secondaryAttribute || [];
-    
+
                 // 检查主属性和副属性是否在要求范围内
                 const primaryMatches = primary.includes(input.primary);
                 const secondaryMatches = input.secondary.some(attr => secondary.includes(attr));
-    
+
                 if (primaryMatches && secondaryMatches) {
                     return { result: true, index: i };
                 }
@@ -387,22 +387,22 @@ export default class PlayerAttributeMgr {
         }
         return { result: false, index: -1 };
     }
-    
+
     checkMultipleConditions(primaryType, attributeTypes, condition, strictMode = false) {
         const input = strictMode ? {
             primary: primaryType,
             secondary: attributeTypes
         } : primaryType;
-    
+
         let result = this.checkCondition(input, condition, strictMode);
         if (result.result) {
             return result;
         }
-    
+
         if (!strictMode) {
             result = this.checkCondition(attributeTypes, condition);
         }
-    
+
         return result;
     }
 
@@ -442,7 +442,7 @@ export default class PlayerAttributeMgr {
             this.unDealTalentDataMsg = t.unDealTalentDataMsg;
 
             for (let i = 0; i < this.unDealTalentDataMsg.length; i++) {
-                
+
                 const u = this.unDealTalentDataMsg[i].talentData; // 该灵脉的未处理数据
                 const name = DBMgr.inst.getLanguageWord(`Talent_Name-${u.talentId}`);  // 灵脉名称
 
@@ -463,14 +463,14 @@ export default class PlayerAttributeMgr {
         const separation = global.account.talent.separation;
 
         const quality = u.quality;       // 灵脉品质
-        const talentType = u.type -1 ;   // 灵脉类型 就是孔位 对应身体实际的需要减1
+        const talentType = u.type - 1;   // 灵脉类型 就是孔位 对应身体实际的需要减1
         let originalTalentDesc;
         const newTalentDesc = `${DBMgr.inst.getEquipmentQuality(quality)} ${u.attributeData.map(attr => `${DBMgr.inst.getAttribute(attr.type)}: ${attr.value}`).join(', ')}`;
 
         // 判断是否为特殊灵脉
         let isSpecial = false;
         if ([2, 4, 8, 10].includes(talentType)) {
-            
+
             let skillIds = [...new Set(separation.condition.flatMap(condition => [...condition.skillId]))]
             if (!skillIds.includes(u.skillId)) {
                 logger.warn(`[灵脉] ${name} 特殊灵脉为${DBMgr.inst.getAttribute(u.skillId)} 不匹配`);
@@ -482,7 +482,7 @@ export default class PlayerAttributeMgr {
         let betterAttributes = false;
         let existingExist = true;
         let index;
-        
+
         if (quality >= separation.quality) {
             if (showResult) logger.info("[灵脉] 灵脉品质符合");
 
@@ -492,7 +492,7 @@ export default class PlayerAttributeMgr {
                 if (showResult) logger.info(`[灵脉] 粗筛不符合条件`);
                 return false;
             }
-            
+
             // 如果分身没装备就直接穿上
             if (!this.talentData[index][talentType]) {
                 betterAttributes = true;
@@ -541,14 +541,14 @@ export default class PlayerAttributeMgr {
     detailedCompareTalent(oldAttr, newAttr, condition) {
         let oldScore = 0;
         let newScore = 0;
-    
+
         condition.forEach(attrType => {
             const oldAttribute = oldAttr.find(attr => attr.type === attrType);
             const newAttribute = newAttr.find(attr => attr.type === attrType);
-    
+
             const oldValue = oldAttribute ? parseInt(oldAttribute.value) : 0;
             const newValue = newAttribute ? parseInt(newAttribute.value) : 0;
-    
+
             // 如果新值比旧值大，newAttr加分，否则oldAttr加分
             if (newValue > oldValue) {
                 newScore++;
@@ -556,7 +556,7 @@ export default class PlayerAttributeMgr {
                 oldScore++;
             }
         });
-    
+
         // 如果newAttr的得分超过oldAttr，返回true
         return newScore > oldScore;
     }
@@ -567,22 +567,22 @@ export default class PlayerAttributeMgr {
             acc[attr.type] = parseInt(attr.value);
             return acc;
         }, {});
-    
+
         let matchedCondition = -1;
         let highestScore = -1;
         let highestPriority = Infinity;
-    
+
         for (let i = 0; i < condition.length; i++) {
             const c = condition[i];
-    
+
             // 检查属性是否严格匹配
             const attributesMatch = c.attribute.every(attr => talentAttributes.includes(attr));
-    
+
             let skillIdMatch = true;
             if (isSpecial) {
                 skillIdMatch = c.skillId.includes(u.skillId);
             }
-    
+
             // 如果属性和技能ID都严格匹配
             if (attributesMatch && skillIdMatch) {
                 // 计算当前条件的得分
@@ -592,7 +592,7 @@ export default class PlayerAttributeMgr {
                         currentScore += talentValues[attrType];
                     }
                 });
-    
+
                 // 如果当前条件的得分更高，或者得分相同但优先级更高
                 if ((currentScore > highestScore) || (currentScore === highestScore && c.priority < highestPriority)) {
                     matchedCondition = i;
@@ -601,9 +601,9 @@ export default class PlayerAttributeMgr {
                 }
             }
         }
-    
+
         return matchedCondition;
-    }    
+    }
 
     doAutoTalent() {
         const flowerNum = BagMgr.inst.getGoodsNum(100007);
@@ -611,7 +611,7 @@ export default class PlayerAttributeMgr {
             logger.info(`[灵脉] 还剩 ${flowerNum} 灵脉花`);
             this.previousFlowerNum = flowerNum; // 更新上一次数量
         }
-        
+
         if (flowerNum < this.talentCreateTimes) {
             logger.warn(`[灵脉] 停止任务`);
             this.talentEnabled = false;
@@ -652,18 +652,18 @@ export default class PlayerAttributeMgr {
     processReward() {
         const now = Date.now();
         let canExecuteReward = false;
-    
+
         if (this.getAdRewardTimes == 0 && this.dreamLvUpEndTime !== 0) {
             canExecuteReward = true;
         } else if (this.getAdRewardTimes < this.AD_REWARD_DAILY_MAX_NUM && now - this.lastAdRewardTime >= this.AD_REWARD_CD && this.dreamLvUpEndTime !== 0) {
             canExecuteReward = true;
         }
-    
+
         if (canExecuteReward) {
             logger.info(`[仙树管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`);
 
             const logContent = `[仙树] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`;
-            AdRewardMgr.inst.AddAdRewardTask({protoId : Protocol.S_ATTRIBUTE_DREAM_LV_UP_SPEED_UP, data : { speedUpType: 1, useTimes: 1, isUseADTime: false }, logStr : logContent});
+            AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_ATTRIBUTE_DREAM_LV_UP_SPEED_UP, data: { speedUpType: 1, useTimes: 1, isUseADTime: false }, logStr: logContent });
             // GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_DREAM_LV_UP_SPEED_UP, { speedUpType: 1, useTimes: 1, isUseADTime: false }, null);
             this.getAdRewardTimes++;
             this.lastAdRewardTime = now;

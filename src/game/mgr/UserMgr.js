@@ -1,6 +1,6 @@
 export default class UserMgr {
-    constructor() {}
-    
+    constructor() { }
+
     static nickName = null;
     static playerId = null;
     static roleId = null;

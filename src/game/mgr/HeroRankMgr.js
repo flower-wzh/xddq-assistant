@@ -105,39 +105,39 @@ export default class HeroRankMgr {
     async loopUpdate() {
         if (this.isProcessing) return;
         this.isProcessing = true;
-    
+
         try {
             const now = new Date();
             const isMonday = now.getDay() === 1;
-    
+
             // 检查是否启用
             if (!this.enabled) {
                 logger.info("[群英榜管理] 停止循环。未开启速通群英榜");
                 this.clear();
                 return;
             }
-    
+
             // 检查体力
             if (this.energy < 1) {
                 logger.info("[群英榜管理] 停止循环。体力不足");
                 this.clear();
                 return;
             }
-    
+
             // 检查当前排名是否第一
             if (this.rank === 1) {
                 logger.info("[群英榜管理] 停止循环。当前排名第一, 不需要再打了");
                 this.clear();
                 return;
             }
-    
+
             // 检查是否为周一
             if (!isMonday) {
                 logger.info("[群英榜管理] 停止循环。今天不是周一");
                 this.clear();
                 return;
             }
-    
+
             // 检查是否是 0 点 5 分  1分钟打不完所以要加点时间
             const isZeroFive = now.getHours() === 0 && now.getMinutes() >= 5 && now.getMinutes() <= 10;
             if (this.enabled && this.energy > 0 && isZeroFive) {
@@ -150,5 +150,5 @@ export default class HeroRankMgr {
             this.isProcessing = false;
         }
     }
-    
+
 }
