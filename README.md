@@ -70,6 +70,6 @@
 使用手机微信打开
 https://wxshare1.37.com/dist/dzg/zzb-20220512/?hd_referer=jsb&game_id=784
 
-2. 用记事本打开并修改 account.js
+2. 重命名account.json.sample 至 account.json 然后看comments对配置进行修改
 
-3. yarn && yarn start
+3. yarn && yarn start（ 此处需要先安装npm 并执行npm install -g yarn ) 
