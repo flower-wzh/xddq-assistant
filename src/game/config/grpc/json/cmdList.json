@@ -217814,14 +217814,54 @@
         "smMsgId": 14302,
         "smMethod": "CityMsg.UniverseDataMsgSync"
     },
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "comment": "小世界升级",
+        "smMsgId": 14303,
+        "cmMethod": "CityMsg.UniverseLevelUpReq",
+        "smMethod": "CityMsg.UniverseLevelUpResp"
+    },
+    {
+        "comment": "小世界轮盘抽奖",
+        "smMsgId": 14304,
+        "cmMethod": "CityMsg.UniverseDrawReq",
+        "smMethod": "CityMsg.UniverseDrawResp"
+    },
+    {
+        "comment": "小世界技能激活",
+        "smMsgId": 14305,
+        "cmMethod": "CityMsg.UniverseSkillUnlockReq",
+        "smMethod": "CityMsg.UniverseSkillUnlockResp"
+    },
+    {
+        "comment": "小世界技能上阵",
+        "smMsgId": 14306,
+        "cmMethod": "CityMsg.EquipUniverseSkillReq",
+        "smMethod": "CityMsg.EquipUniverseSkillResp"
+    },
+    {
+        "comment": "小世界技能共鸣激活、升级",
+        "smMsgId": 14307,
+        "cmMethod": "CityMsg.UniverseSkillCombineLvUpReq",
+        "smMethod": "CityMsg.UniverseSkillCombineLvUpResp"
+    },
+    {
+        "comment": "洞察天机抽取",
+        "smMsgId": 14308,
+        "cmMethod": "CityMsg.UniverseSkillDrawReq",
+        "smMethod": "CityMsg.UniverseSkillDrawResp"
+    },
+    {
+        "comment": "小世界技能升级",
+        "smMsgId": 14309,
+        "cmMethod": "CityMsg.UniverseSkillLvUpReq",
+        "smMethod": "CityMsg.UniverseSkillLvUpResp"
+    },
+    {
+        "comment": "天地轮盘二次抽奖",
+        "smMsgId": 14310,
+        "cmMethod": "CityMsg.UniverseDrawTwiceReq",
+        "smMethod": "CityMsg.UniverseDrawTwiceResp"
+    },
     null,
     null,
     null,

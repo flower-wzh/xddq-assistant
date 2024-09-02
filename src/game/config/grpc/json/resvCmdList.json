@@ -15736,14 +15736,30 @@
     {
         "smMethod": "CityMsg.UniverseDataMsgSync"
     },
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.UniverseLevelUpResp"
+    },
+    {
+        "smMethod": "CityMsg.UniverseDrawResp"
+    },
+    {
+        "smMethod": "CityMsg.UniverseSkillUnlockResp"
+    },
+    {
+        "smMethod": "CityMsg.EquipUniverseSkillResp"
+    },
+    {
+        "smMethod": "CityMsg.UniverseSkillCombineLvUpResp"
+    },
+    {
+        "smMethod": "CityMsg.UniverseSkillDrawResp"
+    },
+    {
+        "smMethod": "CityMsg.UniverseSkillLvUpResp"
+    },
+    {
+        "smMethod": "CityMsg.UniverseDrawTwiceResp"
+    },
     null,
     null,
     null,
