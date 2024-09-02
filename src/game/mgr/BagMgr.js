@@ -10,7 +10,7 @@ export default class BagMgr {
         this.mallBuyCountList = [];
         this.isProcessing = false;
         this.initialized = false;
-        this.ticket = global.account.fight.ticket ?? 2;
+        this.ticket = global.account.switch.ticket || 2; // 默认为2
 
         LoopMgr.inst.add(this);
     }

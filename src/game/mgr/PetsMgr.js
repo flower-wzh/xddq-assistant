@@ -37,7 +37,7 @@ export default class PetsMgr {
     //抽取免费内丹
     PetKernelDraw() {
         const logContent = `[灵兽内丹] 还剩 ${this.AD_REWARD_DAILY_DRAW_MAX_NUM - this.freeDrawTimes} 次广告激励`;
-        AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_PET_KERNEL_DRAW, data: { isUseADTime: false }, logStr: logContent });
+        AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_PET_KERNEL_DRAW, data: { isTen: false }, logStr: logContent });
     }
 
     async loopUpdate() {

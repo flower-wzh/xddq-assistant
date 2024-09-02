@@ -29,7 +29,7 @@ const customColors = {
 
 winston.addColors(customColors);
 
-function createLogFormat(colorize = false) {
+function createLogFormat() {
     const colorizer = winston.format.colorize();
     const timestamp = winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss.SSS' });
     const logFormat = winston.format.printf((info) => {
@@ -38,9 +38,7 @@ function createLogFormat(colorize = false) {
         return `${info.timestamp} ${info.level}${space} ${info.message}`;
     });
 
-    return colorize
-        ? winston.format.combine(colorizer, timestamp, logFormat)
-        : winston.format.combine(timestamp, logFormat);
+    return winston.format.combine(colorizer, timestamp, logFormat)
 }
 
 class Logger {
@@ -58,9 +56,7 @@ class Logger {
                 levels: customLevels,
                 format: createLogFormat(),
                 transports: [
-                    new winston.transports.Console({
-                        format: createLogFormat(true),
-                    }),
+                    new winston.transports.Console({}),
                     new winston.transports.Stream({
                         stream: fs.createWriteStream(logFileName, { flags: 'a' }),
                     }),

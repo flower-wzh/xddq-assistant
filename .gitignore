@@ -131,10 +131,9 @@ dist
 .pnp.*
 
 nodejs
-account.js
-account_*.js
 
 account.json
+account*.json
 
 test*
 .vscode

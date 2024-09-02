@@ -74,7 +74,9 @@
             "pupil": true,
             "_comment_pupil": "[宗门] 自动训练, 出师.  用于宗门大比前一天 可以存一下 体力",
             "pets":false,
-            "_comment_pets":"免费内丹开关,小于75天新区且等级小于156的需要关闭"
+            "_comment_pets":"免费内丹开关,小于75天新区且等级小于156的需要关闭",
+            "ticket": 2,
+            "_comment_ticket": "斗法券大于一定数量的时候自动斗法 默认为2"
         },
         "chopTree": {
             "stop": {
@@ -165,10 +167,6 @@
                 "_comment_condition": "元体 击晕 阳神 连爆 阴身 闪避",
                 "_comment_condition_dict": "4: 敏捷 11: 抗击晕 12: 抗暴击 13: 抗连击 14: 抗闪避 15: 抗反击 16: 抗吸血 50001: 玄武, 50002: 白虎, 50003: 螣蛇, 50004: 勾陈, 50005: 青龙, 50006: 朱雀"
             }
-        },
-        "fight": {
-            "ticket": 1
-            "_comment_ticket": "斗法券大于一定数量的时候自动斗法"
         },
         "reconnectInterval": 300000,
         "_comment_reconnectInterval": "重连间隔 默认为60 * 1000 * 5 即5分钟"

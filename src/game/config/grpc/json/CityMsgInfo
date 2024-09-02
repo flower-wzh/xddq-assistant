@@ -4811,5 +4811,55 @@
             "cmMethod": "RuleTrialMonsterAttrReq",
             "smMethod":"RuleTrialMonsterAttrResp"
         }
+    ],
+    "Universe": [
+        {
+            "key": "S_UNIVERSE_LEVEL_UP",
+            "comment": "小世界升级",
+            "cmMethod": "UniverseLevelUpReq",
+            "smMethod": "UniverseLevelUpResp"
+        },
+        {
+            "key": "S_UNIVERSE_SKILL_UNLOCK",
+            "comment": "小世界技能激活",
+            "cmMethod": "UniverseSkillUnlockReq",
+            "smMethod": "UniverseSkillUnlockResp"
+        },
+        {
+            "key": "S_UNIVERSE_SKILL_LV_UP",
+            "comment": "小世界技能升级",
+            "cmMethod": "UniverseSkillLvUpReq",
+            "smMethod": "UniverseSkillLvUpResp"
+        },
+        {
+            "key": "S_UNIVERSE_SKILL_CONBINE",
+            "comment": "小世界技能共鸣激活、升级",
+            "cmMethod": "UniverseSkillCombineLvUpReq",
+            "smMethod": "UniverseSkillCombineLvUpResp"
+        },
+        {
+            "key": "S_UNIVERSE_SKILL_EQUIP",
+            "comment": "小世界技能上阵",
+            "cmMethod": "EquipUniverseSkillReq",
+            "smMethod": "EquipUniverseSkillResp"
+        },
+        {
+            "key": "S_UNIVERSE_DRAW",
+            "comment": "小世界轮盘抽奖",
+            "cmMethod": "UniverseDrawReq",
+            "smMethod": "UniverseDrawResp"
+        },
+        {
+            "key": "S_UNIVERSE_SKILL_DRAW",
+            "comment": "洞察天机抽取",
+            "cmMethod": "UniverseSkillDrawReq",
+            "smMethod": "UniverseSkillDrawResp"
+        },
+        {
+            "key": "S_UNIVERSE_DRAW_TWICE",
+            "comment": "天地轮盘二次抽奖",
+            "cmMethod": "UniverseDrawTwiceReq",
+            "smMethod": "UniverseDrawTwiceResp"
+        }
     ]
 }

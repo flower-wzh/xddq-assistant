@@ -36,16 +36,16 @@ export default class TowerMgr {
     }
 
     challengeResult(t) {
+        if (this.showResult) {
+            const currentStage = t.towerDataSync.curPassId % 10 === 0 ? 10 : t.towerDataSync.curPassId % 10;
+            logger.info(`[镇妖塔管理] ${t.allBattleRecord.isWin} ${Math.ceil(t.towerDataSync.curPassId / 10)}层${currentStage}关 剩余次数:${this.challenge}`);
+        }
+        
         if (t.ret === 0) {
             if (t.allBattleRecord.isWin) {
                 if (this.challengeSuccessReset) {
                     this.challenge = globalChallenge;
                 }
-            }
-
-            if (this.showResult) {
-                const currentStage = t.towerDataSync.curPassId % 10 === 0 ? 10 : t.towerDataSync.curPassId % 10;
-                logger.info(`[镇妖塔管理] ${t.allBattleRecord.isWin} ${Math.ceil(t.towerDataSync.curPassId / 10)}层${currentStage}关 剩余次数:${this.challenge}`);
             }
         } else {
             // 失败说明需要一键选择Buff
