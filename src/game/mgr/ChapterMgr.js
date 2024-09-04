@@ -40,7 +40,8 @@ export default class ChapterMgr {
             }
 
             if (this.showResult) {
-                logger.info(`[冒险管理] ${t.challengeSuccess} 当前层数:${this.passStageId} 剩余次数:${this.challenge}`);
+                const isWinText = t.challengeSuccess == true ? `${global.colors.red}成功${global.colors.reset}` : `${global.colors.yellow}失败${global.colors.reset}`;
+                logger.info(`[冒险管理] ${isWinText} 当前层数:${this.passStageId} 剩余次数:${this.challenge}`);
             }
         }
     }

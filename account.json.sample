@@ -73,8 +73,6 @@
             "_comment_starTrial": "[星宿试炼]开关",
             "pupil": true,
             "_comment_pupil": "[宗门] 自动训练, 出师.  用于宗门大比前一天 可以存一下 体力",
-            "pets":false,
-            "_comment_pets":"免费内丹开关,小于75天新区且等级小于156的需要关闭",
             "ticket": 2,
             "_comment_ticket": "斗法券大于一定数量的时候自动斗法 默认为2"
         },

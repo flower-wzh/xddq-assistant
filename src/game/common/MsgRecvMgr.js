@@ -368,19 +368,12 @@ class MsgRecvMgr {
         logger.debug("[MsgRecvMgr] 同步玩家灵兽数据");
         PetsMgr.inst.SyncPlayerPetDataMsg(t.playerPetData);
     }
+
     //11706 抽取灵兽内丹结果同步
     static PetKernelDrawResp(t) {
         logger.debug("[MsgRecvMgr] 抽取灵兽内丹结果同步 ");
         PetsMgr.inst.PetKernelDrawResp(t);
     }
-
-    // TODO: 以下代码未完成
-    // import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
-    //     // 102 系统解锁同步
-    //     static SystemUnlockSync(t) {
-    //         logger.debug("[MsgRecvMgr] 系统解锁同步");
-    //         SystemUnlockMgr.inst.SystemUnlockSync(t);
-    //     }
 
     // TODO 以下暂时不想写
 
@@ -397,18 +390,6 @@ class MsgRecvMgr {
     //         logger.debug("[MsgRecvMgr] 装备精炼数据同步");
     //         EquipmentAdvanceMgr.inst.syncEquipmentData(t);
     //     }
-
-    // import PetsMgr from "#game/mgr/PetsMgr.js";
-    //     // 740 同步玩家灵兽数据
-    //     static PlayerPetDataSync(t) {
-    //     //     logger.debug("[MsgRecvMgr] 同步玩家灵兽数据");
-    //         PetsMgr.inst.SyncPlayerPetDataMsg(t.playerPetData);
-    //     }
-
-    //     // static PetKernelPlayerDataMsg(t) {
-    //     //     logger.debug("[MsgRecvMgr] 内丹数据同步");
-    //     //     PetsMgr.inst.pieceShopOpen = t.pieceShopOpen;
-    //     // }
 
     // import TaskMgr from "#game/mgr/TaskMgr.js";
     //     // 501 玩家登录任务数据下发

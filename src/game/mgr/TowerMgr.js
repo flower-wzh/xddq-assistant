@@ -12,7 +12,6 @@ export default class TowerMgr {
         this.hasReward = false;
         this.challenge = global.account.switch.challenge;
         this.showResult = global.account.switch.showResult || false;
-        this.globalChallenge = global.account.switch.challenge;
         this.challengeSuccessReset = global.account.switch.challengeSuccessReset || false;
 
         LoopMgr.inst.add(this);
@@ -32,25 +31,32 @@ export default class TowerMgr {
     SyncData(t) {
         this.isSyncing = true;
         this.data = t || {};
+        if (this.data.curPassId !== 0) {
+            logger.info("[镇妖塔管理] 一键选择!!!")
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_SELECT_BUFF, { index: 0, isOneKey: true }, null);
+        }
         this.isSyncing = false;
     }
 
     challengeResult(t) {
+        const currentStage = t.towerDataSync.curPassId % 10 === 0 ? 10 : t.towerDataSync.curPassId % 10;
+        const isWinText = t.allBattleRecord.isWin == true ? `${global.colors.red}成功${global.colors.reset}` : `${global.colors.yellow}失败${global.colors.reset}`;
+
         if (this.showResult) {
-            const currentStage = t.towerDataSync.curPassId % 10 === 0 ? 10 : t.towerDataSync.curPassId % 10;
-            logger.info(`[镇妖塔管理] ${t.allBattleRecord.isWin} ${Math.ceil(t.towerDataSync.curPassId / 10)}层${currentStage}关 剩余次数:${this.challenge}`);
+            logger.info(`[镇妖塔管理] ${isWinText} ${Math.ceil(t.towerDataSync.curPassId / 10)}层${currentStage}关 剩余次数:${this.challenge}`);
+        }
+        
+        if (currentStage == 10 && t.allBattleRecord.isWin == true) {
+            logger.info("[镇妖塔管理] 一键选择!!!")
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_SELECT_BUFF, { index: 0, isOneKey: true }, null);
         }
         
         if (t.ret === 0) {
             if (t.allBattleRecord.isWin) {
                 if (this.challengeSuccessReset) {
-                    this.challenge = globalChallenge;
+                    this.challenge = global.account.switch.challenge;
                 }
             }
-        } else {
-            // 失败说明需要一键选择Buff
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_SELECT_BUFF, { index: 0, isOneKey: true }, null);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_CHALLENGE, { index: 0, isOneKey: true }, null);
         }
     }
 

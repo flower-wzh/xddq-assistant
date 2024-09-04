@@ -12,8 +12,31 @@ export default class UnionMgr {
         this.memberList = null;           // 妖盟成员列表
         this.lastCheckTime = 0;           // 上次检查时间
         this.CHECK_CD = 1000 * 60 * 10;   // 每次间隔时间
-        this.buyUnionGoodLists = global.account.buyUnionGoodLists || [];
-        this.buyUnionGoodListsDict = global.account._comment_buyUnionGoodLists_dict || {};
+        this.buyUnionGoodLists = global.account.buyUnionGoodLists || [
+            230000011,
+            230000001,
+            230000002,
+            230000005,
+            230000006,
+            230000013,
+            230000014
+        ];
+        this.buyUnionGoodListsDict = {
+            "230000001": "小仙桃",
+            "230000002": "大仙桃",
+            "230000003": "小灵兽果",
+            "230000004": "大灵兽果",
+            "230000005": "小净瓶水",
+            "230000006": "大净瓶水",
+            "230000007": "道书",
+            "230000008": "传说随机精怪碎片",
+            "230000009": "灵石",
+            "230000010": "传说精怪碎片",
+            "230000011": "免费仙桃",
+            "230000012": "腾蛇信物",
+            "230000013": "小玄黄果",
+            "230000014": "大玄黄果"
+        };
         this.unionBargainNum = global.account.unionBargainNum || 0
         this.unionBargainPrice = global.account.unionBargainPrice || 0
         this.isProcessing = false;

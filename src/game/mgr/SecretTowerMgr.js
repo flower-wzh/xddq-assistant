@@ -38,7 +38,8 @@ export default class SecretTowerMgr {
             }
 
             if (this.showResult) {
-                logger.info(`[真火秘境管理] ${t.allBattleRecord.isWin} 当前层数:${t.info.floor} 剩余次数:${this.challenge}`);
+                const isWinText = t.allBattleRecord.isWin == true ? `${global.colors.red}成功${global.colors.reset}` : `${global.colors.yellow}失败${global.colors.reset}`;
+                logger.info(`[真火秘境管理] ${isWinText} 当前层数:${t.info.floor} 剩余次数:${this.challenge}`);
             }
         }
     }

@@ -1,4 +1,3 @@
-import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
@@ -7,24 +6,25 @@ import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 export default class PetsMgr {
     constructor() {
         this.isProcessing = false;
-        this.freeDrawTimes = 0//免费内胆数量
-        this.enabled = global.account.switch.pets || false;
+        this.freeDrawTimes = 0 //免费内胆数量
         this.AD_REWARD_DAILY_DRAW_MAX_NUM = 2 //免费内胆上限
         LoopMgr.inst.add(this);
     }
+
     static get inst() {
         if (!this._instance) {
             this._instance = new PetsMgr();
         }
         return this._instance;
     }
+
     clear() {
         LoopMgr.inst.remove(this);
     }
 
     //同步玩家灵兽数据
     SyncPlayerPetDataMsg(t) {
-        this.freeDrawTimes = t.kernelData.freeDrawTimes
+        this.freeDrawTimes = t.kernelData.freeDrawTimes || 2; // 如果没有说明没开内丹
     }
 
     //抽取灵兽内丹结果同步
@@ -41,7 +41,6 @@ export default class PetsMgr {
     }
 
     async loopUpdate() {
-        if (!this.enabled) return
         if (this.isProcessing) return
         this.isProcessing = true
         try {
