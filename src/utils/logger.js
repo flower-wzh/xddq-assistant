@@ -48,7 +48,7 @@ class Logger {
 
     init(logName) {
         if (!this.loggers[logName]) {
-            const datePart = new Date().toLocaleDateString('en-CA').replace(/-/g, '_');
+            const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, '_');
             const logFileName = logName === 'default' ? path.join(logDir, `${datePart}.log`) : path.join(logDir, `${logName}_${datePart}.log`);
 
             const logger = winston.createLogger({
