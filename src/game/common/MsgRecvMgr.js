@@ -370,12 +370,6 @@ class MsgRecvMgr {
         PetsMgr.inst.SyncPlayerPetDataMsg(t.playerPetData);
     }
 
-    //11706 抽取灵兽内丹结果同步
-    static PetKernelDrawResp(t) {
-        logger.debug("[MsgRecvMgr] 抽取灵兽内丹结果同步 ");
-        PetsMgr.inst.PetKernelDrawResp(t);
-    }
-
     //14302 小世界信息同步
     static UniverseDataMsgSync(t) {
         logger.debug("[MsgRecvMgr] 小世界信息同步");
