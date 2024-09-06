@@ -65,22 +65,20 @@
             "_comment_showResult": "[挑战] 冒险/真火/镇妖塔 显示战斗结果",
             "challengeSuccessReset": false,
             "_comment_challenge_success_reset": "[挑战] 冒险/真火/镇妖塔 挑战成功刷新次数",
-            "challenge_index": 0,
-            "_comment_challenge_index": "[挑战] 冒险/真火/镇妖塔 选择分身0,1,2",
             "invade": true,
             "_comment_invade": "[异兽入侵]开关",
-            "invade_index": 2,
-            "_comment_invade_index": "[异兽入侵]选择分身0,1,2",
+            "invadeIndex": 2,
+            "_comment_invadeIndex": "[异兽入侵]选择分身0,1,2",
             "starTrial": true,
             "_comment_starTrial": "[星宿试炼]开关",
             "pupil": true,
             "_comment_pupil": "[宗门] 自动训练, 出师.  用于宗门大比前一天 可以存一下 体力",
             "ticket": 2,
             "_comment_ticket": "斗法券大于一定数量的时候自动斗法 默认为2",
-            "default_index": 0,
-            "_comment_default_index": "[异兽入侵]挑战任务完成后以及[砍树]任务停止后会切换到的分身0,1,2",
-            "challenge_index": 0,
-            "_comment_challenge_index": "推图选择分身0,1,2,仅在开启推图时生效"
+            "defaultIndex": 0,
+            "_comment_defaultIndex": "[异兽入侵]挑战任务完成后以及[砍树]任务停止后会切换到的分身0,1,2",
+            "challengeIndex": 0,
+            "_comment_challengeIndex": "推图选择分身0,1,2,仅在开启推图时生效"
         },
         "chopTree": {
             "stop": {

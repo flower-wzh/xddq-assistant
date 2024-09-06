@@ -3,6 +3,7 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import PalaceMgr from "#game/mgr/PalaceMgr.js";
+import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
 
 export default class TowerMgr {
     constructor() {
@@ -13,7 +14,6 @@ export default class TowerMgr {
         this.challenge = global.account.switch.challenge;
         this.showResult = global.account.switch.showResult || false;
         this.challengeSuccessReset = global.account.switch.challengeSuccessReset || false;
-        this.idx = global.account.switch.challenge_index || 0;
 
         LoopMgr.inst.add(this);
     }
@@ -84,10 +84,13 @@ export default class TowerMgr {
             if (this.challenge == 0) {
                 this.clear();
                 logger.info("[镇妖塔管理] 任务完成停止循环");
+                // 任务完成后切换为默认分身
+                const defaultIdx = global.account.switch.defaultIndex || 0; //默认分身
+                PlayerAttributeMgr.inst.setSeparationIdx(defaultIdx)
             } else {
                 //切换到分身
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_SWITCH_SEPARATION_REQ, { separationIdx: this.idx }, null);
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {}, null);
+                const idx = global.account.switch.challengeIndex || 0;
+                PlayerAttributeMgr.inst.setSeparationIdx(idx)
                 //挑战
                 GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_CHALLENGE, { index: 0, isOneKey: true }, null);
                 this.challenge--;

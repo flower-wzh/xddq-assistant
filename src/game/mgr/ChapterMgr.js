@@ -2,6 +2,8 @@ import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
+import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
+
 export default class ChapterMgr {
     constructor() {
         this.isSyncing = false;
@@ -10,7 +12,6 @@ export default class ChapterMgr {
         this.challenge = global.account.switch.challenge || 0;
         this.showResult = global.account.switch.showResult || false;
         this.challengeSuccessReset = global.account.switch.challengeSuccessReset || false;
-        this.idx = global.account.switch.challengeIdx || 0;    // 推图指定分身
 
         LoopMgr.inst.add(this);
     }
@@ -55,10 +56,13 @@ export default class ChapterMgr {
             if (this.challenge == 0) {
                 this.clear();
                 logger.info("[冒险管理] 任务完成停止循环");
+                // 任务完成后切换为默认分身
+                const defaultIdx = global.account.switch.defaultIndex || 0; //默认分身
+                PlayerAttributeMgr.inst.setSeparationIdx(defaultIdx)
             } else {
-                // 切换为推图分身
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_SWITCH_SEPARATION_REQ, { separationIdx: this.idx }, null);
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {}, null);
+                //切换到分身
+                const idx = global.account.switch.challengeIndex || 0;
+                PlayerAttributeMgr.inst.setSeparationIdx(idx)
                 //挑战
                 GameNetMgr.inst.sendPbMsg(Protocol.S_STAGE_CHALLENGE, {}, null);
                 this.challenge--;

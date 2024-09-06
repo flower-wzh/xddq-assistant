@@ -81,7 +81,7 @@ export default class PlayerAttributeMgr {
             2: "阴身"
         };
         this.useSeparationIdx = null;                               // 使用的分身
-        this.defaultIdx = global.account.switch.default_index || 0; //默认分身
+        this.defaultIdx = global.account.switch.defaultIndex || 0; //默认分身
 
         // 仙树及砍树
         this.treeInitialized = false;                               // 树是否初始化
@@ -134,6 +134,14 @@ export default class PlayerAttributeMgr {
 
     clear() {
         LoopMgr.inst.remove(this);
+    }
+
+    // 新增方法：手动设置分身
+    setSeparationIdx(index) {
+        if (this.useSeparationIdx !== index) {
+            logger.info(`分身切换至 ${this.separationNames[index]}`);
+            Attribute.SwitchSeparation(index);
+        }
     }
 
     // 201 玩家属性信息同步
@@ -293,10 +301,8 @@ export default class PlayerAttributeMgr {
             }
             logger.warn(`[装备] 分身${this.separationNames[index]} 新装备 ${newEquipmentDesc}`);
 
-            if (this.useSeparationIdx !== index) {
-                logger.info(`[装备] 分身切换至 ${this.separationNames[index]}`);
-                Attribute.SwitchSeparation(index);
-            }
+            // 切换分身
+            this.setSeparationIdx(index)
             Attribute.DealEquipmentEnum_EquipAndResolveOld(id);
             Attribute.FetchSeparation();
             return true;
@@ -312,11 +318,9 @@ export default class PlayerAttributeMgr {
         if (peachNum < global.account.chopTree.stop.num || this.level <= global.account.chopTree.stop.level) {
             logger.warn(`[砍树] 停止任务`);
             this.chopEnabled = false;
+
             // 任务完成后切换为默认分身
-            if (this.useSeparationIdx != this.defaultIdx) {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_SWITCH_SEPARATION_REQ, { separationIdx: this.defaultIdx }, null);
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {}, null);
-            }
+            this.setSeparationIdx(this.defaultIdx)
             return;
         } else {
             if (peachNum !== this.previousPeachNum) {
@@ -528,10 +532,8 @@ export default class PlayerAttributeMgr {
             }
             logger.error(`[灵脉] 分身${this.separationNames[index]} ${name} 新灵脉 ${newTalentDesc}`);
 
-            if (this.useSeparationIdx !== index) {
-                logger.info(`[灵脉] 分身切换至 ${this.separationNames[index]}`);
-                Attribute.SwitchSeparation(index);
-            }
+            // 切换分身
+            this.setSeparationIdx(index)
             Attribute.DealTalentEnum_EquipAndResolveOld();
             Attribute.FetchSeparation();
             return true;
@@ -621,6 +623,9 @@ export default class PlayerAttributeMgr {
         if (flowerNum < this.talentCreateTimes) {
             logger.warn(`[灵脉] 停止任务`);
             this.talentEnabled = false;
+
+            // 任务完成后切换为默认分身
+            this.setSeparationIdx(this.defaultIdx)
             return;
         }
         Attribute.RandomTalentReq(this.talentCreateTimes);
