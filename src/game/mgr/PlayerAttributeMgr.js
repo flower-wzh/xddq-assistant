@@ -281,7 +281,7 @@ export default class PlayerAttributeMgr {
             }
 
             // 去掉当前身上不符合条件的装备
-            const primaryMatch = conditions[index].primaryAttribute.includes(existingAttributeList.attack.type);
+            const primaryMatch = rule.strictMode ? conditions[index].primaryAttribute.includes(existingAttributeList.attack.type) : conditions[index].includes(existingAttributeList.attack.type);
             const secondaryMatch = rule.strictMode ? conditions[index].secondaryAttribute.includes(existingAttributeList.defense.type) : true; // 非严格模式下忽略副属性
             if (!(primaryMatch && secondaryMatch)) {
                 if (showResult) logger.error(`[装备] 分身${this.separationNames[index]} 已装备的主属性或副属性不符合期望`);
