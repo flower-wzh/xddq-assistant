@@ -24,7 +24,8 @@ export default class PetsMgr {
 
     //同步玩家灵兽数据
     SyncPlayerPetDataMsg(t) {
-        this.freeDrawTimes = t.kernelData.freeDrawTimes || 2; // 如果没有说明没开内丹
+        this.freeDrawTimes = t.kernelData.freeDrawTimes;
+        if (t.forceUnlockTime != "-1") { this.freeDrawTimes = 2 }//如果没解锁就说明不能抽取-1已解锁,未解锁赋值MAX任务自动终止
     }
 
     //抽取灵兽内丹结果同步
