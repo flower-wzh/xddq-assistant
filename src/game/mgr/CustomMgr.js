@@ -40,6 +40,8 @@ export default class CustomMgr {
             // 道友一键 赠送和领取
             GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 1 }, null);
             GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 2 }, null);
+            //宝华堂
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { mallId: 400000003, count: 1, activityId: 9875533 }, null);
             this.initialized = true;
         }
     }
