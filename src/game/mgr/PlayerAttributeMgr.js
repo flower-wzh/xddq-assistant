@@ -535,26 +535,30 @@ export default class PlayerAttributeMgr {
     }
 
     detailedCompareTalent(oldAttr, newAttr, condition) {
-        let oldScore = 0;
-        let newScore = 0;
-
+        let totalDifference = 0;
+    
         condition.forEach(attrType => {
             const oldAttribute = oldAttr.find(attr => attr.type === attrType);
             const newAttribute = newAttr.find(attr => attr.type === attrType);
-
+    
             const oldValue = oldAttribute ? parseInt(oldAttribute.value) : 0;
             const newValue = newAttribute ? parseInt(newAttribute.value) : 0;
+    
+            let weight = 1;  // 默认权重
 
-            // 如果新值比旧值大，newAttr加分，否则oldAttr加分
-            if (newValue > oldValue) {
-                newScore++;
-            } else if (oldValue > newValue) {
-                oldScore++;
+            if (oldValue > 0) {
+                let difference = (newValue - oldValue) / oldValue;
+    
+                if (difference >= 0 && attrType === 4) {
+                    weight = 1.05;  // 太大会影响平衡
+                }
+    
+                totalDifference += difference * weight;
             }
         });
-
-        // 如果newAttr的得分超过oldAttr，返回true
-        return newScore > oldScore;
+    
+        // 返回累加差值是否大于 0，表示新值整体是否优于旧值
+        return totalDifference > 0;
     }
 
     checkTalentCondition(u, condition, isSpecial) {
