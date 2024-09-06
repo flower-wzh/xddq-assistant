@@ -26,6 +26,7 @@ import StarTrialMgr from "#game/mgr/StarTrialMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import RuleTrialMgr from "#game/mgr/RuleTrialMgr.js";
 import PetsMgr from "#game/mgr/PetsMgr.js";
+import UniverseMgr from "#game/mgr/UniverseMgr.js";
 
 class MsgRecvMgr {
     constructor() {
@@ -375,6 +376,24 @@ class MsgRecvMgr {
         PetsMgr.inst.PetKernelDrawResp(t);
     }
 
+    //14302 小世界信息同步
+    static UniverseDataMsgSync(t) {
+        logger.debug("[MsgRecvMgr] 小世界信息同步");
+        UniverseMgr.inst.UniverseDataMsgSync(t);
+    }
+
+    //214304 天地轮盘抽奖结果
+    static UniverseDrawResp(t) {
+        logger.debug("[MsgRecvMgr] 天地轮盘抽奖结果");
+        UniverseMgr.inst.UniverseDrawResp(t);
+    }
+
+    //214310 天地轮盘二次抽奖结果
+    static UniverseDrawTwiceResp(t) {
+        logger.debug("[MsgRecvMgr] 天地轮盘二次抽奖结果");
+        UniverseMgr.inst.UniverseDrawTwiceResp(t);
+    }
+
     // TODO 以下暂时不想写
 
     // import CommonRedPacketMgr from "#game/mgr/CommonRedPacketMgr.js";
@@ -403,11 +422,6 @@ class MsgRecvMgr {
     //         }
     //     }
 
-    // import UniverseMgr from "#game/mgr/UniverseMgr.js";
-    //     // static UniverseDataMsgSync(t) {
-    //     //     logger.debug("[MsgRecvMgr] 小世界信息同步");
-    //     //     UniverseMgr.inst.UniverseDataMsgSync(t);
-    //     // }
 
     // import WorldRuleMgr from "#game/mgr/WorldRuleMgr.js";
     //     // 9005 天地法则玩家数据同步
