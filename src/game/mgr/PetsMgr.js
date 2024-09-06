@@ -7,6 +7,8 @@ import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 export default class PetsMgr {
     constructor() {
         this.FREE_NUM = 2; //免费内胆上限
+        this.initialized = false;
+
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
@@ -26,13 +28,11 @@ export default class PetsMgr {
     //同步玩家灵兽数据
     SyncPlayerPetDataMsg(t) {
         this.isProcessing = true;
-
-        this.freeDrawTimes = t.kernelData.freeDrawTimes || 2;
-        // //如果没解锁就说明不能抽取-1已解锁,未解锁赋值MAX任务自动终止
-        // if (t.forceUnlockTime != "-1") {
-        //     this.freeDrawTimes = 2;
-        // }
-
+        if (!this.initialized) {
+            // 内丹
+            this.freeDrawTimes = t && t.kernelData ? t.kernelData.freeDrawTimes : 2;
+            this.initialized = true;
+        }
         this.isProcessing = false;
     }
 
@@ -46,16 +46,18 @@ export default class PetsMgr {
     }
 
     async loopUpdate() {
+        if (!this.initialized) return;
         if (this.isProcessing) return;
         this.isProcessing = true;
+
         try {
             if (this.freeDrawTimes == 2) {
                 logger.info(`[灵兽内丹] 达到每日最大领取次数，停止奖励领取`);
                 this.clear();
                 return;
+            } else {
+                this.processReward();
             }
-
-            this.processReward();
         } catch (error) {
             logger.error(`[灵兽内丹] loopUpdate error: ${error}`);
         } finally {
