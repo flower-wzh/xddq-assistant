@@ -68,7 +68,7 @@ export default class TowerMgr {
                 return;
             }
             logger.info("[镇妖塔管理] 开始领取镇妖塔奖励");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_VIEW_SAVE_SELECT, { markPreference: [{ priority: 1, skillType: 1017 }, { priority: 2, skillType: 1018 }, { priority: 3, skillType: 1023 }, { priority: 4, skillType: 1024 }, { priority: 5, skillType: 1022 }] }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_VIEW_SAVE_SELECT, { markPreference: [{ priority: 1, skillType: 1017 }, { priority: 2, skillType: 1018 }, { priority: 3, skillType: 1023 }, { priority: 4, skillType: 1001 }, { priority: 5, skillType: 1022 }] }, null);
             GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_QUICK_CHANLLENGE, {}, null);
             GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_SELECT_BUFF, { index: 0, isOneKey: true }, null);
             this.hasReward = true;

@@ -31,7 +31,8 @@ async function sleep(ms) {
         const childProcess = spawn("node", ["./src/index.js"], {
             cwd: process.cwd(),
             shell: true,
-            stdio: "ignore", // 静音子进程的输出
+            // stdio: "ignore", // 静音子进程的输出
+            stdio: "inherit",
             env: {
                 ...process.env,
                 ACCOUNT: JSON.stringify(account), // 传递账户信息

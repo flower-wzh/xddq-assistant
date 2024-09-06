@@ -81,6 +81,7 @@ export default class PlayerAttributeMgr {
             2: "阴身"
         };
         this.useSeparationIdx = null;                               // 使用的分身
+        this.defaultIdx = global.account.switch.default_index || 0; //默认分身
 
         // 仙树及砍树
         this.treeInitialized = false;                               // 树是否初始化
@@ -311,6 +312,11 @@ export default class PlayerAttributeMgr {
         if (peachNum < global.account.chopTree.stop.num || this.level <= global.account.chopTree.stop.level) {
             logger.warn(`[砍树] 停止任务`);
             this.chopEnabled = false;
+            // 任务完成后切换为默认分身
+            if (this.useSeparationIdx != this.defaultIdx) {
+                GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_SWITCH_SEPARATION_REQ, { separationIdx: this.defaultIdx }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {}, null);
+            }
             return;
         } else {
             if (peachNum !== this.previousPeachNum) {
