@@ -8,9 +8,9 @@ export default class ChapterMgr {
         this.isProcessing = false;
         this.passStageId = 0;
         this.challenge = global.account.switch.challenge || 0;
-        this.challengeIdx = global.account.switch.challengeIdx || 0;    // 推图指定分身
         this.showResult = global.account.switch.showResult || false;
         this.challengeSuccessReset = global.account.switch.challengeSuccessReset || false;
+        this.idx = global.account.switch.challengeIdx || 0;    // 推图指定分身
 
         LoopMgr.inst.add(this);
     }
@@ -57,8 +57,9 @@ export default class ChapterMgr {
                 logger.info("[冒险管理] 任务完成停止循环");
             } else {
                 // 切换为推图分身
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_SWITCH_SEPARATION_REQ, { separationIdx: this.challengeIdx }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_SWITCH_SEPARATION_REQ, { separationIdx: this.idx }, null);
                 GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {}, null);
+                //挑战
                 GameNetMgr.inst.sendPbMsg(Protocol.S_STAGE_CHALLENGE, {}, null);
                 this.challenge--;
                 await new Promise((resolve) => setTimeout(resolve, 1000 * 10));

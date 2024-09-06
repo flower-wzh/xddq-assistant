@@ -65,6 +65,8 @@
             "_comment_showResult": "[挑战] 冒险/真火/镇妖塔 显示战斗结果",
             "challengeSuccessReset": false,
             "_comment_challenge_success_reset": "[挑战] 冒险/真火/镇妖塔 挑战成功刷新次数",
+            "challenge_index": 0,
+            "_comment_challenge_index": "[挑战] 冒险/真火/镇妖塔 选择分身0,1,2",
             "invade": true,
             "_comment_invade": "[异兽入侵]开关",
             "invade_index": 2,

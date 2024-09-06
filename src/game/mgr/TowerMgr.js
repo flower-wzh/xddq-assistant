@@ -13,6 +13,7 @@ export default class TowerMgr {
         this.challenge = global.account.switch.challenge;
         this.showResult = global.account.switch.showResult || false;
         this.challengeSuccessReset = global.account.switch.challengeSuccessReset || false;
+        this.idx = global.account.switch.challenge_index || 0;
 
         LoopMgr.inst.add(this);
     }
@@ -45,12 +46,12 @@ export default class TowerMgr {
         if (this.showResult) {
             logger.info(`[镇妖塔管理] ${isWinText} ${Math.ceil(t.towerDataSync.curPassId / 10)}层${currentStage}关 剩余次数:${this.challenge}`);
         }
-        
+
         if (currentStage == 10 && t.allBattleRecord.isWin == true) {
             logger.info("[镇妖塔管理] 一键选择!!!")
             GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_SELECT_BUFF, { index: 0, isOneKey: true }, null);
         }
-        
+
         if (t.ret === 0) {
             if (t.allBattleRecord.isWin) {
                 if (this.challengeSuccessReset) {
@@ -84,6 +85,10 @@ export default class TowerMgr {
                 this.clear();
                 logger.info("[镇妖塔管理] 任务完成停止循环");
             } else {
+                //切换到分身
+                GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_SWITCH_SEPARATION_REQ, { separationIdx: this.idx }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {}, null);
+                //挑战
                 GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_CHALLENGE, { index: 0, isOneKey: true }, null);
                 this.challenge--;
                 await new Promise((resolve) => setTimeout(resolve, 1000 * 10));

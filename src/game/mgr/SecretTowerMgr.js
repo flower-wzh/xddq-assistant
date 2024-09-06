@@ -10,6 +10,7 @@ export default class SecretTowerMgr {
         this.challenge = global.account.switch.challenge || 0;
         this.showResult = global.account.switch.showResult || false;
         this.challengeSuccessReset = global.account.switch.challengeSuccessReset || false;
+        this.idx = global.account.switch.challenge_index || 0;
 
         LoopMgr.inst.add(this);
     }
@@ -53,6 +54,10 @@ export default class SecretTowerMgr {
                 this.clear();
                 logger.info("[真火秘境管理] 任务完成停止循环");
             } else {
+                //切换到分身
+                GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_SWITCH_SEPARATION_REQ, { separationIdx: this.idx }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {}, null);
+                //挑战
                 GameNetMgr.inst.sendPbMsg(Protocol.S_SECRETTOWER_FIGHT, { type: 1 }, null);
                 this.challenge--;
                 await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
