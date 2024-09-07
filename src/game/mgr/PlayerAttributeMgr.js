@@ -315,7 +315,7 @@ export default class PlayerAttributeMgr {
             this.initPeachNum = peachNum;
         }
 
-        if (peachNum < global.account.chopTree.stop.num || this.level <= global.account.chopTree.stop.level) {
+        if (peachNum <= global.account.chopTree.stop.num || this.level <= global.account.chopTree.stop.level) {
             logger.warn(`[砍树] 停止任务`);
             this.chopEnabled = false;
 
