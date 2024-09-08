@@ -9,41 +9,24 @@ import createPath from '#utils/path.js';
 
 const resolvePath = createPath(import.meta.url);
 
-function matches(account, criteria) {
-    return Object.keys(criteria).every(key => account[key] === criteria[key]);
-}
-
-async function updateAccount(filePath, targetAccount, newObject) {
+async function updateAccount(filePath, newObject) {
     const readFileAsync = util.promisify(fs.readFile);
     const writeFileAsync = util.promisify(fs.writeFile);
     try {
         const data = await readFileAsync(filePath, 'utf8');
-        let accounts;
+        let account;
 
         try {
-            accounts = JSON.parse(data);
+            account = JSON.parse(data);
         } catch (parseErr) {
             logger.error('account.json JSON解析错误:', parseErr);
             return;
         }
 
-        let accountFound = false;
-        for (let account of accounts) {
-            if (matches(account, targetAccount)) {
-                Object.assign(account, newObject);
-                accountFound = true;
-                break;
-            }
-        }
+        Object.assign(account, newObject);
 
-        if (!accountFound) {
-            logger.error('account.json 未找到匹配的账户');
-            return;
-        }
+        const newContent = JSON.stringify(account, null, 4);
 
-        const newContent = JSON.stringify(accounts, null, 4);
-
-        // 写回文件
         try {
             await writeFileAsync(filePath, newContent, 'utf8');
             logger.info('account.json 文件已成功修改并保存');
@@ -245,17 +228,13 @@ export default class AuthService {
             logger.info(`登录成功, ${JSON.stringify(thirdResponse, null, "\t")}`);
             // 更新账户信息 保存token uid
             const filePath = resolvePath(`../../${global.configFile}`);
-            const targetAccount = {
-                "serverId": serverId,
-                "username": username,
-                "password": password
-            };
+
             const newObject = {
                 "token": app_pst,
                 "uid": uid,
                 "nickName": thirdResponse.nickName,
             };
-            await updateAccount(filePath, targetAccount, newObject);
+            await updateAccount(filePath, newObject);
 
             return thirdResponse;
         } catch (error) {
