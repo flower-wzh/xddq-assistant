@@ -72,4 +72,12 @@ https://wxshare1.37.com/dist/dzg/zzb-20220512/?hd_referer=jsb&game_id=784
 
 2. 重命名account.json.sample 至 account.json 然后看comments对配置进行修改
 
-3. yarn && yarn start（ 此处需要先安装npm 并执行npm install -g yarn ) 
+3. 安装Docker
+    
+    参考 https://blog.csdn.net/qq_60308100/article/details/135117638
+
+4. 安装Portainer
+
+    参考 https://blog.csdn.net/qq_60308100/article/details/135141266
+
+5. docker run -v <目录>/account.json:/app/account.json genchsusu/xddq:latest 或者在Portainer操作

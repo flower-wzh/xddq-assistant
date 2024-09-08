@@ -4,6 +4,7 @@ import ProtobufMgr from '#game/net/ProtobufMgr.js';
 import { NetSocket, NetState } from '#game/net/NetSocket.js';
 
 import logger from "#utils/logger.js";
+import AuthService from "#services/authService.js";
 import MsgRecvMgr from '#game/common/MsgRecvMgr.js';
 import LoopMgr from '#game/common/LoopMgr.js';
 
@@ -14,11 +15,15 @@ class GameNetMgr {
         // Server
         this.net = new NetSocket();
         this.isLogined = false;
+        this.isReConnectting = false;
         // handlers
         this.handlers = {};
         // Msg
         this.sendMsgLength = 0;
-    }
+        // Retry parameters
+        this.maxRetries = (typeof global.account.maxRetries === 'string' && global.account.maxRetries.toLowerCase() === 'infinity') ? Infinity : (global.account.maxRetries || 10); // 默认最大重连次数
+        this.retryCount = 0;   // 当前重连次数
+}
 
     static get inst() {
         if (this._instance == null) {
@@ -67,6 +72,18 @@ class GameNetMgr {
     netCloseHandler() {
         logger.error("[WebSocket] 已断开连接");
         this.close();
+
+        if (this.retryCount < this.maxRetries) {
+            this.retryCount++;
+            logger.warn(`[GameNetMgr] 第 ${this.retryCount} 次重连中...`);
+
+            if (!this.isLogined && !this.isReConnectting) {
+                this.reconnect();
+            }
+        } else {
+            logger.error(`[GameNetMgr] 已达到最大重连次数 ${this.maxRetries}，停止重连。`);
+            process.exit(1);
+        }
     }
 
     netErrorHandler() {
@@ -184,11 +201,85 @@ class GameNetMgr {
         }
     }
 
+    async countdown(reconnectInterval) {
+        let remainingTime = reconnectInterval / 1000;
+    
+        const printCountdown = () => {
+            if (remainingTime <= 10) {
+                logger.info(`剩余时间: ${remainingTime} 秒`);
+                remainingTime--;
+                return 1000; // 每秒更新
+            } else if (remainingTime <= 60) {
+                logger.info(`剩余时间: ${remainingTime} 秒`);
+                remainingTime -= 10;
+                return 10000; // 每10秒更新
+            } else {
+                logger.info(`剩余时间: ${remainingTime} 秒`);
+                remainingTime -= 30;
+                return 30000; // 每30秒更新
+            }
+        };
+    
+        // 开始倒计时
+        while (remainingTime > 0) {
+            const interval = printCountdown();
+            await new Promise(resolve => setTimeout(resolve, interval));
+        }
+        logger.info('倒计时结束');
+    }
+
+    async reconnect(resetInterval = null) {
+        logger.info("[GameNetMgr] 重启中...");
+
+        this.isReConnectting = true;
+        this.close();
+        LoopMgr.inst.end();
+    
+        const reconnectInterval = resetInterval || global.account.reconnectInterval || 5000;
+    
+        await this.countdown(reconnectInterval);
+    
+        const { wsAddress, playerId, token } = await this.relogin();
+    
+        this.connectGameServer(wsAddress, playerId, token);
+
+        this.isReConnectting = false;
+    }
+
     close() {
         if (this.net) {
             this.net.close(true);
         };
-        process.exit(1);
+
+        this.isLogined = false;
+        this.handlers = {};
+    }
+
+    async relogin() {
+
+        const authServiceInstance = new AuthService();
+        
+        const {serverId, token, uid, username, password} = global.account;
+        try {
+            // Login first, and then fetch the wsAddress and token
+            let response;
+    
+            try {
+                if (token && uid) {
+                    logger.info("[Login] 尝试使用token登录...");
+                    response = await authServiceInstance.LoginWithToken(serverId, token, uid, username, password);
+                } else {
+                    throw new Error("[Login] token登陆信息不完整, 尝试使用用户名密码登录...");
+                }
+            } catch (error) {
+                logger.warn("[Login] token登录失败, 尝试使用用户名密码登录...");
+                response = await authServiceInstance.Login(username, password, serverId);
+            }
+    
+            return response;
+        } catch (error) {
+            logger.error(error.message || error);
+        }
     }
 }
 
