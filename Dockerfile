@@ -7,7 +7,7 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 
 WORKDIR /app
 
-COPY src .
+COPY src ./src
 COPY app.js jsconfig.json package.json yarn.lock ./
 
 RUN yarn install --frozen-lockfile
