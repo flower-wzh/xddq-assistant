@@ -227,7 +227,7 @@ export default class AuthService {
             }
             logger.info(`登录成功, ${JSON.stringify(thirdResponse, null, "\t")}`);
             // 更新账户信息 保存token uid
-            const filePath = resolvePath(`../../${global.configFile}`);
+            const filePath = global.configFile;
 
             const newObject = {
                 "token": app_pst,

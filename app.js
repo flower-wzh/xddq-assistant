@@ -1,12 +1,16 @@
 import initialize from "#loaders/index.js";
 import fs from 'fs';
+import path from 'path';
 
 async function start() {
-    const data = fs.readFileSync('./account.json', 'utf8');
+    const configFile = process.argv[2] || './account.json';
+    
+    const configPath = path.resolve(configFile);
+    const data = fs.readFileSync(configPath, 'utf8');
     const account = JSON.parse(data);
 
     const { username, password, serverId, token, uid } = account;
-    global.account = account; // 设置 global.account
+    global.account = account;   // 设置 global.account
     global.colors = {
         reset: "\x1b[0m",       // 重置颜色
 
@@ -20,7 +24,8 @@ async function start() {
         cyan: "\x1b[36m",       // 青色
         white: "\x1b[37m",      // 白色
     };
-    global.configFile = "account.json";
+    global.configFile = configPath;
+
 
     await initialize(username, password, serverId, token, uid);
 }
