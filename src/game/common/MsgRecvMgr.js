@@ -144,7 +144,7 @@ class MsgRecvMgr {
     // 5803 妖盟讨伐boss战斗 是否可以领奖
     static UnionBossRewardRespMsg(t) {
         logger.debug("[MsgRecvMgr] 妖盟讨伐boss战斗结果");
-        UnionMgr.inst.BossReward();
+        UnionMgr.inst.BossReward(t);
     }
 
     //6730 妖盟夺位战数据同步
