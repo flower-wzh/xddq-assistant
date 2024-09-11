@@ -5,12 +5,13 @@ import logger from "#utils/logger.js";
 
 async function start() {
     const configFile = process.argv[2] || './account.json';
-    
+    const configPath = path.resolve(configFile);
+
     if (!fs.existsSync(configPath)) {
         logger.error("读取account失败:", err);
         return;
     }
-    const configPath = path.resolve(configFile);
+    
     const data = fs.readFileSync(configPath, 'utf8');
     const account = JSON.parse(data);
 
