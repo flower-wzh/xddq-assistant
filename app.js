@@ -8,7 +8,7 @@ async function start() {
     const configPath = path.resolve(configFile);
 
     if (!fs.existsSync(configPath)) {
-        logger.error("读取account失败:", err);
+        logger.error(`读取account失败:${configFile}`);
         return;
     }
     
