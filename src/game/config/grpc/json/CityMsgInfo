@@ -5174,12 +5174,6 @@
             "smMethod":"YardPeachGetRewardResp"
         },
         {
-            "key":"S_YARDPB_PEACH_INFO",
-            "comment":"桃树信息",
-            "cmMethod":"YardPeachInfoReq",
-            "smMethod":"YardPeachInfoResp"
-        },
-        {
             "key":"S_YARDPB_PEACH_RECORD_LIST",
             "comment":"桃树协助列表",
             "cmMethod":"YardPeachRecordListReq",
