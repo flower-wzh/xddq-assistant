@@ -29,6 +29,14 @@ export default class ActivityMgr {
         const acts = t.activity.conditionDataList;
         if (acts) {
             const activityId = t.activity.activityId;
+
+            // 黑名单会跳过
+            const blackList = [9211906, 9295167, 9269555]
+            if (blackList.includes(activityId)) {
+                logger.info(`[活动管理] ${activityId} 被跳过`);
+                return;
+            }
+
             for (const i of acts) {
                 if (!i.isGetReward && i.completeTime.toString() !== "0") {
                     logger.info(`[活动管理] ${activityId} 满足条件领取奖励: ${i.conditionId}`);
