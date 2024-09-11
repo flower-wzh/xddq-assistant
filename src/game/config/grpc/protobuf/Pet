@@ -66,6 +66,7 @@ message PetDataMsg {
 message PetPassiveSkillMsg {
     required int32 skillId = 1; 
     required int32 lv = 2; 
+    optional int32 status = 3; 
 }
 message PlayerPetDataSync {
     required PlayerPetDataMsg playerPetData = 1;
@@ -130,6 +131,7 @@ message EquipPetResp {
 }
 message PetResetReq {
     required int32 petId = 1;
+    optional bool isSealing = 2; 
 }
 message PetResetResp {
     required int32 ret = 1;

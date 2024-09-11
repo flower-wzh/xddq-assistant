@@ -382,3 +382,28 @@ message UnionPlayerGradeRankData{
 message NotifyPlayerGradeMsg {
    optional PlayerGradeEnum myGrade = 1; 
 }
+message GetYardUnionHelpDataListReq {
+}
+message GetYardUnionHelpDataListResp {
+    required int32 ret = 1;
+    repeated YardUnionHelpDataMsg unionHelpData = 2;
+    required int32 helpTimes = 3; 
+}
+message YardUnionHelpDataMsg {
+    optional UnionMemberData memberData = 1; 
+    repeated int64 helperList = 2; 
+    optional int32 helpTimes = 3; 
+    optional int64 createTime = 4; 
+    required int64 uniqueId = 5; 
+    required int32 buildId = 6; 
+    optional int32 buildLv = 7; 
+}
+message YardUnionHelpReq {
+    required int64 playerId = 1;
+    required int64 uniqueId = 2; 
+    required int32 buildId =3; 
+}
+message YardUnionHelpResp {
+    required int32 ret = 1;
+    repeated YardUnionHelpDataMsg unionHelpData = 2;
+}
