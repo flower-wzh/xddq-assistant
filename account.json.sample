@@ -72,7 +72,7 @@
         "pupil": true,
         "_comment_pupil": "[宗门] 自动训练, 出师.  用于宗门大比前一天 可以存一下 体力",
         "ticket": 2,
-        "_comment_ticket": "斗法券大于一定数量的时候自动斗法 默认为2",
+        "_comment_ticket": "斗法券大于一定数量的时候自动斗法,最大配置为2，表示大于2+(vipLevel*3)后自动斗法",
         "defaultIndex": 0,
         "_comment_defaultIndex": "[异兽入侵]挑战任务完成后以及[砍树]任务停止后会切换到的分身0,1,2",
         "challengeIndex": 0,
