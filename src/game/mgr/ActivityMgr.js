@@ -26,16 +26,13 @@ export default class ActivityMgr {
 
     // 1002 1007 
     getReward(t) {
-        const acts = t.activityDataList ?? t.activityConditionDataList ?? null;
+        const acts = t.activity.conditionDataList;
         if (acts) {
+            const activityId = t.activity.activityId;
             for (const i of acts) {
-                const activityId = i.activityId;
-                // 领取所有未领取的奖励
-                for (const j of i.conditionDataList) {
-                    if (!j.isGetReward && j.completeTime.toString() !== "0") {
-                        logger.info(`[活动管理] ${activityId} 满足条件领取奖励: ${j.conditionId}`);
-                        GameNetMgr.inst.sendPbMsg(Protocol.S_GOOD_FORTUNE_GET_REWARD_REQ, { activityId: activityId, conditionId: j.conditionId, type: 1 }, null);
-                    }
+                if (!i.isGetReward && i.completeTime.toString() !== "0") {
+                    logger.info(`[活动管理] ${activityId} 满足条件领取奖励: ${i.conditionId}`);
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_CONDITION_REWARD, { activityId: activityId, conditionId: i.conditionId}, null);
                 }
             }
         }

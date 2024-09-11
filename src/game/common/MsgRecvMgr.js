@@ -281,11 +281,11 @@ class MsgRecvMgr {
         HeroRankMgr.inst.doFight(t);
     }
 
-    // // 1001 活动通用数据同步
-    // static PushActivityList(t) {
-    //     logger.debug("[MsgRecvMgr] 活动通用数据同步");
-    //     ActivityMgr.inst.SyncData(t);
-    // }
+    // 1001 活动通用数据同步
+    static PushActivityList(t) {
+        logger.debug("[MsgRecvMgr] 活动通用数据同步");
+        ActivityMgr.inst.SyncData(t);
+    }
 
     // // 1002 同步活动详细配置
     // static ActivityCommonDataListSync(t) {
@@ -309,11 +309,11 @@ class MsgRecvMgr {
     // }
 
     // // 1003 活动 全量同步活动数据(领取东西逻辑放到这里)
-    // static RspGetActivityDetail(t) {
-    //     logger.debug("[MsgRecvMgr] 全量同步数据");
-    //     // ActivityMgr.inst.getReward(t); // 有问题
-    //     ActivityMgr.inst.buyFree(t.activity);
-    // }
+    static RspGetActivityDetail(t) {
+        logger.debug("[MsgRecvMgr] 全量同步数据");
+        ActivityMgr.inst.getReward(t); // 有问题
+        // ActivityMgr.inst.buyFree(t.activity);
+    }
 
     // 1051 同步福地鼠宝数据
     static SyncHomelandMsg(t) {
