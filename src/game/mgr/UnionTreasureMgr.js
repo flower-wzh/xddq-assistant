@@ -13,7 +13,7 @@ export default class UnionTreasureMgr {
         this.lotteryTimesMax = 3;
         this.mapDatas = null;
         this.lock = false;
-
+        this.callback = false;
         LoopMgr.inst.add(this);
     }
 
@@ -41,6 +41,7 @@ export default class UnionTreasureMgr {
 
     //请求进入寻宝返回
     UnionTreasureEnterResp(t) {
+        this.callback = true
         this.lotteryTimes = t.msg.playerData.lotteryTimes
         this.mapDatas = t.msg.playerData.mapDatas
     }
@@ -75,7 +76,7 @@ export default class UnionTreasureMgr {
                 logger.info(`[妖盟寻宝] 进入寻宝`);
                 return
             }
-
+            if (!this.callback) return
             if (this.lotteryTimes >= this.lotteryTimesMax) {
                 this.getReward()
                 logger.info(`[妖盟寻宝] 寻宝已完成,终止任务`);
