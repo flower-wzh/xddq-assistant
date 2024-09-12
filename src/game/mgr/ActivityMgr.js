@@ -4,9 +4,7 @@ import logger from "#utils/logger.js";
 
 
 export default class ActivityMgr {
-    constructor() {
-        this.enabled = global.account.switch.activity || false;
-    }
+    constructor() {}
 
     static get inst() {
         if (!this._instance) {
@@ -39,7 +37,7 @@ export default class ActivityMgr {
             // 黑名单会跳过
             const blackList = [9211906, 9295167, 9269555,9212111,9989951,9265799]
             if (blackList.includes(activityId)) {
-                logger.info(`[活动管理] ${activityId} 被跳过`);
+                logger.debug(`[活动管理] ${activityId} 被跳过`);
                 return;
             }
 
