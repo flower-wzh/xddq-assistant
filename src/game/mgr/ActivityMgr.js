@@ -16,6 +16,10 @@ export default class ActivityMgr {
     }
 
     async SyncData(t) {
+        if (!this.enabled) {
+            logger.info(`[活动管理] 未开启,终止任务`);
+            return;
+        }
         try {
             for (const i of t.mainConfig) {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_DATA, { activityId: i.activityId }, null);
@@ -28,10 +32,6 @@ export default class ActivityMgr {
 
     // 1002 1007 
     getReward(t) {
-        if (!this.enabled) {
-            logger.info(`[活动管理] 未开启`);
-            return;
-        }
         const acts = t.activity.conditionDataList;
         if (acts) {
             const activityId = t.activity.activityId;

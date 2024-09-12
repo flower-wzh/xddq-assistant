@@ -59,7 +59,6 @@ export default class UnionTreasureMgr {
     getReward() {
         logger.info(`[妖盟寻宝] 开始领奖`);
         for (let i = 290001; i < 290006; i++) {
-            console.log(i)
             GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { "taskId": [i] }, null);
         }
     }
