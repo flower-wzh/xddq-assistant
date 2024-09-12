@@ -43,9 +43,19 @@ export default class GatherEnergyMgr {
         this.isProcessing = true;
         logger.info(`[聚灵阵管理] 检查聚灵阵奖励`);
         this.getAdRewardTimes = t.gatherEnergy.getTimes || 0;
+
         this.openNum = t.gatherEnergy.openNum || 0;
+        if (this.openNum > 0) {
+            logger.info(`[聚灵阵管理] 已开启聚灵阵`);
+        }
         this.attendNum = t.gatherEnergy.attendNum || 0;
+        if (this.attendNum > 0) {
+            logger.info(`[聚灵阵管理] 已加入聚灵阵`);
+        }
         this.num = BagMgr.inst.getGoodsNum(105044)
+        if (this.num > 0) {
+            logger.info(`[聚灵阵管理] 还有 ${this.num} 螣蛇信物`);
+        }
         this.lock = true
 
         this.isProcessing = false;
