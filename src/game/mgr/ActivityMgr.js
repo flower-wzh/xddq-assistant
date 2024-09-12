@@ -4,7 +4,9 @@ import logger from "#utils/logger.js";
 
 
 export default class ActivityMgr {
-    constructor() { }
+    constructor() {
+        this.enabled = global.account.switch.activity || false;
+    }
 
     static get inst() {
         if (!this._instance) {
@@ -26,9 +28,21 @@ export default class ActivityMgr {
 
     // 1002 1007 
     getReward(t) {
+        if (!this.enabled) {
+            logger.info(`[活动管理] 未开启`);
+            return;
+        }
         const acts = t.activity.conditionDataList;
         if (acts) {
             const activityId = t.activity.activityId;
+
+            // 黑名单会跳过
+            const blackList = [9211906, 9295167, 9269555,9212111,9989951,9265799]
+            if (blackList.includes(activityId)) {
+                logger.info(`[活动管理] ${activityId} 被跳过`);
+                return;
+            }
+
             for (const i of acts) {
                 if (!i.isGetReward && i.completeTime.toString() !== "0") {
                     logger.info(`[活动管理] ${activityId} 满足条件领取奖励: ${i.conditionId}`);

@@ -76,7 +76,9 @@
         "defaultIndex": 0,
         "_comment_defaultIndex": "[异兽入侵]挑战任务完成后以及[砍树]任务停止后会切换到的分身0,1,2",
         "challengeIndex": 0,
-        "_comment_challengeIndex": "推图选择分身0,1,2,仅在开启推图时生效"
+        "_comment_challengeIndex": "推图选择分身0,1,2,仅在开启推图时生效",
+        "activity":true,
+        "_comment_activity": "开启自动领取活动奖励,400等级以下以及新区禁止打开,否则有风险"
     },
     "chopTree": {
         "stop": {
