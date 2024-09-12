@@ -54,14 +54,22 @@ export default class GatherEnergyMgr {
     //开启聚灵阵
     openGatherEnergy() {
         if (this.openNum > 0 || this.num == 0) {
-            return
+            return;
         }
-        let num = this.num
+        let num = this.num;
         if (this.num >= 5) {
-            num = 5
+            num = 5;
         }
-        logger.info(`[聚灵阵管理] 开启聚灵阵${num * 2}小时`)
+        logger.info(`[聚灵阵管理] 开启聚灵阵${num * 2}小时`);
         GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_OPEN, { num: num }, null);
+    
+        // 防止启动过多
+        this.lock = false;
+        // 手动赋值
+        this.openNum = 1;
+        // 再发一次消息
+        GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {}, null);
+        
     }
 
     processReward() {
@@ -93,7 +101,7 @@ export default class GatherEnergyMgr {
             const now = new Date();
             const currentHour = now.getHours();
 
-            if ((currentHour == 20 || currentHour == 10) & this.lock) {
+            if ((currentHour == 20 || currentHour == 10) && this.lock) {
                 this.openGatherEnergy()
             }
         } catch (error) {
