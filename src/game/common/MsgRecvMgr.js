@@ -27,6 +27,7 @@ import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import RuleTrialMgr from "#game/mgr/RuleTrialMgr.js";
 import PetsMgr from "#game/mgr/PetsMgr.js";
 import UniverseMgr from "#game/mgr/UniverseMgr.js";
+import UnionTreasureMgr from "#game/mgr/UnionTreasureMgr.js";
 
 class MsgRecvMgr {
     constructor() {
@@ -127,6 +128,7 @@ class MsgRecvMgr {
     static MyUnionData(t) {
         logger.debug("[MsgRecvMgr] 妖盟数据同步");
         UnionMgr.inst.pushMyUnionDataBroadcast(t);
+        UnionTreasureMgr.inst.pushMyUnionDataBroadcast(t);
     }
 
     // 2165 妖盟砍价数据同步
@@ -386,6 +388,12 @@ class MsgRecvMgr {
     static UniverseDrawTwiceResp(t) {
         logger.debug("[MsgRecvMgr] 天地轮盘二次抽奖结果");
         UniverseMgr.inst.UniverseDrawTwiceResp(t);
+    }
+
+    //216207 妖盟寻宝
+    static UnionTreasureEnterResp(t){
+        logger.debug("[MsgRecvMgr] 进入妖盟寻宝");
+        UnionTreasureMgr.inst.UnionTreasureEnterResp(t)
     }
 
     // TODO 以下暂时不想写
