@@ -2,7 +2,6 @@ import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 
-
 export default class ActivityMgr {
     constructor() {}
 
@@ -14,10 +13,6 @@ export default class ActivityMgr {
     }
 
     async SyncData(t) {
-        if (!this.enabled) {
-            logger.info(`[活动管理] 未开启,终止任务`);
-            return;
-        }
         try {
             for (const i of t.mainConfig) {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_DATA, { activityId: i.activityId }, null);
