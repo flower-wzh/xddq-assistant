@@ -291,7 +291,8 @@ class MsgRecvMgr {
     }
 
     // // 1002 同步活动详细配置
-    // static ActivityCommonDataListSync(t) {
+    static ActivityCommonDataListSync(t) {
+        ActivityMgr.inst.buyFree(t);
     //     logger.debug("[MsgRecvMgr] 同步活动详细配置");
     //     for (const i of t.activityDataList) {
     //         const activityId = i.activityId;
@@ -301,7 +302,7 @@ class MsgRecvMgr {
     //         }
     //     }
     //     // ActivityMgr.inst.getReward(t); // 有问题
-    // }
+    }
 
     // // 1007 活动 增量同步活动数据 
     // static ActivityConditionDataListSync(t) {

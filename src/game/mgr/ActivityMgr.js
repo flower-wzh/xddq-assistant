@@ -23,6 +23,18 @@ export default class ActivityMgr {
         }
     }
 
+    // t.activity.detailConfig.commonConfig.mainConfig
+    // {
+    //     "activityId": 10012081,
+    //     "type": 131,
+    //     "childType": 1,
+    //     "beginShowTime": "1726070400000",
+    //     "endShowTime": "1726502400000",
+    //     "beginTime": "1726070400000",
+    //     "endTime": "1726408800000",
+    //     "serverId": Array[32],
+    //     "groupType": 0
+    // },
     // 1002 1007 
     getReward(t) {
         const acts = t.activity.conditionDataList;
@@ -30,7 +42,7 @@ export default class ActivityMgr {
             const activityId = t.activity.activityId;
 
             // 黑名单会跳过
-            const blackList = [9211906, 9295167, 9269555,9212111,9989951,9265799]
+            const blackList = [9211906, 9295167, 9269555]
             if (blackList.includes(activityId)) {
                 logger.debug(`[活动管理] ${activityId} 被跳过`);
                 return;
@@ -59,7 +71,7 @@ export default class ActivityMgr {
                 const logAndBuy = (remaining) => {
                     logger.info(`[活动管理] ${activityId} 购买 ${name} ${remaining}次`);
                     for (let i = 0; i < remaining; i++) {
-                        GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId, mallId: id, count: "1" }, null);
+                        GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId, mallId: id, count: 1 }, null);
                     }
                 };
 
