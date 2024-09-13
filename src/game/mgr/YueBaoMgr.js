@@ -1,9 +1,15 @@
+import GameNetMgr from "#game/net/GameNetMgr.js";
+import Protocol from "#game/net/Protocol.js";
+import logger from "#utils/logger.js";
+import LoopMgr from "#game/common/LoopMgr.js";
+import BagMgr from "#game/mgr/BagMgr.js";
+
 export default class YueBaoMgr {
     constructor() {
         this.isProcessing = false;
         this.lastEnterTime = 0;
-        this.enterInterval = 30 * 60 * 1000;
-        this.hasDeposited = false; // 新增属性用于标记存款操作是否已执行
+        this.enterInterval = 5 * 60 * 1000;
+        this.hasDeposited = false; // 标记存款操作是否已执行
 
         LoopMgr.inst.add(this);
     }
