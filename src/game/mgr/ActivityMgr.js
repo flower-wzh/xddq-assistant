@@ -3,7 +3,10 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 
 export default class ActivityMgr {
-    constructor() { }
+    constructor() {
+        // 存储已激活的活动 ID
+        this.activatedActivities = new Set();
+    }
 
     static get inst() {
         if (!this._instance) {
@@ -69,10 +72,17 @@ export default class ActivityMgr {
                 const activityId = item.activityId;
                 const { id, buyLimit, name } = item.mallTempMsg;
 
+                // 检查活动是否已经激活过
+                if (!this.activatedActivities.has(activityId)) {
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_MESSAGE_LIST, { activityId: activityId }, null);
+                    this.activatedActivities.add(activityId);
+                    logger.info(`[活动管理] 活动 ${activityId} 激活成功`);
+                }
+
                 const logAndBuy = (remaining) => {
                     logger.info(`[活动管理] ${activityId} 购买 ${name} ${remaining}次`);
                     for (let i = 0; i < remaining; i++) {
-                        GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId, mallId: id, count: 1 }, null);
+                        GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: activityId, mallId: id, count: 1 }, null);
                     }
                 };
 

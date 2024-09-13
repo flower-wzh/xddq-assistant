@@ -320,7 +320,6 @@ class MsgRecvMgr {
             logger.debug(`[活动管理] 未开启`);
         } else {
             ActivityMgr.inst.getReward(t);     
-            // ActivityMgr.inst.buyFree(t.activity);
         }
     }
 
