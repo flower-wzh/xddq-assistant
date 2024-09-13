@@ -168,7 +168,7 @@ export default class HomelandMgr {
         this.rules = global.account.rules || HomelandMgr.DEAFULT_RULES;
 
         if (t.freeWorkerNum > 0 && t.energy > 0) {
-            if (t.energy < 10 && t.energy > 1) {
+            if (t.energy < 20 && t.energy > 1) {
                 this.rules = HomelandMgr.DEAFULT_RULES
             } else if (t.energy == 1) {
                 this.rules = Homeland.WEAK_RULES
