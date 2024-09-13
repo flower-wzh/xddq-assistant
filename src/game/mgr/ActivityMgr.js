@@ -3,7 +3,7 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 
 export default class ActivityMgr {
-    constructor() {}
+    constructor() { }
 
     static get inst() {
         if (!this._instance) {
@@ -51,10 +51,11 @@ export default class ActivityMgr {
             for (const i of acts) {
                 if (!i.isGetReward && i.completeTime.toString() !== "0") {
                     logger.info(`[活动管理] ${activityId} 满足条件领取奖励: ${i.conditionId}`);
-                    GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_CONDITION_REWARD, { activityId: activityId, conditionId: i.conditionId}, null);
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_CONDITION_REWARD, { activityId: activityId, conditionId: i.conditionId }, null);
                 }
             }
         }
+       this.buyFree({"activityDataList":[t.activity]})
     }
 
     // 1003
