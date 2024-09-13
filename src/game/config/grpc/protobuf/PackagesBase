@@ -34,6 +34,8 @@ enum PackagesBaseProtocols{
     S_PAINT_FAIRYLAND_BEING_SYNC = 214670;            
     S_PAINT_FAIRYLAND_CHECK_POOL = 214698;            
     ShuraBattle_applyJoinTeam =  215910; 
+    YARD_LOGIN_SYNC = 215843;                         
+    YARD_BUILD_UP_SYNC = 215851;                      
 }
 message SkyWarDataLoginSync {
     optional int32 battleTimes = 1; 
@@ -516,6 +518,17 @@ message CheckFairyPoolReq {
 }
 message CheckFairyPoolResp {
     required int32 ret = 1; 
+}
+message YardLoginSync{
+    optional bool pieceShopOpen = 1; 
+    optional string grassNum = 2; 
+}
+message YardBuildUpSync{
+    repeated YardBuildUpData data = 1;
+}
+message YardBuildUpData{
+    optional int64 uniqueId = 1; 
+    optional int32 curLv = 2; 
 }
 message ShuraBattleApplyReq {
   required int32 activityId = 1;  

@@ -107,6 +107,7 @@ message UnionTreasureEnterResp{
     optional UnionTreasureCollectMsg msg = 2;
     optional bool showLvUpWindow = 3;
     optional int64 endTime = 4;
+    optional bool isShowBagRed = 5;
 }
 message UnionTreasureSendChipReq{
     optional int64 receivePlayerId = 1;

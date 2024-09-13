@@ -27,6 +27,8 @@ import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import RuleTrialMgr from "#game/mgr/RuleTrialMgr.js";
 import PetsMgr from "#game/mgr/PetsMgr.js";
 import UniverseMgr from "#game/mgr/UniverseMgr.js";
+import YueBaoMgr from "#game/mgr/YueBaoMgr.js";
+import UnionTreasureMgr from "#game/mgr/UnionTreasureMgr.js";
 
 class MsgRecvMgr {
     constructor() {
@@ -127,6 +129,7 @@ class MsgRecvMgr {
     static MyUnionData(t) {
         logger.debug("[MsgRecvMgr] 妖盟数据同步");
         UnionMgr.inst.pushMyUnionDataBroadcast(t);
+        UnionTreasureMgr.inst.pushMyUnionDataBroadcast(t);
     }
 
     // 2165 妖盟砍价数据同步
@@ -144,7 +147,7 @@ class MsgRecvMgr {
     // 5803 妖盟讨伐boss战斗 是否可以领奖
     static UnionBossRewardRespMsg(t) {
         logger.debug("[MsgRecvMgr] 妖盟讨伐boss战斗结果");
-        UnionMgr.inst.BossReward();
+        UnionMgr.inst.BossReward(t);
     }
 
     //6730 妖盟夺位战数据同步
@@ -281,14 +284,15 @@ class MsgRecvMgr {
         HeroRankMgr.inst.doFight(t);
     }
 
-    // // 1001 活动通用数据同步
-    // static PushActivityList(t) {
-    //     logger.debug("[MsgRecvMgr] 活动通用数据同步");
-    //     ActivityMgr.inst.SyncData(t);
-    // }
+    // 1001 活动通用数据同步
+    static PushActivityList(t) {
+        logger.debug("[MsgRecvMgr] 活动通用数据同步");
+        ActivityMgr.inst.SyncData(t);
+    }
 
     // // 1002 同步活动详细配置
-    // static ActivityCommonDataListSync(t) {
+    static ActivityCommonDataListSync(t) {
+        ActivityMgr.inst.buyFree(t);
     //     logger.debug("[MsgRecvMgr] 同步活动详细配置");
     //     for (const i of t.activityDataList) {
     //         const activityId = i.activityId;
@@ -298,7 +302,7 @@ class MsgRecvMgr {
     //         }
     //     }
     //     // ActivityMgr.inst.getReward(t); // 有问题
-    // }
+    }
 
     // // 1007 活动 增量同步活动数据 
     // static ActivityConditionDataListSync(t) {
@@ -309,11 +313,16 @@ class MsgRecvMgr {
     // }
 
     // // 1003 活动 全量同步活动数据(领取东西逻辑放到这里)
-    // static RspGetActivityDetail(t) {
-    //     logger.debug("[MsgRecvMgr] 全量同步数据");
-    //     // ActivityMgr.inst.getReward(t); // 有问题
-    //     ActivityMgr.inst.buyFree(t.activity);
-    // }
+    static RspGetActivityDetail(t) {
+        logger.debug("[MsgRecvMgr] 全量同步数据");
+        const activityMgrEnabled = global.account.switch.activity || false;
+        if (!activityMgrEnabled) {
+            logger.debug(`[活动管理] 未开启`);
+        } else {
+            ActivityMgr.inst.getReward(t);     
+            // ActivityMgr.inst.buyFree(t.activity);
+        }
+    }
 
     // 1051 同步福地鼠宝数据
     static SyncHomelandMsg(t) {
@@ -352,13 +361,13 @@ class MsgRecvMgr {
         InvadeMgr.inst.InvadeChallengeResp(t);
     }
 
-    //206901星宿试炼数据同步
+    // 206901星宿试炼数据同步
     static StarTrialDataMsg(t) {
         logger.debug("[MsgRecvMgr] 星宿试炼数据同步");
         StarTrialMgr.inst.SyncStarTrialData(t)
     }
 
-    //9105 法则试练速战数据同步
+    // 9105 法则试练速战数据同步
     static RuleTrialDataSync(t) {
         logger.debug("[MsgRecvMgr] 法则试练速战数据同步");
         RuleTrialMgr.inst.RuleTrialDataSync(t)
@@ -370,22 +379,35 @@ class MsgRecvMgr {
         PetsMgr.inst.SyncPlayerPetDataMsg(t.playerPetData);
     }
 
-    //14302 小世界信息同步
+    // 14302 小世界信息同步
     static UniverseDataMsgSync(t) {
         logger.debug("[MsgRecvMgr] 小世界信息同步");
         UniverseMgr.inst.UniverseDataMsgSync(t);
     }
 
-    //214304 天地轮盘抽奖结果
+    // 214304 天地轮盘抽奖结果
     static UniverseDrawResp(t) {
         logger.debug("[MsgRecvMgr] 天地轮盘抽奖结果");
         UniverseMgr.inst.UniverseDrawResp(t);
     }
 
-    //214310 天地轮盘二次抽奖结果
+    // 214310 天地轮盘二次抽奖结果
     static UniverseDrawTwiceResp(t) {
         logger.debug("[MsgRecvMgr] 天地轮盘二次抽奖结果");
         UniverseMgr.inst.UniverseDrawTwiceResp(t);
+    }
+
+
+    // 17001 仙玉宝府进入请求
+    static YueBaoEnterResp(t) {
+        logger.debug("[MsgRecvMgr] 仙玉宝府进入请求");
+        YueBaoMgr.inst.checkStatus(t);
+    }
+
+    // 216207 妖盟寻宝
+    static UnionTreasureEnterResp(t){
+        logger.debug("[MsgRecvMgr] 进入妖盟寻宝");
+        UnionTreasureMgr.inst.UnionTreasureEnterResp(t)
     }
 
     // TODO 以下暂时不想写
@@ -414,14 +436,6 @@ class MsgRecvMgr {
     //             logger.debug("[MsgRecvMgr] 任务增量同步");
     //             TaskMgr.inst.syncTaskList(t);
     //         }
-    //     }
-
-
-    // import WorldRuleMgr from "#game/mgr/WorldRuleMgr.js";
-    //     // 9005 天地法则玩家数据同步
-    //     static WorldRulePlayerDataMsg(t) {
-    //         logger.debug("[MsgRecvMgr] 天地法则数据同步");
-    //         WorldRuleMgr.inst.syncWorldRulePlayerDataMsg(t);
     //     }
 }
 

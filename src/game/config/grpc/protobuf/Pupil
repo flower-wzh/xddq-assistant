@@ -17,6 +17,7 @@ enum PupilPb {
 	S_PUPIL_LOGIN_SYNC = 211813;                      
 	S_PUPIL_GET_AD_AWARD = 211814;                    
     S_PUPIL_LOCK = 211815;                            
+    S_PUPIL_EXACT_SEARCH = 211816;                    
     S_MARRIAGE_USER_DATA_SYNC    = 211850;           
 	S_MARRIAGE_GET_APPOINT_APPLY_SYNC = 211851;      
     S_PUPIL_GRADUATED_UNMARRY_LIST_SYNC = 211852;    
@@ -182,4 +183,12 @@ message PupilLockReq{
 }
 message PupilLockResp{
     required int32  ret = 1;
+}
+message PupilExactSearchReq{
+    optional int32 firstType = 1; 
+    optional int32 secondType = 2; 
+}
+message PupilExactSearchResp{
+    required int32  ret = 1;
+    repeated PupilDataMsg pupilDataList = 2;
 }

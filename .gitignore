@@ -137,3 +137,5 @@ account*.json
 
 test*
 .vscode
+
+data

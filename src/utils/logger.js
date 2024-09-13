@@ -1,17 +1,6 @@
 import winston from 'winston';
-import fs from 'fs';
-import path from 'path';
-import createPath from '#utils/path.js';
 
-const resolvePath = createPath(import.meta.url);
-
-const logDir = resolvePath('../../logs');
-
-if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir);
-}
-
-const loglevel = 'info';
+const loglevel = process.env.LOGLEVEL || 'info';
 
 const customLevels = {
     error: 0,
@@ -38,56 +27,18 @@ function createLogFormat() {
         return `${info.timestamp} ${info.level}${space} ${info.message}`;
     });
 
-    return winston.format.combine(colorizer, timestamp, logFormat)
+    return winston.format.combine(colorizer, timestamp, logFormat);
 }
 
-class Logger {
-    constructor() {
-        this.loggers = {};
-    }
-
-    init(logName) {
-        if (!this.loggers[logName]) {
-            const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, '_');
-            const logFileName = logName === 'default' ? path.join(logDir, `${datePart}.log`) : path.join(logDir, `${logName}_${datePart}.log`);
-
-            const logger = winston.createLogger({
-                level: loglevel,
-                levels: customLevels,
-                format: createLogFormat(),
-                transports: [
-                    new winston.transports.Console({}),
-                    new winston.transports.Stream({
-                        stream: fs.createWriteStream(logFileName, { flags: 'a' }),
-                    }),
-                ],
-                exitOnError: false,
-            });
-
-            this.loggers[logName] = logger;
-        }
-
-        return this.loggers[logName];
-    }
-
-    getLoggerByAccount() {
-        const logName = global.account ? `${global.account.serverId}_${global.account.username}` : 'default';
-        return this.init(logName);
-    }
-}
-
-const loggerInstance = new Logger();
-
-function log(level, message) {
-    const logger = loggerInstance.getLoggerByAccount();
-    logger.log({ level, message });
-}
-
-const logger = {
-    error: (message) => log('error', message),
-    warn: (message) => log('warn', message),
-    info: (message) => log('info', message),
-    debug: (message) => log('debug', message),
-};
+// Create a single logger instance
+const logger = winston.createLogger({
+    level: loglevel,
+    levels: customLevels,
+    format: createLogFormat(),
+    transports: [
+        new winston.transports.Console({}),
+    ],
+    exitOnError: false,
+});
 
 export default logger;

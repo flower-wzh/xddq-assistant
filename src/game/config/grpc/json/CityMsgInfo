@@ -310,6 +310,12 @@
             "smMethod": "AlipayStartParamRsp"
         },
         {
+            "key": "S_MEITUAN_SET_START_PARAM",
+            "comment": "美团启动参数",
+            "cmMethod": "MeiTuanStartParamReq",
+            "smMethod": "MeiTuanStartParamRsp"
+        },
+        {
             "key": "S_RECEIVE_SDK_DAILY_REWARD",
             "comment": "Sdk七日登录奖励领取",
             "cmMethod": "ReceiveSdkDailyRewardReq",
@@ -1484,6 +1490,12 @@
             "comment": "获取上古遗迹妖盟成员信息",
             "cmMethod": "BallGVGGetUnionUserListReqMsg",
             "smMethod": "BallGVGGetUnionUserListRespMsg"
+        },
+        {
+            "key": "S_BALLGVG_REDDOT",
+            "comment": "上古遗迹红点",
+            "cmMethod": "BallGVGRedDotReqMsg",
+            "smMethod": "BallGVGRedDotRespMsg"
         }
     ],
     "Homeland": [
@@ -2033,6 +2045,18 @@
             "key": "S_UNION_PLAYER_RATE_SYNC",
             "comment": "登录或者评级变化时 同步玩家的评级数据",
             "smMethod": "NotifyPlayerGradeMsg"
+        },
+        {
+            "key": "S_YARDPB_BUILD_UNION_HELP_LIST",
+            "comment": "妖盟协助列表请求",
+            "cmMethod": "GetYardUnionHelpDataListReq",
+            "smMethod": "GetYardUnionHelpDataListResp"
+        },
+         {
+            "key": "S_YARDPB_BUILD_UNION_HELP",
+            "comment": "协助他人",
+            "cmMethod": "YardUnionHelpReq",
+            "smMethod": "YardUnionHelpResp"
         }
     ],
     "Destiny": [
@@ -2577,6 +2601,18 @@
             "comment": "切换预设",
             "cmMethod": "MagicSwitchPresetsReq",
             "smMethod": "MagicSwitchPresetsResp"
+        },
+        {
+            "key": "S_MAGIC_GET_PRESET_MAGIC_INFO_REQ",
+            "comment": "获取预设神通列表",
+            "cmMethod": "GetPresetMagicInfoReq",
+            "smMethod": "GetPresetMagicInfoResp"
+        },
+        {
+            "key": "S_MAGIC_UN_EQUIP_STONE_REQ",
+            "comment": "拆卸装备的印记",
+            "cmMethod": "UnEquipStoneReq",
+            "smMethod": "UnEquipStoneResp"
         }
     ],
     "WildZoneActivityProto": [
@@ -2820,6 +2856,12 @@
             "smMethod": "UnionBattleReceiveUnionAchieveRewardRsp"
         },
         {
+            "key": "S_UNION_BATTLE_REDDOT",
+            "comment": "红点",
+            "cmMethod": "UnionBattleRedDotReqMsg",
+            "smMethod": "UnionBattleRedDotRespMsg"
+        },
+        {
             "key": "S_UNION_BATTLE_GET_UNION_MEMBER_SCORE",
             "comment": "查看联盟积分",
             "cmMethod": "UnionBattleGetUnionMemberScoreReq",
@@ -3034,6 +3076,12 @@
             "comment": "选择稀有奖励",
             "cmMethod": "SeekTreasureChooseRareRewardReq",
             "smMethod": "SeekTreasureChooseRareRewardResp"
+        },
+        {
+            "key": "S_ACTIVITY_SEEKTREASURE_SELECT_REWARD",
+            "comment": "选择稀有奖励",
+            "cmMethod": "SeekTreasureSelectRewardReqMsg",
+            "smMethod": "SeekTreasureSelectRewardRespMsg"
         }
     ],
     "WestTravel": [
@@ -3881,6 +3929,23 @@
             "comment": "秘境挑战",
             "cmMethod": "StageMapChallengeReq",
             "smMethod": "StageMapChallengeRsp"
+        },
+        {
+            "key": "S_MINI_GAMES_GET_REWARD",
+            "comment": "西天救援领奖",
+            "cmMethod": "GetWestJourneyRewardReq",
+            "smMethod": "GetWestJourneyRewardResp"
+        },
+        {
+            "key": "S_MINI_GAME_ENTER",
+            "comment": "西天救援进入",
+            "cmMethod": "EnterWestJourneyReq",
+            "smMethod": "EnterWestJourneyResp"
+        },
+        {
+            "key": "S_MINI_GAME_LEVEL_DATA_SYNC",
+            "comment": "西天救援关卡数据同步",
+            "smMethod": "MiniGamesWestJourneyData"
         }
     ],
     "HolidayPresent": [
@@ -4188,6 +4253,16 @@
             "cmMethod": "CheckFairyPoolReq",
             "smMethod": "CheckFairyPoolResp"
         },
+        {
+            "key": "S_YARD_LOGIN_SYNC",
+            "comment": "家园登录同步",
+            "smMethod": "YardLoginSync"
+        },
+        {
+            "key": "S_YARD_BUILD_UP_SYNC",
+            "comment": "家园功能建筑升级同步",
+            "smMethod": "YardBuildUpSync"
+        },      
         {
             "key": "S_SHURA_BATTLE_APPLY_CANCEL",
             "comment": "申请、撤销",
@@ -4591,6 +4666,14 @@
             "cmMethod": "GetSystemGroupInfoReq",
             "smMethod": "GetSystemGroupInfoResp"
         }
+    ],
+    "MemoryCollect":[
+        {
+            "key": "S_MEMORY_COLLECT_LOGIN_SYNC_DATA",
+            "comment": "集卡登录同步",
+            "cmMethod": "",
+            "smMethod": "MemoryCollectLoginSyncData"
+        }
     ], 
     "MeiTuanSubscribe": [
         {
@@ -4628,6 +4711,14 @@
             "comment": "美团登录领取",
             "cmMethod": "MeiTuanDailyRewardReq",
             "smMethod": "MeiTuanDailyRewardResp"
+        }
+    ],
+    "LiveShowActivity": [
+        {
+            "key": "S_LIVE_SHOW_NOTIFY_REQ",
+            "comment": "同步直播状态",
+            "cmMethod": "LiveShowNotifyReqMsg",
+            "smMethod": "LiveShowNotifyRespMsg"
         }
     ],
     "Pupil": [
@@ -4704,6 +4795,12 @@
             "comment": "锁定弟子",
             "cmMethod": "PupilLockReq",
             "smMethod": "PupilLockResp"
+        },
+        {
+            "key": "S_PUPIL_EXACT",
+            "comment": "精准查找",
+            "cmMethod": "PupilExactSearchReq",
+            "smMethod": "PupilExactSearchResp"
         }
     ],
     "Marriage": [
@@ -4860,6 +4957,233 @@
             "comment": "天地轮盘二次抽奖",
             "cmMethod": "UniverseDrawTwiceReq",
             "smMethod": "UniverseDrawTwiceResp"
+        }
+    ],
+    "YueBao": [
+        {
+            "key": "S_YUE_BAO_ENTER",
+            "comment": "仙玉宝府进入请求",
+            "cmMethod": "YueBaoEnterReq",
+            "smMethod": "YueBaoEnterResp"
+        },
+        {
+            "key": "S_YUE_BAO_DEPOSIT",
+            "comment": "仙玉宝府存储",
+            "cmMethod": "YueBaoDepositReq",
+            "smMethod": "YueBaoDepositResp"
+        },
+        {
+            "key": "s_YUE_BAO_DATA_SYNC",
+            "comment": "仙玉宝府信息同步",
+            "smMethod": "RechargeItemData"
+        },
+        {
+            "key": "S_YUE_BAO_INTERACTE",
+            "comment": "仙玉宝府互动请求",
+            "cmMethod": "YueBaoInteractReq",
+            "smMethod": "YueBaoInteractResp"
+        }
+    ],
+    "Yard":[
+        {
+             "key": "S_YARDPB_ENTER",
+            "comment": "家园-进入",
+            "cmMethod": "YardEnterReq",
+            "smMethod": "YardEnterResp"
+        },
+        {
+            "key":"S_YARDPB_BUILD_BATTLE",
+            "comment":"家园-战斗解锁区域",
+            "cmMethod": "YardBattleReq",
+            "smMethod": "YardBattleResp"
+        },
+        {
+            "key":"S_YARDPB_BUILD_POS_ACITION",
+            "comment":"家园-建筑摆放",
+            "cmMethod": "YardPosActionReq",
+            "smMethod": "YardPosActionResp"
+        },
+        {
+            "key":"S_YARDPB_CLEAR_GARBAGE",
+            "comment":"家园-清理杂物",
+            "cmMethod": "YardClearReq",
+            "smMethod": "YardClearResp"
+        },
+        {
+            "comment": "ActionMsg解析",
+            "byteDecode": "ActionMsg"
+        },
+        {
+            "comment": "ActionRespMsg解析",
+            "byteDecode": "ActionRespMsg"
+        },
+        {
+            "key":"S_YARDPB_BUILD_LEVEL_UP",
+            "comment":"建筑升级",
+            "cmMethod":"BuildUpLevelReq",
+            "smMethod":"BuildUpLevelResp"
+        },
+        {
+            "key":"S_YARDPB_BUILD_DRAW",
+            "comment":"抽取建筑",
+            "cmMethod":"YardDrawReq",
+            "smMethod":"YardDrawResp"
+        },
+        {
+            "key":"S_YARDPB_BUILD_UNLOCK",
+            "comment":"装饰建筑解锁",
+            "cmMethod":"BuildUnlockReq",
+            "smMethod":"BuildUnlockResp"
+        },
+        {
+            "key":"S_YARDPB_BUILD_BASICDATA_SYNC",
+            "comment":"家园基础数据同步",
+            "smMethod": "YardBaseMsgSync"
+        },
+        {
+            "key":"S_YARDPB_LEVEL_UP",
+            "comment":"家园升级",
+            "cmMethod":"YardLevelUpReq",
+            "smMethod":"YardLevelUpResp"
+        },
+        {
+            "key":"S_YARDPB_BUILD_STATUS_SYNC",
+            "comment":"家园建筑信息同步",
+            "smMethod": "YardBuildInfoMsgSync"
+        },
+        {
+            "key":"S_YARDPB_BUILD_MAKE_NUM_SYNC",
+            "comment":"家园生产信息同步",
+            "smMethod":"YardMakeMsgSync"
+        },
+        {
+            "key":"S_YARDPB_BUILD_GAIN_REWARD",
+            "comment":"建筑领奖",
+            "cmMethod":"YardBuildGainRewardReq",
+            "smMethod":"YardBuildGainRewardResp"
+        },
+        {
+            "key":"S_YARDPB_BUILD_MAKE",
+            "comment":"建筑生产",
+            "cmMethod":"YardBuildMakeReq",
+            "smMethod":"YardBuildMakeResp"
+        },
+        {
+            "key":"S_YARDPB_BUILD_SPEED",
+            "comment":"建筑升级加速",
+            "cmMethod":"YardBuildSpeedUpReq",
+            "smMethod":"YardBuildhSpeedUpResp"
+        },
+        {
+            "key":"S_YARDPB_DATA_SYNC",
+            "comment":"家园每日数据同步",
+            "smMethod": "YardRefreshDataSync"
+        },
+        {
+            "key":"S_YARDPB_MERCHANT_INFO",
+            "comment":"产物商人信息",
+            "cmMethod":"YardMerchantInfoReq",
+            "smMethod":"YardMerchantInfoResp"
+        },
+        {
+            "key":"S_YARDPB_MERCHANT_EXCHANGE",
+            "comment":"产物出售",
+            "cmMethod":"YardMerchantExchangeReq",
+            "smMethod":"YardMerchantExchangeResp"
+        },
+        {
+            "key":"S_YARDPB_CHAT_RECORD_LIST",
+            "comment":"留言板信息",
+            "cmMethod":"YardChatRecordListReq",
+            "smMethod":"YardChatRecordListResp"
+        },
+        {
+            "key":"S_YARDPB_CHAT_SWITCH",
+            "comment":"留言板开关",
+            "cmMethod":"YardChatSwitchReq",
+            "smMethod":"YardChatSwitchResp"
+        },
+        {
+            "key":"S_YARDPB_GIVE_LIKE",
+            "comment":"点赞",
+            "cmMethod":"YardGiveLikeReq",
+            "smMethod":"YardGiveLikeResp"
+        },
+        {
+            "key":"S_YARDPB_CHAT_RECORD",
+            "comment":"留言",
+            "cmMethod":"YardChatRecordReq",
+            "smMethod":"YardChatRecordResp"
+        },
+        {
+            "key":"S_YARDPB_CHAT_ACTION",
+            "comment":"留言操作",
+            "cmMethod":"YardChatActionReq",
+            "smMethod":"YardChatActionResp"
+        },
+        {
+            "key":"S_YARDPB_TREE_HELP",
+            "comment":"桃子协助",
+            "cmMethod":"YardBuildHelpReq",
+            "smMethod":"YardBuildhHelpResp"
+        },
+        {
+            "key":"S_YARDPB_PEACH_HELP_SYNC",
+            "comment":"桃树协助信息同步",
+            "smMethod":"YardPeachHelpDataSync"
+        },
+        {
+            "key":"S_YARDPB_DECORATEDATA_SYNC",
+            "comment":"装饰建筑等级同步",
+            "smMethod":"YardBuildInfoMsg"
+        },
+        {
+            "key":"S_YARDPB_BUILD_CONBINE",
+            "comment":"羁绊共鸣升级",
+            "cmMethod":"YardSkillCombineLvUpReq",
+            "smMethod":"YardSkillCombineLvUpResp"
+        },
+        {
+            "key":"S_YARDPB_INVITE",
+            "comment":"家园请求",
+            "cmMethod":"YardInviteReq",
+            "smMethod":"YardInviteResp"
+        },
+        {
+            "key":"S_YARDPB_BUILD_REQUEST_UNION_HELP",
+            "comment":"请求妖盟协助",
+            "cmMethod":"RequestYardUnionHelpReq",
+            "smMethod":"RequestYardUnionHelpResp"
+        },
+        {
+            "key":"S_YARDPB_ENTER_SHOP",
+            "comment":"进入兑换商店",
+            "cmMethod":"YardEnterShopReq",
+            "smMethod":"YardEnterShopResp"
+        },
+        {
+            "key":"S_YARDPB_REFRESH_SHOP",
+            "comment":"刷新兑换商店",
+            "cmMethod":"YardRefreshShopReq",
+            "smMethod":"YardRefreshShopResp"
+        },
+        {
+            "key":"S_YARDPB_PEACH_RECIVE",
+            "comment":"桃树收取",
+            "cmMethod":"YardPeachGetRewardReq",
+            "smMethod":"YardPeachGetRewardResp"
+        },
+        {
+            "key":"S_YARDPB_PEACH_RECORD_LIST",
+            "comment":"桃树协助列表",
+            "cmMethod":"YardPeachRecordListReq",
+            "smMethod":"YardPeachRecordListResp"
+        },
+        {
+            "key":"S_YARDPB_BUILD_ONE_KEY_LEVEL_UP",
+            "comment":"家园装饰建筑一键升级",
+            "cmMethod":"YardOneKeyLevelUpReq",
+            "smMethod":"YardOneKeyLevelUpResp"
         }
     ]
 }

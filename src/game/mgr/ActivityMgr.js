@@ -2,7 +2,6 @@ import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 
-
 export default class ActivityMgr {
     constructor() { }
 
@@ -24,21 +23,39 @@ export default class ActivityMgr {
         }
     }
 
+    // t.activity.detailConfig.commonConfig.mainConfig
+    // {
+    //     "activityId": 10012081,
+    //     "type": 131,
+    //     "childType": 1,
+    //     "beginShowTime": "1726070400000",
+    //     "endShowTime": "1726502400000",
+    //     "beginTime": "1726070400000",
+    //     "endTime": "1726408800000",
+    //     "serverId": Array[32],
+    //     "groupType": 0
+    // },
     // 1002 1007 
     getReward(t) {
-        const acts = t.activityDataList ?? t.activityConditionDataList ?? null;
+        const acts = t.activity.conditionDataList;
         if (acts) {
+            const activityId = t.activity.activityId;
+
+            // 黑名单会跳过
+            const blackList = [9211906, 9295167, 9269555]
+            if (blackList.includes(activityId)) {
+                logger.debug(`[活动管理] ${activityId} 被跳过`);
+                return;
+            }
+
             for (const i of acts) {
-                const activityId = i.activityId;
-                // 领取所有未领取的奖励
-                for (const j of i.conditionDataList) {
-                    if (!j.isGetReward && j.completeTime.toString() !== "0") {
-                        logger.info(`[活动管理] ${activityId} 满足条件领取奖励: ${j.conditionId}`);
-                        GameNetMgr.inst.sendPbMsg(Protocol.S_GOOD_FORTUNE_GET_REWARD_REQ, { activityId: activityId, conditionId: j.conditionId, type: 1 }, null);
-                    }
+                if (!i.isGetReward && i.completeTime.toString() !== "0") {
+                    logger.info(`[活动管理] ${activityId} 满足条件领取奖励: ${i.conditionId}`);
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_CONDITION_REWARD, { activityId: activityId, conditionId: i.conditionId }, null);
                 }
             }
         }
+       this.buyFree({"activityDataList":[t.activity]})
     }
 
     // 1003
@@ -55,7 +72,7 @@ export default class ActivityMgr {
                 const logAndBuy = (remaining) => {
                     logger.info(`[活动管理] ${activityId} 购买 ${name} ${remaining}次`);
                     for (let i = 0; i < remaining; i++) {
-                        GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId, mallId: id, count: "1" }, null);
+                        GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId, mallId: id, count: 1 }, null);
                     }
                 };
 

@@ -102,7 +102,7 @@ import "Common";
         optional ActivityDetailConfig detailConfig = 4; 
         optional bytes playerData = 5;
         repeated ActivityScoreDataMsg activityScoreDataMsg = 6; 
-        repeated UnionServerIdData unionServerIdList = 7;       
+        repeated UnionNameServerIdData unionNameServerIdDataList = 7;       
         optional int64 unionLockTime = 8; 
     }
     message ActivityScoreDataMsg {
@@ -137,10 +137,12 @@ import "Common";
         optional int32 mallId = 2; 
         optional int64 count = 3; 
         optional bool isUseADTime = 4;
+        optional string extra = 5;
     }
     message RspBuyActivityGoods {
         optional int32 ret = 1;
         optional string rewards = 2;
+        optional string extra = 3;
     }
     message ActivityConditionDataListSync {
         repeated ActivityConditionDataList activityConditionDataList = 1;
