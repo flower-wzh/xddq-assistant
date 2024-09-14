@@ -8,6 +8,9 @@ import AuthService from "#services/authService.js";
 import MsgRecvMgr from '#game/common/MsgRecvMgr.js';
 import LoopMgr from '#game/common/LoopMgr.js';
 
+const messageQueue = []; // 创建消息队列
+let isSending = false; // 标记是否正在发送消息
+
 class GameNetMgr {
     constructor() {
         this.token = null;
@@ -112,7 +115,7 @@ class GameNetMgr {
         };
     }
 
-    sendPbMsg(msgId, msgData, callback, extraCmd) {
+    sendPbMsg(msgId, msgData, callback, extraCmd, directSend = false) {
         if (!this.net.isConnected()) {
             return;
         }
@@ -147,7 +150,32 @@ class GameNetMgr {
             this.addHandler(extraCmd, callback);
         }
 
-        this.net.sendMsg(stream);
+        if (directSend) {
+            this.net.send(stream.buff);
+        } else {
+            messageQueue.push({ msgId, msgData, callback, extraCmd });
+            this.startSending();
+        }
+    }
+
+    startSending() {
+        if (isSending || messageQueue.length === 0) {
+            return;
+        }
+
+        isSending = true;
+
+        const sendNextMessage = () => {
+            if (messageQueue.length > 0) {
+                const { msgId, msgData, callback, extraCmd } = messageQueue.shift();
+                this.sendPbMsg(msgId, msgData, callback, extraCmd, true);
+                setTimeout(sendNextMessage, 15);
+            } else {
+                isSending = false;
+            }
+        };
+
+        sendNextMessage();
     }
 
     parseArrayBuffMsg(arrayBuffer) {
