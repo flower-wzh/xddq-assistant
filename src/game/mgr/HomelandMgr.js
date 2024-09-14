@@ -136,7 +136,7 @@ export default class HomelandMgr {
 
     // 虚弱时使用的福地规则
     static WEAK_RULES = [
-        { ItemId: 100004, minItemLv: 5, isCheck: true, description: "仙桃" },
+        { ItemId: 100004, minItemLv: 3, isCheck: true, description: "仙桃" },
         { ItemId: 100025, minItemLv: 5, isCheck: true, description: "净瓶水" },
         { ItemId: 100000, minItemLv: 5, isCheck: true, description: "仙玉" },
         { ItemId: 100003, minItemLv: 5, isCheck: false, description: "灵石" },
