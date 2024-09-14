@@ -49,7 +49,10 @@ export default class CustomMgr {
             // 宝华堂
             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { mallId: 400000003, count: 1, activityId: 9875533 });
             //福泽签到
-            GameNetMgr.inst.sendPbMsg(Protocol.S_GOOD_FORTUNE_GET_REWARD_REQ, {activityId: 9295167, conditionId: 10001, type: 1 });
+            for (let i = 0; i < 8; i++) {
+                conditionId = 10000 + i
+                GameNetMgr.inst.sendPbMsg(Protocol.S_GOOD_FORTUNE_GET_REWARD_REQ, { activityId: 9295167, conditionId: conditionId, type: 1 }, null);
+            }
             //疯狂聚宝盆签到
             for (let i = 0; i < 8; i++) {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_TREASURE_BOWL_SIGN, {activityId: 9295167, conditionId: 10001, getType: i });

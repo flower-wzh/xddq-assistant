@@ -28,6 +28,7 @@ import RuleTrialMgr from "#game/mgr/RuleTrialMgr.js";
 import PetsMgr from "#game/mgr/PetsMgr.js";
 import UniverseMgr from "#game/mgr/UniverseMgr.js";
 import YueBaoMgr from "#game/mgr/YueBaoMgr.js";
+import YardDpbMgr from "#game/mgr/YardDpbMgr.js";
 import UnionTreasureMgr from "#game/mgr/UnionTreasureMgr.js";
 
 class MsgRecvMgr {
@@ -293,15 +294,15 @@ class MsgRecvMgr {
     // // 1002 同步活动详细配置
     static ActivityCommonDataListSync(t) {
         ActivityMgr.inst.buyFree(t);
-    //     logger.debug("[MsgRecvMgr] 同步活动详细配置");
-    //     for (const i of t.activityDataList) {
-    //         const activityId = i.activityId;
-    //         // 如果 i.detailConfig.commonConfig 中包含mallConfig
-    //         if (i.detailConfig.commonConfig.mallConfig) {
-    //             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_DATA, { activityId: activityId });
-    //         }
-    //     }
-    //     // ActivityMgr.inst.getReward(t); // 有问题
+        //     logger.debug("[MsgRecvMgr] 同步活动详细配置");
+        //     for (const i of t.activityDataList) {
+        //         const activityId = i.activityId;
+        //         // 如果 i.detailConfig.commonConfig 中包含mallConfig
+        //         if (i.detailConfig.commonConfig.mallConfig) {
+        //             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_DATA, { activityId: activityId });
+        //         }
+        //     }
+        //     // ActivityMgr.inst.getReward(t); // 有问题
     }
 
     // // 1007 活动 增量同步活动数据 
@@ -319,7 +320,7 @@ class MsgRecvMgr {
         if (!activityMgrEnabled) {
             logger.debug(`[活动管理] 未开启`);
         } else {
-            ActivityMgr.inst.getReward(t);     
+            ActivityMgr.inst.getReward(t);
         }
     }
 
@@ -404,9 +405,27 @@ class MsgRecvMgr {
     }
 
     // 216207 妖盟寻宝
-    static UnionTreasureEnterResp(t){
+    static UnionTreasureEnterResp(t) {
         logger.debug("[MsgRecvMgr] 进入妖盟寻宝");
         UnionTreasureMgr.inst.UnionTreasureEnterResp(t)
+    }
+
+    //15843 仙居登录同步 
+    static YardLoginSync(t) {
+        logger.debug("[MsgRecvMgr] 仙居登录同步");
+        YardDpbMgr.inst.YardLoginSync(t)
+    }
+
+    //15801 仙居-进入
+    static YardEnterResp(t) {
+        logger.debug("[MsgRecvMgr] 仙居-进入同步");
+        YardDpbMgr.inst.YardEnterResp(t)
+    }
+
+    //15849 家园生产信息同步
+    static YardMakeMsgSync(t) {
+        logger.debug("[MsgRecvMgr] 家园生产信息同步");
+        YardDpbMgr.inst.YardMakeMsgSync(t)
     }
 
     // TODO 以下暂时不想写
