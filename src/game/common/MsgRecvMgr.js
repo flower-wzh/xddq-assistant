@@ -31,12 +31,6 @@ import YueBaoMgr from "#game/mgr/YueBaoMgr.js";
 import YardDpbMgr from "#game/mgr/YardDpbMgr.js";
 import UnionTreasureMgr from "#game/mgr/UnionTreasureMgr.js";
 
-import fs from 'fs/promises';
-import path from 'path';
-import createPath from '#utils/path.js';
-
-const resolvePath = createPath(import.meta.url);
-
 class MsgRecvMgr {
     constructor() {
         this.loginMsgIdList = [
@@ -48,27 +42,23 @@ class MsgRecvMgr {
         ];
     }
 
-    static async reset() {
-        const mgrPath = resolvePath('../mgr');
+    static reset() {
+        const managers = [
+            CustomMgr, BagMgr, FrogMgr, DestinyMgr, UserMgr, 
+            SpiritMgr, PlayerAttributeMgr, PalaceMgr, MagicMgr, 
+            MagicTreasureMgr, PupilMgr, GatherEnergyMgr, WildBossMgr,TowerMgr, 
+            ChapterMgr, SecretTowerMgr, HeroRankMgr, ActivityMgr, UnionMgr,
+            HomelandMgr, InvadeMgr, StarTrialMgr, AdRewardMgr, RuleTrialMgr, 
+            PetsMgr, UniverseMgr, YueBaoMgr, YardDpbMgr, UnionTreasureMgr
+        ];
 
-        try {
-            const mgrFiles = await fs.readdir(mgrPath);
-
-            const managers = mgrFiles.filter(file => path.extname(file) === '.js').map(file => path.basename(file, '.js'));
-
-            managers.forEach((mgr) => {
-                const ManagerClass = global[mgr];
-
-                if (ManagerClass && typeof ManagerClass.reset === 'function') {
-                    ManagerClass.reset();
-                    logger.info(`[MsgRecvMgr] ${mgr} 重置成功`);
-                } else {
-                    logger.warn(`[MsgRecvMgr] ${mgr} 不支持 reset 方法`);
-                }
-            });
-        } catch (err) {
-            logger.error(`[MsgRecvMgr] 读取管理器目录失败: ${err.message}`);
-        }
+        managers.forEach((mgr) => {
+            if (typeof mgr.reset === 'function') {
+                mgr.reset();
+            } else {
+                logger.warn(`[MsgRecvMgr] ${mgr.name} 不支持 reset 方法`);
+            }
+        });
     }
 
     // 101 用户信息同步
