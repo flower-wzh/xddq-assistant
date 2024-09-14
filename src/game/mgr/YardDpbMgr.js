@@ -81,7 +81,7 @@ export default class YardDpbMgr {
     YardBuildGainReward() {
         if (!this.retLock) return;
         const now = Date.now();
-        const whileList = [ 1001 ] // 1001 是药田
+        const whileList = [ 1001, 1002, 1003, 1004 ] // 1001 采药, 1002 收丹药 , 1003 收桃子, 1004 收孕育
 
         if (this.lastGainRewardTime == 0 || now - this.lastGainRewardTime >= this.GainRewardCD) {
             if (this.buildingMsg.length > 0) {
