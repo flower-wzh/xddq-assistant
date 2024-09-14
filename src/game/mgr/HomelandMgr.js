@@ -134,6 +134,17 @@ export default class HomelandMgr {
         { ItemId: 100047, minItemLv: 5, isCheck: false, description: "昆仑铁" },
     ]
 
+    // 虚弱时使用的福地规则
+    static WEAK_RULES = [
+        { ItemId: 100004, minItemLv: 3, isCheck: true, description: "仙桃" },
+        { ItemId: 100025, minItemLv: 5, isCheck: true, description: "净瓶水" },
+        { ItemId: 100000, minItemLv: 5, isCheck: true, description: "仙玉" },
+        { ItemId: 100003, minItemLv: 5, isCheck: false, description: "灵石" },
+        { ItemId: 100029, minItemLv: 5, isCheck: true, description: "琉璃珠" },
+        { ItemId: 100044, minItemLv: 5, isCheck: true, description: "天衍令" },
+        { ItemId: 100047, minItemLv: 5, isCheck: false, description: "昆仑铁" },
+    ]
+
     static get inst() {
         if (!this._instance) {
             this._instance = new HomelandMgr();
@@ -157,6 +168,10 @@ export default class HomelandMgr {
         this.rules = global.account.rules || HomelandMgr.DEAFULT_RULES;
 
         if (t.freeWorkerNum > 0 && t.energy > 0) {
+            // 体力虚弱时按照虚弱规则偷取福地
+            if (t.energy < 20 && t.energy > 1) {
+                this.rules = Homeland.WEAK_RULES
+            }
             logger.info(`[福地管理] 有${t.freeWorkerNum}只空闲老鼠, 还剩${t.energy}体力`);
             this.worker.ready = true;
         } else {
