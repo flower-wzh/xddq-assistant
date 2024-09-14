@@ -67,7 +67,7 @@ export default class YueBaoMgr {
     async loopUpdate() {
         const currentTime = Date.now();
 
-        // 如果正在处理或者30分钟内已经调用过 enter，则直接返回
+        // 如果正在处理或者5分钟内已经调用过 enter，则直接返回
         if (this.isProcessing || currentTime - this.lastEnterTime < this.enterInterval) return;
 
         this.isProcessing = true;
