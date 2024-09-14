@@ -44,7 +44,7 @@ export default class YueBaoMgr {
                 }
 
                 // 当 playerData.endTime == "0", playerData.index == 0, playerData.depositNum == 0 且仙玉大于3000，执行存钱操作
-                const xianYu = BagMgr.inst.getGoodsNum(100004) || 0;
+                const xianYu = BagMgr.inst.getGoodsNum(100000) || 0;
 
                 if (!this.hasDeposited && parseInt(playerData.endTime) == 0 && playerData.index == 0 && playerData.depositNum == 0 && xianYu > 3000) {
                     logger.info(`[余额宝管理] 执行存款操作`);
