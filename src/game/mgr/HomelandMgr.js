@@ -168,9 +168,8 @@ export default class HomelandMgr {
         this.rules = global.account.rules || HomelandMgr.DEAFULT_RULES;
 
         if (t.freeWorkerNum > 0 && t.energy > 0) {
+            // 体力虚弱时按照虚弱规则偷取福地
             if (t.energy < 20 && t.energy > 1) {
-                this.rules = HomelandMgr.DEAFULT_RULES
-            } else if (t.energy == 1) {
                 this.rules = Homeland.WEAK_RULES
             }
             logger.info(`[福地管理] 有${t.freeWorkerNum}只空闲老鼠, 还剩${t.energy}体力`);
