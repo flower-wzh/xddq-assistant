@@ -21,9 +21,6 @@ export default class PupilMgr {
     }
 
     static reset() {
-        if (this._instance) {
-            this._instance.clear();
-        }
         this._instance = null;
     }
 

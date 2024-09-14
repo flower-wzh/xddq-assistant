@@ -24,9 +24,6 @@ export default class ChapterMgr {
     }
 
     static reset() {
-        if (this._instance) {
-            this._instance.clear();
-        }
         this._instance = null;
     }
 

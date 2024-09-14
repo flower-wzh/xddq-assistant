@@ -22,9 +22,6 @@ export default class HeroRankMgr {
     }
 
     static reset() {
-        if (this._instance) {
-            this._instance.clear();
-        }
         this._instance = null;
     }
 

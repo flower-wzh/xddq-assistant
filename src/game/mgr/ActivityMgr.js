@@ -16,9 +16,6 @@ export default class ActivityMgr {
     }
     
     static reset() {
-        if (this._instance) {
-            this._instance.clear();
-        }
         this._instance = null;
     }
 
