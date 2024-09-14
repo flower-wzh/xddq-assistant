@@ -51,7 +51,7 @@ export default class UnionTreasureMgr {
         console.log(this.lotteryTimes)
         for (let i = this.lotteryTimes; i < this.lotteryTimesMax; i++) {
             logger.info(`[妖盟寻宝] 第${i}次寻宝`);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_TREASURE_DRWA_CHIP, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_TREASURE_DRWA_CHIP, {});
         }
         this.lotteryTimes = this.lotteryTimesMax
     }
@@ -60,7 +60,7 @@ export default class UnionTreasureMgr {
     getReward() {
         logger.info(`[妖盟寻宝] 开始领奖`);
         for (let i = 290001; i < 290006; i++) {
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { "taskId": [i] }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { "taskId": [i] });
         }
     }
 
@@ -72,7 +72,7 @@ export default class UnionTreasureMgr {
         try {
             if (this.lotteryTimes == null && !this.lock) {
                 this.lock = true
-                GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_TREASURE_ENTER, {}, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_TREASURE_ENTER, {});
                 logger.info(`[妖盟寻宝] 进入寻宝`);
                 return
             }

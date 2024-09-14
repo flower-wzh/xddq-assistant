@@ -49,7 +49,7 @@ export default class UniverseMgr {
     //天地轮盘二次抽奖
     UniverseDrawTwiceReq() {
         if (this.drawTwiceStatus == 2) { //观察
-            GameNetMgr.inst.sendPbMsg(Protocol.S_UNIVERSE_DRAW_TWICE, { pos: 1 }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_UNIVERSE_DRAW_TWICE, { pos: 1 });
             return
         }
         //连线

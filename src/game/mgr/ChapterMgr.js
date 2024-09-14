@@ -64,7 +64,7 @@ export default class ChapterMgr {
                 const idx = global.account.switch.challengeIndex || 0;
                 PlayerAttributeMgr.inst.setSeparationIdx(idx)
                 //挑战
-                GameNetMgr.inst.sendPbMsg(Protocol.S_STAGE_CHALLENGE, {}, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_STAGE_CHALLENGE, {});
                 this.challenge--;
                 await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
             }

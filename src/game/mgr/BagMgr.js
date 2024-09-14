@@ -63,7 +63,7 @@ export default class BagMgr {
         this.mallBuyCountList = t.mallBuyCountList || [];
         if (this.isMallCountZero(250000001)) {
             logger.info("[自动买买买] 群英镑商店 买桃");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_MALL_BUY_GOODS, { mallId: 250000001, count: 1, activityId: 0 }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_MALL_BUY_GOODS, { mallId: 250000001, count: 1, activityId: 0 });
             this.setMallCount(250000001, 1); // 更新购买数量
         }
     }
@@ -85,9 +85,9 @@ export default class BagMgr {
             const count = this.ticket + vipLevel * 3;
             if (fightTicket > count) {
                 logger.info(`[背包管理] 还剩 ${fightTicket} 张斗法券 自动斗法`);
-                GameNetMgr.inst.sendPbMsg(Protocol.S_RANK_BATTLE_GET_BATTLE_LIST, {}, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_RANK_BATTLE_GET_BATTLE_LIST, {});
                 await new Promise((resolve) => setTimeout(resolve, 1000));
-                GameNetMgr.inst.sendPbMsg(Protocol.S_RANK_BATTLE_CHALLENGE, { index: 0 }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_RANK_BATTLE_CHALLENGE, { index: 0 });
             }
 
             // 万年灵芝 > 0 的时候自动激活

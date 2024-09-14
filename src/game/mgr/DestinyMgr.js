@@ -38,7 +38,7 @@ export default class DestinyMgr {
             if (now - this.lastAdRewardTime >= this.AD_REWARD_CD) {
                 logger.info(`[仙友管理] 进行游历`);
                 // 一键游历 等级达到练虚
-                GameNetMgr.inst.sendPbMsg(Protocol.S_DESTINY_TRAVEL, { isOneKey: PlayerAttributeMgr.bigType >= 5 }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_DESTINY_TRAVEL, { isOneKey: PlayerAttributeMgr.bigType >= 5 });
                 this.lastAdRewardTime = now;
             }
         } catch (error) {

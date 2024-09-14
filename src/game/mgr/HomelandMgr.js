@@ -7,17 +7,17 @@ import UserMgr from "#game/mgr/UserMgr.js";
 class Homeland {
     static ExploreReq() {
         logger.debug("[福地管理] 福地探寻");
-        return GameNetMgr.inst.sendPbMsg(Protocol.S_HOMELAND_EXPLORE, {}, null);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_HOMELAND_EXPLORE, {});
     }
 
     static Manage() {
         logger.debug("[福地管理] 福地管理");
-        return GameNetMgr.inst.sendPbMsg(Protocol.S_HOMELAND_MANAGE, {}, null);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_HOMELAND_MANAGE, {});
     }
 
     static ExploreEnter(playerId) {
         logger.debug(`[福地管理] 进入${playerId}的福地`);
-        return GameNetMgr.inst.sendPbMsg(Protocol.S_HOMELAND_ENTER, { playerId: playerId }, null);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_HOMELAND_ENTER, { playerId: playerId });
     }
 
     static Steal(playerId, pos, workerNum = 1) {
@@ -40,12 +40,12 @@ class Homeland {
 
     static RefreshNear() {
         logger.debug("[福地管理] 刷新附近玩家");
-        return GameNetMgr.inst.sendPbMsg(Protocol.S_HOMELAND_EXPLORE_REFRESH, {}, null);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_HOMELAND_EXPLORE_REFRESH, {});
     }
 
     static ADReward() {
         logger.debug("[福地管理] 广告奖励");
-        return GameNetMgr.inst.sendPbMsg(Protocol.S_HOMELAND_REFRESH_RESOURCE, { type: 1, position: -1, itemId: 0, isUseADTime: false }, null);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_HOMELAND_REFRESH_RESOURCE, { type: 1, position: -1, itemId: 0, isUseADTime: false });
     }
 }
 

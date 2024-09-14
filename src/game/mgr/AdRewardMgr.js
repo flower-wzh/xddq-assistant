@@ -34,7 +34,7 @@ export default class AdRewardMgr {
             if (firstTask.protoId && firstTask.data) {
                 logger.info(`[广告管理] 执行任务 ${firstTask.logStr}`);
                 try {
-                    GameNetMgr.inst.sendPbMsg(firstTask.protoId, firstTask.data, null);
+                    GameNetMgr.inst.sendPbMsg(firstTask.protoId, firstTask.data);
                     this.taskList.splice(0, 1); // 确保在任务执行后移除任务
                 } catch (error) {
                     logger.error(`[广告管理] 执行任务失败: ${error}`);

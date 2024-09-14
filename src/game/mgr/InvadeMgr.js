@@ -52,7 +52,7 @@ export default class InvadeMgr {
             const idx = global.account.switch.invadeIndex || 0;
             PlayerAttributeMgr.inst.setSeparationIdx(idx)
             //挑战
-            GameNetMgr.inst.sendPbMsg(Protocol.S_INVADE_CHALLENGE, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_INVADE_CHALLENGE, {});
             this.battleNum++
         } catch (error) {
             logger.error(`[异兽入侵] InvadeDataMsg error: ${error}`);

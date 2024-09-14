@@ -34,7 +34,7 @@ export default class HeroRankMgr {
             if (this.enabled && this.buyNumDaily < this.buyNumMax && this.energy <= 50) {
                 const num = this.buyNumMax - this.buyNumDaily;
                 logger.info(`[群英榜管理] 购买体力 ${num}次`);
-                GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_BUY_ENERGY, { num: num }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_BUY_ENERGY, { num: num });
                 this.buyNumDaily = this.buyNumMax;
             }
         } catch (error) {
@@ -142,7 +142,7 @@ export default class HeroRankMgr {
             const isZeroFive = now.getHours() === 0 && now.getMinutes() >= 5 && now.getMinutes() <= 10;
             if (this.enabled && this.energy > 0 && isZeroFive) {
                 logger.info("[群英榜管理] 开始快速打群英榜");
-                GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_GET_FIGHT_LIST, { type: 0 }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_GET_FIGHT_LIST, { type: 0 });
             }
         } catch (error) {
             logger.error(`[群英榜管理] loopUpdate error: ${error}`);

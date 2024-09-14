@@ -24,14 +24,14 @@ export default class PalaceMgr {
         for (let i = 0; i < t.data.length; i++) {
             const id = t.data[i].id;
             logger.info(`[仙宫管理] 收获礼物 ${id}`);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_SEND_GIFT_GET_REWARD, { id: id, getReward: true, type: "SendGiftType_Palace" }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_SEND_GIFT_GET_REWARD, { id: id, getReward: true, type: "SendGiftType_Palace" });
             await new Promise((resolve) => setTimeout(resolve, 1000));
         }
     }
 
     PalaceWorshipRsp(t) {
         if (t.titleId) {
-            GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_WORSHIP, { titleId: t.titleId, isRandom: 0 }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_WORSHIP, { titleId: t.titleId, isRandom: 0 });
         }
     }
 
@@ -39,12 +39,12 @@ export default class PalaceMgr {
         logger.debug("[仙宫管理] 检查崇拜");
         if (t.worship && t.worshipRandom) {
             logger.info("[仙宫管理] 尝试今日点赞");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_WORSHIP, { titleId: 0, isRandom: 1 }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_WORSHIP, { titleId: 0, isRandom: 1 });
         }
         t.palaceData.forEach((palace) => {
             if (palace.worship) {
                 logger.info(`[仙宫管理] 处理崇拜标题ID: ${palace.titleId}`);
-                GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_WORSHIP, { titleId: palace.titleId, isRandom: 0 }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_WORSHIP, { titleId: palace.titleId, isRandom: 0 });
             }
         });
     }
@@ -58,7 +58,7 @@ export default class PalaceMgr {
             this.isMiracle = true;
         } else {
             logger.info("[仙宫管理] 尝试今日点赞");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_WORSHIP, { titleId: 0, isRandom: 1 }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_WORSHIP, { titleId: 0, isRandom: 1 });
         }
     }
 }

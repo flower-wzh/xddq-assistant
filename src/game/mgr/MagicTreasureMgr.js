@@ -56,7 +56,7 @@ export default class MagicTreasureMgr {
         for (const pool of this.jackpotData) {
             if (pool.adFreeTimes < this.AD_REWARD_DAILY_MAX_NUM && now - pool.lastAdTime >= this.AD_REWARD_CD) {
                 logger.info(`[法宝管理] [${pool.name}] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - pool.adFreeTimes} 次广告激励`);
-                // GameNetMgr.inst.sendPbMsg(Protocol.S_MAGIC_TREASURE_DRAW_REQ, { drawTimes: 1, isAd: true, poolId: pool.poolId, isUseADTime: false }, null);
+                // GameNetMgr.inst.sendPbMsg(Protocol.S_MAGIC_TREASURE_DRAW_REQ, { drawTimes: 1, isAd: true, poolId: pool.poolId, isUseADTime: false });
 
                 const logContent = `[法宝] [${pool.name}] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - pool.adFreeTimes} 次广告激励`;
                 AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_MAGIC_TREASURE_DRAW_REQ, data: { drawTimes: 1, isAd: true, poolId: pool.poolId, isUseADTime: false }, logStr: logContent });
@@ -66,7 +66,7 @@ export default class MagicTreasureMgr {
 
             if (pool.freeDrawTimes < this.FREE_NUM) {
                 logger.info(`[法宝管理] [${pool.name}] 还剩 ${this.FREE_NUM - pool.freeDrawTimes} 次免费次数`);
-                GameNetMgr.inst.sendPbMsg(Protocol.S_MAGIC_TREASURE_DRAW_REQ, { drawTimes: 1, isAd: false, poolId: pool.poolId, itemId: pool.cost }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_MAGIC_TREASURE_DRAW_REQ, { drawTimes: 1, isAd: false, poolId: pool.poolId, itemId: pool.cost });
                 pool.freeDrawTimes++;
             }
         }

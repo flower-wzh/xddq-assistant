@@ -61,7 +61,7 @@ export default class SecretTowerMgr {
                 const idx = global.account.switch.challengeIndex || 0;
                 PlayerAttributeMgr.inst.setSeparationIdx(idx)
                 //挑战
-                GameNetMgr.inst.sendPbMsg(Protocol.S_SECRETTOWER_FIGHT, { type: 1 }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_SECRETTOWER_FIGHT, { type: 1 });
                 this.challenge--;
                 await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
             }

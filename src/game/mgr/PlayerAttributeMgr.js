@@ -16,57 +16,57 @@ class Attribute {
             ? [...new Set(separation.strictConditions.flatMap(condition => [...condition.primaryAttribute, ...condition.secondaryAttribute]))]
             : separation.condition.flat();
 
-        return GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_DREAM_MSG, { auto: true, attr: attr, times: times }, null);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_DREAM_MSG, { auto: true, attr: attr, times: times });
     }
 
     static CheckUnfinishedEquipment() {
         logger.debug(`查看掉落装备`);
-        return GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_UNDEAL_EQUIPMENT_MSG, {}, null);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_UNDEAL_EQUIPMENT_MSG, {});
     }
 
     static FetchSeparation() {
         logger.debug(`获取分身数据`);
-        return GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {}, null);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {});
     }
 
     static SwitchSeparation(idx) {
         logger.debug(`切换分身 ${idx}`);
-        return GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_SWITCH_SEPARATION_REQ, { separationIdx: idx }, null);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_SWITCH_SEPARATION_REQ, { separationIdx: idx });
     }
 
     static DealEquipmentEnum_Resolve(idList) {
         logger.debug(`粉碎装备`);
-        return GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_EQUIPMENT_DEAL_MSG, { type: 1, idList: idList }, null);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_EQUIPMENT_DEAL_MSG, { type: 1, idList: idList });
     }
 
     static DealEquipmentEnum_EquipAndResolveOld(id) {
         logger.debug(`佩戴装备 & 分解旧装备`);
-        return GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_EQUIPMENT_DEAL_MSG, { type: 2, idList: [id] }, null);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_EQUIPMENT_DEAL_MSG, { type: 2, idList: [id] });
     }
 
     static RandomTalentReq(times) {
         logger.debug(`[灵脉] 随机灵脉 ${times} 次`);
-        return GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_RANDOM_TALENT, { randomTimes: times }, null);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_RANDOM_TALENT, { randomTimes: times });
     }
 
     static CheckUnfinishedTalent() {
         logger.debug(`查看掉落灵脉`);
-        return GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_GET_UNDEAL_TALENT_MSG, {}, null);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_GET_UNDEAL_TALENT_MSG, {});
     }
 
     // static DealTalentEnum_Equip() {
     //     logger.debug(`给当前分身装备灵脉`);
-    //     return GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_DEAL_TALENT, { dealData: [{ index: 0, type: 0 }] }, null);
+    //     return GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_DEAL_TALENT, { dealData: [{ index: 0, type: 0 }] });
     // }
 
     static DealTalentEnum_Resolve() {
         logger.debug(`粉碎灵脉`);
-        return GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_DEAL_TALENT, { dealData: [{ index: 0, type: 1 }] }, null);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_DEAL_TALENT, { dealData: [{ index: 0, type: 1 }] });
     }
 
     static DealTalentEnum_EquipAndResolveOld() {
         logger.debug(`佩戴灵脉 & 分解旧灵脉`);
-        return GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_DEAL_TALENT, { dealData: [{ index: 0, type: 2 }] }, null);
+        return GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_DEAL_TALENT, { dealData: [{ index: 0, type: 2 }] });
     }
 }
 
@@ -334,7 +334,7 @@ export default class PlayerAttributeMgr {
         // TODO 加个counter 当大于350后 且在妖盟中 触发下面任务
         if (UnionMgr.inst.inUnion && !this.doneUnionTask) {
             if (peachNum - this.initPeachNum >= 350) {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120001, 120002, 120003, 120004, 120005] }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120001, 120002, 120003, 120004, 120005] });
                 this.doneUnionTask = true;
             }
         }
@@ -675,7 +675,7 @@ export default class PlayerAttributeMgr {
 
             const logContent = `[仙树] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`;
             AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_ATTRIBUTE_DREAM_LV_UP_SPEED_UP, data: { speedUpType: 1, useTimes: 1, isUseADTime: false }, logStr: logContent });
-            // GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_DREAM_LV_UP_SPEED_UP, { speedUpType: 1, useTimes: 1, isUseADTime: false }, null);
+            // GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_DREAM_LV_UP_SPEED_UP, { speedUpType: 1, useTimes: 1, isUseADTime: false });
             this.getAdRewardTimes++;
             this.lastAdRewardTime = now;
         }
@@ -693,7 +693,7 @@ export default class PlayerAttributeMgr {
             PlayerAttributeMgr.isMonthCardVip = true;
             if (!getMonthlyCardRewardToday) {
                 logger.info(`[玩家管理] 月卡领取奖励`);
-                GameNetMgr.inst.sendPbMsg(Protocol.S_PRIVILEGE_CARD_RECEIVE_REWARD, { type: 1 }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_PRIVILEGE_CARD_RECEIVE_REWARD, { type: 1 });
             }
         }
 
@@ -702,7 +702,7 @@ export default class PlayerAttributeMgr {
             PlayerAttributeMgr.isYearCardVip = true;
             if (!getYearCardRewardToday) {
                 logger.info(`[玩家管理] 年卡领取奖励`);
-                GameNetMgr.inst.sendPbMsg(Protocol.S_PRIVILEGE_CARD_RECEIVE_REWARD, { type: 2 }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_PRIVILEGE_CARD_RECEIVE_REWARD, { type: 2 });
             }
         }
     }

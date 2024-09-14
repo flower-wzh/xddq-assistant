@@ -40,7 +40,7 @@ export default class PetsMgr {
     processReward() {
         if (this.freeDrawTimes < this.FREE_NUM) {
             logger.info(`[灵兽内丹] 还剩 ${this.FREE_NUM - this.freeDrawTimes} 次免费次数`);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_PET_KERNEL_DRAW, { isTen: false }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_PET_KERNEL_DRAW, { isTen: false });
             this.freeDrawTimes++;
         }
     }

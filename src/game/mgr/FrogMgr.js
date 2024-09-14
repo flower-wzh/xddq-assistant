@@ -35,7 +35,7 @@ export default class FrogMgr {
         const now = Date.now();
         if (this.getAdRewardTimes < this.AD_REWARD_DAILY_MAX_NUM && now - this.lastAdRewardTime >= this.AD_REWARD_CD) {
             logger.info(`[青蛙管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`);
-            // GameNetMgr.inst.sendPbMsg(Protocol.S_AD_REWARD_GET_REWARD, { isUseADTime: false }, null);
+            // GameNetMgr.inst.sendPbMsg(Protocol.S_AD_REWARD_GET_REWARD, { isUseADTime: false });
 
             const logContent = `[青蛙管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`;
             AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_AD_REWARD_GET_REWARD, data: { isUseADTime: false }, logStr: logContent });

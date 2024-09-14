@@ -34,7 +34,7 @@ export default class TowerMgr {
         this.data = t || {};
         if (this.data.curPassId !== 0) {
             logger.info("[镇妖塔管理] 一键选择!!!")
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_SELECT_BUFF, { index: 0, isOneKey: true }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_SELECT_BUFF, { index: 0, isOneKey: true });
         }
         this.isSyncing = false;
     }
@@ -49,7 +49,7 @@ export default class TowerMgr {
 
         if (currentStage == 10 && t.allBattleRecord.isWin == true) {
             logger.info("[镇妖塔管理] 一键选择!!!")
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_SELECT_BUFF, { index: 0, isOneKey: true }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_SELECT_BUFF, { index: 0, isOneKey: true });
         }
 
         if (t.ret === 0) {
@@ -69,9 +69,9 @@ export default class TowerMgr {
                 return;
             }
             logger.info("[镇妖塔管理] 开始领取镇妖塔奖励");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_VIEW_SAVE_SELECT, { markPreference: [{ priority: 1, skillType: 1017 }, { priority: 2, skillType: 1018 }, { priority: 3, skillType: 1023 }, { priority: 4, skillType: 1001 }, { priority: 5, skillType: 1022 }] }, null);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_QUICK_CHANLLENGE, {}, null);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_SELECT_BUFF, { index: 0, isOneKey: true }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_VIEW_SAVE_SELECT, { markPreference: [{ priority: 1, skillType: 1017 }, { priority: 2, skillType: 1018 }, { priority: 3, skillType: 1023 }, { priority: 4, skillType: 1001 }, { priority: 5, skillType: 1022 }] });
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_QUICK_CHANLLENGE, {});
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_SELECT_BUFF, { index: 0, isOneKey: true });
             this.hasReward = true;
         }
     }
@@ -92,7 +92,7 @@ export default class TowerMgr {
                 const idx = global.account.switch.challengeIndex || 0;
                 PlayerAttributeMgr.inst.setSeparationIdx(idx)
                 //挑战
-                GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_CHALLENGE, { index: 0, isOneKey: true }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_CHALLENGE, { index: 0, isOneKey: true });
                 this.challenge--;
                 await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
             }

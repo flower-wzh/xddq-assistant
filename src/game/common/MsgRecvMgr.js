@@ -221,7 +221,7 @@ class MsgRecvMgr {
     // 551 邮件列表数据同步
     static MailListMsg(t) {
         logger.debug("[MsgRecvMgr] 一键领取邮件奖励");
-        GameNetMgr.inst.sendPbMsg(Protocol.S_MAIL_GET_ALL_REWARD, {}, null);
+        GameNetMgr.inst.sendPbMsg(Protocol.S_MAIL_GET_ALL_REWARD, {});
     }
 
     // 602 是否能购买物品
@@ -298,7 +298,7 @@ class MsgRecvMgr {
     //         const activityId = i.activityId;
     //         // 如果 i.detailConfig.commonConfig 中包含mallConfig
     //         if (i.detailConfig.commonConfig.mallConfig) {
-    //             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_DATA, { activityId: activityId }, null);
+    //             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_DATA, { activityId: activityId });
     //         }
     //     }
     //     // ActivityMgr.inst.getReward(t); // 有问题
@@ -308,7 +308,7 @@ class MsgRecvMgr {
     // static ActivityConditionDataListSync(t) {
     //     logger.debug("[MsgRecvMgr] 增量同步数据");
     //     for (const i of t.activityConditionDataList) {
-    //         GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_DATA, { activityId: i.activityId }, null);
+    //         GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_DATA, { activityId: i.activityId });
     //     }
     // }
 

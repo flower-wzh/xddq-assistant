@@ -71,14 +71,14 @@ export default class GatherEnergyMgr {
             num = 5;
         }
         logger.info(`[聚灵阵管理] 开启聚灵阵${num * 2}小时`);
-        GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_OPEN, { num: num }, null);
+        GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_OPEN, { num: num });
     
         // 防止启动过多
         this.lock = false;
         // 手动赋值
         this.openNum = 1;
         // 再发一次消息
-        GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {}, null);
+        GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {});
         
     }
 
@@ -86,7 +86,7 @@ export default class GatherEnergyMgr {
         const now = Date.now();
         if (this.getAdRewardTimes < this.AD_REWARD_DAILY_MAX_NUM && now - this.lastAdRewardTime >= this.AD_REWARD_CD) {
             logger.info(`[聚灵阵管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`);
-            // GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_GET_AD_AWARD, { isUseADTime: false }, null);
+            // GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_GET_AD_AWARD, { isUseADTime: false });
 
             const logContent = `[聚灵阵] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`;
             AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_GATHER_ENERGY_GET_AD_AWARD, data: { isUseADTime: false }, logStr: logContent });

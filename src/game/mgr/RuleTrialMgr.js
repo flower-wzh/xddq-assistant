@@ -32,7 +32,7 @@ export default class RuleTrialMgr {
                 return
             }
             logger.info(`[法则试练]速战开始`)
-            GameNetMgr.inst.sendPbMsg(Protocol.S_RULE_ONE_KEY_TRIAL_REPEAT, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_RULE_ONE_KEY_TRIAL_REPEAT, {});
         } catch (error) {
             logger.error(`[法则试练] loopUpdate error: ${error}`);
         } finally {

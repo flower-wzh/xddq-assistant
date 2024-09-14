@@ -8,9 +8,6 @@ import AuthService from "#services/authService.js";
 import MsgRecvMgr from '#game/common/MsgRecvMgr.js';
 import LoopMgr from '#game/common/LoopMgr.js';
 
-const messageQueue = []; // 创建消息队列
-let isSending = false; // 标记是否正在发送消息
-
 class GameNetMgr {
     constructor() {
         this.token = null;
@@ -25,7 +22,11 @@ class GameNetMgr {
         this.sendMsgLength = 0;
         // Retry parameters
         this.maxRetries = (typeof global.account.maxRetries === 'string' && global.account.maxRetries.toLowerCase() === 'infinity') ? Infinity : (global.account.maxRetries || 10); // 默认最大重连次数
-        this.retryCount = 0;   // 当前重连次数
+        this.retryCount = 0;    // 当前重连次数
+
+        this.messageQueue = []; // 创建消息队列
+        this.isSending = false; // 标记是否正在发送消息
+        this.messageDelay = global.account.messageDelay || 0; // 默认无延迟
 }
 
     static get inst() {
@@ -115,7 +116,7 @@ class GameNetMgr {
         };
     }
 
-    sendPbMsg(msgId, msgData, callback, extraCmd, directSend = false) {
+    sendPbMsg(msgId, msgData) {
         if (!this.net.isConnected()) {
             return;
         }
@@ -140,42 +141,27 @@ class GameNetMgr {
         stream.buff = t;
         stream.streamsize = stream.offset;
 
-        // Add handler
-        const protoCmd = ProtobufMgr.inst.cmdList[msgId];
-        if (callback && this.net.isConnected()) {
-            this.addHandler(protoCmd.smMsgId, callback);
-        }
-
-        if (extraCmd && ProtobufMgr.inst.cmdList[extraCmd]) {
-            this.addHandler(extraCmd, callback);
-        }
-
-        if (directSend) {
-            this.net.send(stream.buff);
-        } else {
-            messageQueue.push({ msgId, msgData, callback, extraCmd });
-            this.startSending();
-        }
+        // Add stream to messageQueue
+        this.messageQueue.push(stream);
+        this.sendNextMessage();
     }
 
-    startSending() {
-        if (isSending || messageQueue.length === 0) {
-            return;
+    sendNextMessage() {
+        if (!this.isSending && this.messageQueue && this.messageQueue.length > 0) {
+            this.isSending = true;
+            const stream = this.messageQueue.shift();
+            const sendMessage = (stream) => {
+                try {
+                    this.net.sendMsg(stream); // Send the message
+                    this.isSending = false;
+                    setTimeout(() => this.sendNextMessage(), this.messageDelay || 0);
+                } catch (err) {
+                    this.isSending = false;
+                    logger.error(`[Message] Error sending message: ${err.message}`);
+                }
+            };
+            sendMessage(stream);
         }
-
-        isSending = true;
-
-        const sendNextMessage = () => {
-            if (messageQueue.length > 0) {
-                const { msgId, msgData, callback, extraCmd } = messageQueue.shift();
-                this.sendPbMsg(msgId, msgData, callback, extraCmd, true);
-                setTimeout(sendNextMessage, 15);
-            } else {
-                isSending = false;
-            }
-        };
-
-        sendNextMessage();
     }
 
     parseArrayBuffMsg(arrayBuffer) {
@@ -211,20 +197,13 @@ class GameNetMgr {
 
     resvHandler(msgId, msgData) {
         if (msgData) {
-            if (msgId && this.handlers[msgId]) {
-                const handler = this.handlers[msgId];
-                delete this.handlers[msgId];
-                handler.call(this, msgData);
+            const protoCmd = ProtobufMgr.inst.resvCmdList[msgId].smMethod.split(".");
+            const method = protoCmd[protoCmd.length - 1];
+            if (MsgRecvMgr[method]) {
+                logger.debug(`[Handler] 找到处理函数: ${method} msgId: ${msgId} ${JSON.stringify(msgData)}`);
+                MsgRecvMgr[method](msgData, msgId);
             } else {
-                const protoCmd = ProtobufMgr.inst.resvCmdList[msgId].smMethod.split(".");
-                const method = protoCmd[protoCmd.length - 1];
-
-                if (MsgRecvMgr[method]) {
-                    logger.debug(`[Handler] 找到处理函数: ${method} msgId: ${msgId} ${JSON.stringify(msgData)}`);
-                    MsgRecvMgr[method](msgData, msgId);
-                } else {
-                    logger.debug(`[Handler] 未找到处理函数: ${method}`);
-                }
+                logger.debug(`[Handler] 未找到处理函数: ${method}`);
             }
         }
     }

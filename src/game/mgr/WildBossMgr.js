@@ -36,7 +36,7 @@ export default class WildBossMgr {
     challengeResult(t) {
         if (t.challengeSuccess) {
             logger.info("[挑战妖王管理] 挑战成功");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_WILDBOSS_SYNC, {}, null); // 同步妖王信息
+            GameNetMgr.inst.sendPbMsg(Protocol.S_WILDBOSS_SYNC, {}); // 同步妖王信息
         }
     }
 
@@ -45,7 +45,7 @@ export default class WildBossMgr {
 
         if (this.passId < PlayerAttributeMgr.littleType) {
             logger.info("[挑战妖王管理] 可以挑战新的妖王，等待挑战结束后再领取奖励");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_WILDBOSS_CHALLENGE, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_WILDBOSS_CHALLENGE, {});
             return;
         }
         if (this.getAdRewardTimes < this.AD_REWARD_DAILY_MAX_NUM && now - this.lastAdRewardTime >= this.AD_REWARD_CD) {
@@ -56,7 +56,7 @@ export default class WildBossMgr {
                 return;
             }
             logger.info(`[挑战妖王管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次`);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_WILDBOSS_REPEAT, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_WILDBOSS_REPEAT, {});
             this.getAdRewardTimes++;
             this.lastAdRewardTime = now;
         }

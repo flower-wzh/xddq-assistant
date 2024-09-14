@@ -74,19 +74,19 @@ export default class UnionMgr {
 
         if (this.inUnion()) {
             logger.info("[妖盟管理] 妖盟广告");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_WATCH_AD_TASK, { activityId: 0, conditionId: 120006, isUseADTime: false }, null);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120001] }, null);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120002] }, null);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120003] }, null);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120004] }, null);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120005] }, null);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120006] }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_WATCH_AD_TASK, { activityId: 0, conditionId: 120006, isUseADTime: false });
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120001] });
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120002] });
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120003] });
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120004] });
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120005] });
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120006] });
             //购买妖盟商店的商品~
             for (const goodsId of this.buyUnionGoodLists) {
                 const name = this.buyUnionGoodListsDict[goodsId] ? this.buyUnionGoodListsDict[goodsId] : "未知商品";
                 if (BagMgr.inst.isMallCountZero(goodsId)) {
                     logger.info(`[自动买买买] 妖盟商店 ${name}`);
-                    GameNetMgr.inst.sendPbMsg(Protocol.S_MALL_BUY_GOODS, { mallId: goodsId, count: 1, activityId: 0 }, null);
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_MALL_BUY_GOODS, { mallId: goodsId, count: 1, activityId: 0 });
                     BagMgr.inst.setMallCount(goodsId, 1);
                 }
             }
@@ -98,12 +98,12 @@ export default class UnionMgr {
         if (t) {
             if (t.status == 0) {
                 logger.info(`[妖盟管理] ${UserMgr.nickName} 开始砍价`);
-                GameNetMgr.inst.sendPbMsg(Protocol.S_CUT_PRICE_BARGAIN, { bussinessId: t.bussinessId }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_CUT_PRICE_BARGAIN, { bussinessId: t.bussinessId });
             }
 
             if (t.status == 1 && t.bargainPrice.toNumber() >= 2888 - this.unionBargainPrice && t.bargainTimes == t.bargainNum - this.unionBargainNum) {
                 logger.info(`[妖盟管理] 砍到最低价，开始购买`);
-                GameNetMgr.inst.sendPbMsg(Protocol.S_CUT_PRICE_BUY, { bussinessId: t.bussinessId }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_CUT_PRICE_BUY, { bussinessId: t.bussinessId });
             }
         }
     }
@@ -120,17 +120,17 @@ export default class UnionMgr {
 
         if (isBattleAllowed && t.addBuffCount < 1) {
             logger.info("[妖盟管理] 妖盟讨伐 妖盟布阵");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_ARRAYING, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_ARRAYING, {});
         }
 
         if (t.buff.overlay == 20 && t.battleCount < 1) {
             logger.info("[妖盟管理] 妖盟讨伐 已满20人开始战斗");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_BATTLE, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_BATTLE, {});
         }
 
         if (t.battleCount == 1) {
             logger.info("[妖盟管理] 妖盟讨伐 领取成就奖励");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_RECEIVE_ACHIEVE_REWARD, { taskId: 180001 }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_RECEIVE_ACHIEVE_REWARD, { taskId: 180001 });
         }
     }
 
@@ -138,7 +138,7 @@ export default class UnionMgr {
         // 如果t.rewards非空，则表示有奖励可以领取
         if (t.rewards) {
             logger.debug("[妖盟管理] 妖盟讨伐 妖盟领奖");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_RECEIVE_REWARD, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_RECEIVE_REWARD, {});
         }
     }
 
@@ -147,7 +147,7 @@ export default class UnionMgr {
         if (true == t.isApply && false == t.isRequest && true == t.isOpen) {
             try {
                 logger.info("[妖盟管理] 妖盟请战");
-                GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_FIGHT_REQUEST, { unionId: this.unionId }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_FIGHT_REQUEST, { unionId: this.unionId });
             } catch {
                 logger.info("[妖盟管理] 妖盟请战失败");
             }
@@ -166,7 +166,7 @@ export default class UnionMgr {
         for (const action of actions) {
             if (t.progress >= action.threshold) {
                 logger.info(`[妖盟管理] 领取任务收益`);
-                GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_GETDAILYTASK, { actIndex: action.index }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_GETDAILYTASK, { actIndex: action.index });
             }
         }
     }
@@ -175,16 +175,16 @@ export default class UnionMgr {
         const now = Date.now();
         if (now - this.lastCheckTime >= this.CHECK_CD) {
             logger.debug("[妖盟管理] 妖盟讨伐 请求砍价数据");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_CUT_PRICE_SYNC, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_CUT_PRICE_SYNC, {});
 
             logger.debug("[妖盟管理] 妖盟讨伐 主动请求妖盟讨伐");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_ENTER, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_ENTER, {});
 
             logger.debug("[妖盟管理] 妖盟讨伐 领取妖盟讨伐奖励");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_GET_REWARD_INFO, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_GET_REWARD_INFO, {});
 
             logger.debug("[妖盟管理] 妖盟日常任务");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_DAILYTASK, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_DAILYTASK, {});
 
             this.lastCheckTime = now;
         }

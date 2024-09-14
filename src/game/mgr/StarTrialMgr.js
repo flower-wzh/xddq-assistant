@@ -31,12 +31,12 @@ export default class StarTrialMgr {
         // 开始战斗
         this.lastBossId = this.bossId
         logger.info(`[星宿试炼]挑战星宿`)
-        GameNetMgr.inst.sendPbMsg(Protocol.S_STARTRIAL_Fight, { BossId: this.bossId }, null);
+        GameNetMgr.inst.sendPbMsg(Protocol.S_STARTRIAL_Fight, { BossId: this.bossId });
         this.challengeTimes--
         //开始领奖
         if (this.rewardState == 0) {
             logger.info(`[星宿试炼]领取每日奖励奖`)
-            GameNetMgr.inst.sendPbMsg(Protocol.S_STARTRIAL_GetDailyFightReward, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_STARTRIAL_GetDailyFightReward, {});
         }
     }
 

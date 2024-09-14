@@ -39,7 +39,7 @@ export default class YueBaoMgr {
                 // 当前时间大于结束时间且 endTime 不为0，执行取款操作
                 if (endTime > 0 && currentTime > endTime) {
                     logger.info("[余额宝管理] 执行取款操作");
-                    GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_INTERACTE, { activityId: 10004986 }, null);
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_INTERACTE, { activityId: 10004986 });
                     this.hasDeposited = false;  // 重置存款状态
                 }
 
@@ -70,7 +70,7 @@ export default class YueBaoMgr {
         this.isProcessing = true;
 
         try {
-            GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_ENTER, { activityId: 10004986 }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_ENTER, { activityId: 10004986 });
 
             // 更新最后一次调用 enter 的时间
             this.lastEnterTime = currentTime;

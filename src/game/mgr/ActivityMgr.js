@@ -18,7 +18,7 @@ export default class ActivityMgr {
     async SyncData(t) {
         try {
             for (const i of t.mainConfig) {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_DATA, { activityId: i.activityId }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_DATA, { activityId: i.activityId });
                 await new Promise((resolve) => setTimeout(resolve, 500));
             }
         } catch (error) {
@@ -54,7 +54,7 @@ export default class ActivityMgr {
             for (const i of acts) {
                 if (!i.isGetReward && i.completeTime.toString() !== "0") {
                     logger.info(`[活动管理] ${activityId} 满足条件领取奖励: ${i.conditionId}`);
-                    GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_CONDITION_REWARD, { activityId: activityId, conditionId: i.conditionId }, null);
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GET_CONDITION_REWARD, { activityId: activityId, conditionId: i.conditionId });
                 }
             }
         }
@@ -74,7 +74,7 @@ export default class ActivityMgr {
 
                 // 检查活动是否已经激活过
                 if (!this.activatedActivities.has(activityId)) {
-                    GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_MESSAGE_LIST, { activityId: activityId }, null);
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_MESSAGE_LIST, { activityId: activityId });
                     this.activatedActivities.add(activityId);
                     logger.info(`[活动管理] 活动 ${activityId} 激活成功`);
                 }
@@ -82,7 +82,7 @@ export default class ActivityMgr {
                 const logAndBuy = (remaining) => {
                     logger.info(`[活动管理] ${activityId} 购买 ${name} ${remaining}次`);
                     for (let i = 0; i < remaining; i++) {
-                        GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: activityId, mallId: id, count: 1 }, null);
+                        GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: activityId, mallId: id, count: 1 });
                     }
                 };
 

@@ -30,34 +30,34 @@ export default class CustomMgr {
             logger.info("[自定义管理] 初始化");
 
             // 聚灵阵状态
-            GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {});
             // 运势
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_SHARE, { activityId: 0, conditionId: 0 }, null);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BBS, { activityId: 0, conditionId: 0 }, null);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GAME_CIRCLE, { activityId: 0, conditionId: 0 }, null);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 250100, mallId: 400000010, count: 1, }, null);//免费运势
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 250101, mallId: 400000010, count: 1, }, null);//免费运势
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_SHARE, { activityId: 0, conditionId: 0 });
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BBS, { activityId: 0, conditionId: 0 });
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GAME_CIRCLE, { activityId: 0, conditionId: 0 });
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 250100, mallId: 400000010, count: 1, });//免费运势
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 250101, mallId: 400000010, count: 1, });//免费运势
             for (let i = 0; i < 20; i++) {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250100, times: 1, }, null);//运势抽奖
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250101, times: 1, }, null);//运势抽奖
+                GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250100, times: 1, });//运势抽奖
+                GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250101, times: 1, });//运势抽奖
             }
             // 检查是否有分身
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {});
             // 道友一键 赠送和领取
-            GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 1 }, null);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 2 }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 1 });
+            GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 2 });
             // 宝华堂
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { mallId: 400000003, count: 1, activityId: 9875533 }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { mallId: 400000003, count: 1, activityId: 9875533 });
             //福泽签到
-            GameNetMgr.inst.sendPbMsg(Protocol.S_GOOD_FORTUNE_GET_REWARD_REQ, {activityId: 9295167, conditionId: 10001, type: 1 }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_GOOD_FORTUNE_GET_REWARD_REQ, {activityId: 9295167, conditionId: 10001, type: 1 });
             //疯狂聚宝盆签到
             for (let i = 0; i < 8; i++) {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_TREASURE_BOWL_SIGN, {activityId: 9295167, conditionId: 10001, getType: i }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_TREASURE_BOWL_SIGN, {activityId: 9295167, conditionId: 10001, getType: i });
             }
             this.initialized = true;
 
             // 进入余额宝
-            GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_ENTER, { activityId: 10004986 }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_ENTER, { activityId: 10004986 });
         }
     }
 
@@ -66,12 +66,12 @@ export default class CustomMgr {
         if (now - this.lastExecuteTime >= this.CUSTOM_INTERVAL) {
             this.lastExecuteTime = now;
             // 进入宗门系统 TODO 判断是否开启宗门系统
-            GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_ENTER, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_ENTER, {});
             if (global.account.switch.pupil) {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_TRAIN, { isOneKey: 1 }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_TRAIN, { isOneKey: 1 });
             }
             // 仙宫外部数据请求 TODO 判断是否开启仙宫
-            GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_ENTER_OUTER, {}, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_ENTER_OUTER, {});
         }
     }
 

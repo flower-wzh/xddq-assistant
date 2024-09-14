@@ -52,7 +52,7 @@ export default class PupilMgr {
             if (invitationCount > 0) {
                 logger.info(`[宗门管理] 招 ${invitationCount} 人`);
                 for (let i = 0; i < invitationCount; i++) {
-                    GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_RECRUIT, {}, null);
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_RECRUIT, {});
                     await new Promise((resolve) => setTimeout(resolve, 1000));
                 }
             }
@@ -62,9 +62,9 @@ export default class PupilMgr {
             if (graduationIndices.length > 0) {
                 logger.info(`[宗门管理] 出师 ${graduationIndices.length} 人`);
                 for (let i = 0; i < graduationIndices.length; i++) {
-                    GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_GRADUATE, { siteIndex: graduationIndices[i] }, null);
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_GRADUATE, { siteIndex: graduationIndices[i] });
                     await new Promise((resolve) => setTimeout(resolve, 1000));
-                    GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_RECRUIT, {}, null);
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_RECRUIT, {});
                     await new Promise((resolve) => setTimeout(resolve, 1000));
                 }
             }
@@ -77,7 +77,7 @@ export default class PupilMgr {
             logger.info(`[宗门管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`);
             const logContent = `[宗门] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`;
             AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_PUPIL_GET_AD_REWARD, data: { isUseADTime: false }, logStr: logContent });
-            // GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_GET_AD_REWARD, { isUseADTime: false }, null);
+            // GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_GET_AD_REWARD, { isUseADTime: false });
             this.getAdRewardTimes++;
             this.lastAdRewardTime = now;
         }

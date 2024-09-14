@@ -37,7 +37,7 @@ export default class SpiritMgr {
             logger.info(`[精怪管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`);
             const logContent = `[精怪] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`;
             AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_SPIRIT_DRAW, data: { drawTimes: 1, isAd: true, isUseADTime: false }, logStr: logContent });
-            // GameNetMgr.inst.sendPbMsg(Protocol.S_SPIRIT_DRAW, { drawTimes: 1, isAd: true, isUseADTime: false }, null);
+            // GameNetMgr.inst.sendPbMsg(Protocol.S_SPIRIT_DRAW, { drawTimes: 1, isAd: true, isUseADTime: false });
             this.getAdRewardTimes++;
             this.lastAdRewardTime = now;
         }
