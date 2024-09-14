@@ -1,11 +1,13 @@
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
+import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class ActivityMgr {
     constructor() {
         // 存储已激活的活动 ID
         this.activatedActivities = new Set();
+        RegistMgr.inst.add(this);
     }
 
     static get inst() {
@@ -15,7 +17,7 @@ export default class ActivityMgr {
         return this._instance;
     }
     
-    static reset() {
+    reset() {
         this._instance = null;
     }
 

@@ -32,34 +32,7 @@ import YardDpbMgr from "#game/mgr/YardDpbMgr.js";
 import UnionTreasureMgr from "#game/mgr/UnionTreasureMgr.js";
 
 class MsgRecvMgr {
-    constructor() {
-        this.loginMsgIdList = [
-            Protocol.S_PLAYER_DATA_SYNC_MSG,     // 101 用户信息同步
-            Protocol.S_SYSTEM_UNLOCK_SYNC_MSG,   // 102 系统解锁同步 TODO
-            Protocol.S_ATTRIBUTE_DATA_SYNC_MSG,  // 201 玩家属性信息同步
-            Protocol.S_DREAM_DATA_SYNC,          // 207 做梦数据同步(树状态及未处理装备) Done
-            Protocol.S_TASK_DATA_SEND,           // 501 玩家登录任务数据下发 TODO
-        ];
-    }
-
-    static reset() {
-        const managers = [
-            CustomMgr, BagMgr, FrogMgr, DestinyMgr, UserMgr, 
-            SpiritMgr, PlayerAttributeMgr, PalaceMgr, MagicMgr, 
-            MagicTreasureMgr, PupilMgr, GatherEnergyMgr, WildBossMgr,TowerMgr, 
-            ChapterMgr, SecretTowerMgr, HeroRankMgr, ActivityMgr, UnionMgr,
-            HomelandMgr, InvadeMgr, StarTrialMgr, AdRewardMgr, RuleTrialMgr, 
-            PetsMgr, UniverseMgr, YueBaoMgr, YardDpbMgr, UnionTreasureMgr
-        ];
-
-        managers.forEach((mgr) => {
-            if (typeof mgr.reset === 'function') {
-                mgr.reset();
-            } else {
-                logger.warn(`[MsgRecvMgr] ${mgr.name} 不支持 reset 方法`);
-            }
-        });
-    }
+    constructor() {}
 
     // 101 用户信息同步
     static PlayerDataMsg(t) {

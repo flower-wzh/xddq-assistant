@@ -6,6 +6,7 @@ import DBMgr from "#game/common/DBMgr.js";
 import BagMgr from "#game/mgr/BagMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import UnionMgr from "#game/mgr/UnionMgr.js";
+import RegistMgr from '#game/common/RegistMgr.js';
 
 class Attribute {
     static Chop(times = 1) {
@@ -116,6 +117,7 @@ export default class PlayerAttributeMgr {
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
+        RegistMgr.inst.add(this);
     }
 
     static isMonthCardVip = false;  // 月卡
@@ -132,7 +134,7 @@ export default class PlayerAttributeMgr {
         return this._instance;
     }
 
-    static reset() {
+    reset() {
         this._instance = null;
     }
 

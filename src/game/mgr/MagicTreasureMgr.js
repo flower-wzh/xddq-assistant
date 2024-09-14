@@ -3,6 +3,7 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
+import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class MagicTreasureMgr {
     constructor() {
@@ -12,6 +13,7 @@ export default class MagicTreasureMgr {
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
+        RegistMgr.inst.add(this);
     }
 
     static get inst() {
@@ -21,7 +23,7 @@ export default class MagicTreasureMgr {
         return this._instance;
     }
 
-    static reset() {
+    reset() {
         this._instance = null;
     }
 

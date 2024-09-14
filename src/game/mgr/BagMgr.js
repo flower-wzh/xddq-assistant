@@ -3,6 +3,7 @@ import Protocol from '#game/net/Protocol.js';
 import logger from "#utils/logger.js";
 import LoopMgr from '#game/common/LoopMgr.js';
 import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
+import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class BagMgr {
     constructor() {
@@ -13,6 +14,7 @@ export default class BagMgr {
         this.ticket = global.account.switch.ticket || 2; // 默认为2
 
         LoopMgr.inst.add(this);
+        RegistMgr.inst.add(this);
     }
 
     static get inst() {
@@ -22,7 +24,7 @@ export default class BagMgr {
         return this._instance;
     }
 
-    static reset() {
+    reset() {
         this._instance = null;
     }
 

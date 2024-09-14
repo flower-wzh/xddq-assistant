@@ -4,6 +4,7 @@ import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import UserMgr from "#game/mgr/UserMgr.js";
 import BagMgr from "#game/mgr/BagMgr.js";
+import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class UnionMgr {
     constructor() {
@@ -42,6 +43,7 @@ export default class UnionMgr {
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
+        RegistMgr.inst.add(this);
     }
 
     static get inst() {
@@ -51,7 +53,7 @@ export default class UnionMgr {
         return this._instance;
     }
 
-    static reset() {
+    reset() {
         this._instance = null;
     }
 

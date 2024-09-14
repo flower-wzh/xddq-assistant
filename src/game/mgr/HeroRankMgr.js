@@ -2,6 +2,7 @@ import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
+import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class HeroRankMgr {
     constructor() {
@@ -12,6 +13,7 @@ export default class HeroRankMgr {
         this.energy = 0;
         this.rank = null;
         LoopMgr.inst.add(this);
+        RegistMgr.inst.add(this);
     }
 
     static get inst() {
@@ -21,7 +23,7 @@ export default class HeroRankMgr {
         return this._instance;
     }
 
-    static reset() {
+    reset() {
         this._instance = null;
     }
 

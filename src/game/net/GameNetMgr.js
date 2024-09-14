@@ -7,6 +7,7 @@ import logger from "#utils/logger.js";
 import AuthService from "#services/authService.js";
 import MsgRecvMgr from '#game/common/MsgRecvMgr.js';
 import LoopMgr from '#game/common/LoopMgr.js';
+import RegistMgr from '#game/common/RegistMgr.js';
 
 class GameNetMgr {
     constructor() {
@@ -240,7 +241,7 @@ class GameNetMgr {
         this.isReConnectting = true;
         this.close();
         LoopMgr.inst.end();
-        MsgRecvMgr.reset();
+        RegistMgr.inst.reset();
 
         const reconnectInterval = resetInterval || global.account.reconnectInterval || 5000;
         await this.countdown(reconnectInterval);

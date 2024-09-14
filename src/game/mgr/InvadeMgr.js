@@ -3,6 +3,7 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
+import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class InvadeMgr {
     constructor() {
@@ -12,6 +13,7 @@ export default class InvadeMgr {
         this.battleNum = 0;
 
         LoopMgr.inst.add(this);
+        RegistMgr.inst.add(this);
     }
 
     static get inst() {
@@ -21,7 +23,7 @@ export default class InvadeMgr {
         return this._instance;
     }
 
-    static reset() {
+    reset() {
         this._instance = null;
     }
 

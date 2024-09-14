@@ -3,6 +3,7 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import UserMgr from "#game/mgr/UserMgr.js";
+import RegistMgr from '#game/common/RegistMgr.js';
 
 class Homeland {
     static ExploreReq() {
@@ -84,6 +85,7 @@ export default class HomelandMgr {
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
+        RegistMgr.inst.add(this);
     }
 
     static TRANSLATE = {
@@ -152,7 +154,7 @@ export default class HomelandMgr {
         return this._instance;
     }
 
-    static reset() {
+    reset() {
         this._instance = null;
     }
 

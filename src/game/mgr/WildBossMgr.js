@@ -4,6 +4,7 @@ import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import PlayerAttributeMgr from "#game/mgr/PlayerAttributeMgr.js";
 import PalaceMgr from "#game/mgr/PalaceMgr.js";
+import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class WildBossMgr {
     constructor() {
@@ -12,6 +13,7 @@ export default class WildBossMgr {
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
+        RegistMgr.inst.add(this);
     }
 
     static get inst() {
@@ -21,7 +23,7 @@ export default class WildBossMgr {
         return this._instance;
     }
 
-    static reset() {
+    reset() {
         this._instance = null;
     }
 

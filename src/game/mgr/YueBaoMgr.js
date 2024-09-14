@@ -3,6 +3,7 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import BagMgr from "#game/mgr/BagMgr.js";
+import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class YueBaoMgr {
     constructor() {
@@ -12,6 +13,7 @@ export default class YueBaoMgr {
         this.hasDeposited = false; // 标记存款操作是否已执行
 
         LoopMgr.inst.add(this);
+        RegistMgr.inst.add(this);
     }
 
     static get inst() {
@@ -21,7 +23,7 @@ export default class YueBaoMgr {
         return this._instance;
     }
 
-    static reset() {
+    reset() {
         this._instance = null;
     }
 

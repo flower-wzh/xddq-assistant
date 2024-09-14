@@ -1,6 +1,7 @@
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
+import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class AdRewardMgr {
     constructor() {
@@ -9,6 +10,7 @@ export default class AdRewardMgr {
         this.lastExecuteTime = 0;
         this.taskList = [];
         LoopMgr.inst.add(this);
+        RegistMgr.inst.add(this);
     }
 
     static get inst() {
@@ -18,7 +20,7 @@ export default class AdRewardMgr {
         return this._instance;
     }
 
-    static reset() {
+    reset() {
         this._instance = null;
     }
 

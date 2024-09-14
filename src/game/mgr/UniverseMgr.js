@@ -3,6 +3,7 @@ import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import GameNetMgr from "#game/net/GameNetMgr.js";
+import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class UniverseMgr {
     constructor() {
@@ -15,6 +16,7 @@ export default class UniverseMgr {
         this.pos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; //天地轮盘：连线坐标
         this.cachePos = []; //已使用过的连线坐标
         LoopMgr.inst.add(this);
+        RegistMgr.inst.add(this);
     }
 
     static get inst() {
@@ -24,7 +26,7 @@ export default class UniverseMgr {
         return this._instance;
     }
 
-    static reset() {
+    reset() {
         this._instance = null;
     }
 

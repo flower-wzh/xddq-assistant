@@ -3,6 +3,7 @@ import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
+import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class PetsMgr {
     constructor() {
@@ -12,6 +13,7 @@ export default class PetsMgr {
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
+        RegistMgr.inst.add(this);
     }
 
     static get inst() {
@@ -21,7 +23,7 @@ export default class PetsMgr {
         return this._instance;
     }
 
-    static reset() {
+    reset() {
         this._instance = null;
     }
 

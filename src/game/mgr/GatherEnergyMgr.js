@@ -4,6 +4,7 @@ import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import BagMgr from "#game/mgr/BagMgr.js";
+import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class GatherEnergyMgr {
     constructor() {
@@ -19,6 +20,7 @@ export default class GatherEnergyMgr {
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
+        RegistMgr.inst.add(this);
     }
 
     static get inst() {
@@ -28,7 +30,7 @@ export default class GatherEnergyMgr {
         return this._instance;
     }
 
-    static reset() {
+    reset() {
         this._instance = null;
     }
 

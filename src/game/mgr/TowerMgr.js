@@ -4,6 +4,7 @@ import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import PalaceMgr from "#game/mgr/PalaceMgr.js";
 import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
+import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class TowerMgr {
     constructor() {
@@ -16,6 +17,7 @@ export default class TowerMgr {
         this.challengeSuccessReset = global.account.switch.challengeSuccessReset || false;
 
         LoopMgr.inst.add(this);
+        RegistMgr.inst.add(this);
     }
 
     static get inst() {
@@ -25,7 +27,7 @@ export default class TowerMgr {
         return this._instance;
     }
 
-    static reset() {
+    reset() {
         this._instance = null;
     }
 
