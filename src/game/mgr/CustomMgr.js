@@ -32,44 +32,44 @@ export default class CustomMgr {
         LoopMgr.inst.remove(this);
     }
 
-    Start() {
-        if (!this.initialized) {
-            logger.info("[自定义管理] 初始化");
-
-            // 聚灵阵状态
-            GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {});
-            // 运势
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_SHARE, { activityId: 0, conditionId: 0 });
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BBS, { activityId: 0, conditionId: 0 });
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GAME_CIRCLE, { activityId: 0, conditionId: 0 });
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 250100, mallId: 400000010, count: 1 });// 免费运势
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 250101, mallId: 400000010, count: 1 });// 免费运势
-            for (let i = 0; i < 20; i++) {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250100, times: 1 }); // 运势抽奖
-                GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250101, times: 1 }); // 运势抽奖
-            }
-            // 检查是否有分身
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {});
-            // 道友一键赠送和领取
-            GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 1 });
-            GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 2 });
-            // 宝华堂
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { mallId: 400000003, count: 1, activityId: 9875533 });
-            // 福泽签到
-            for (let i = 0; i < 8; i++) {
-                conditionId = 10000 + i
-                GameNetMgr.inst.sendPbMsg(Protocol.S_GOOD_FORTUNE_GET_REWARD_REQ, { activityId: 9295167, conditionId: conditionId, type: 1 });
-            }
-            // 疯狂聚宝盆签到
-            for (let i = 0; i < 8; i++) {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_TREASURE_BOWL_SIGN, { activityId: 9295167, conditionId: 10001, getType: i });
-            }
-            // 进入余额宝
-            GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_ENTER, { activityId: 10004986 });
-
-          
-            this.initialized = true;
+    init() {
+        if (this.initialized) {
+            return;
         }
+        logger.info("[自定义管理] 初始化");
+
+        // 聚灵阵状态
+        GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {});
+        // 运势
+        GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_SHARE, { activityId: 0, conditionId: 0 });
+        GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BBS, { activityId: 0, conditionId: 0 });
+        GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GAME_CIRCLE, { activityId: 0, conditionId: 0 });
+        GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 250100, mallId: 400000010, count: 1 });// 免费运势
+        GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 250101, mallId: 400000010, count: 1 });// 免费运势
+        for (let i = 0; i < 20; i++) {
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250100, times: 1 }); // 运势抽奖
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250101, times: 1 }); // 运势抽奖
+        }
+        // 检查是否有分身
+        GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {});
+        // 道友一键赠送和领取
+        GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 1 });
+        GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 2 });
+        // 宝华堂
+        GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { mallId: 400000003, count: 1, activityId: 9875533 });
+        // 福泽签到
+        for (let i = 0; i < 8; i++) {
+            conditionId = 10000 + i
+            GameNetMgr.inst.sendPbMsg(Protocol.S_GOOD_FORTUNE_GET_REWARD_REQ, { activityId: 9295167, conditionId: conditionId, type: 1 });
+        }
+        // 疯狂聚宝盆签到
+        for (let i = 0; i < 8; i++) {
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TREASURE_BOWL_SIGN, { activityId: 9295167, conditionId: 10001, getType: i });
+        }
+        // 进入余额宝
+        GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_ENTER, { activityId: 10004986 });
+
+        this.initialized = true;
     }
 
     customLoop() {
