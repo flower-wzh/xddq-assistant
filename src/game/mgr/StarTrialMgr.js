@@ -12,15 +12,25 @@ export default class StarTrialMgr {
         this.lastBossId = 0
         LoopMgr.inst.add(this);
     }
+
     static get inst() {
         if (!this._instance) {
             this._instance = new StarTrialMgr();
         }
         return this._instance;
     }
+
+    static reset() {
+        if (this._instance) {
+            this._instance.clear();
+        }
+        this._instance = null;
+    }
+
     clear() {
         LoopMgr.inst.remove(this);
     }
+
     SyncStarTrialData(t) {
         this.challengeTimes = t.challengeTimes
         this.bossId = t.bossId

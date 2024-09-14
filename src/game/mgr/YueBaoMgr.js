@@ -21,6 +21,13 @@ export default class YueBaoMgr {
         return this._instance;
     }
 
+    static reset() {
+        if (this._instance) {
+            this._instance.clear();
+        }
+        this._instance = null;
+    }
+
     clear() {
         LoopMgr.inst.remove(this);
     }
@@ -48,11 +55,7 @@ export default class YueBaoMgr {
 
                 if (!this.hasDeposited && parseInt(playerData.endTime) == 0 && playerData.index == 0 && playerData.depositNum == 0 && xianYu > 3000) {
                     logger.info(`[余额宝管理] 执行存款操作`);
-                    GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_DEPOSIT, {
-                        activityId: 10004986,
-                        index: 1,
-                        depositNum: 3000
-                    }, null);
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_DEPOSIT, { activityId: 10004986, index: 1, depositNum: 3000 }, null);
                     this.hasDeposited = true; // 存款操作已执行，标记为 true
                 }
             }

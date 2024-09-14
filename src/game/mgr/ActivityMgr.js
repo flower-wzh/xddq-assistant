@@ -14,6 +14,13 @@ export default class ActivityMgr {
         }
         return this._instance;
     }
+    
+    static reset() {
+        if (this._instance) {
+            this._instance.clear();
+        }
+        this._instance = null;
+    }
 
     async SyncData(t) {
         try {
@@ -22,7 +29,7 @@ export default class ActivityMgr {
                 await new Promise((resolve) => setTimeout(resolve, 500));
             }
         } catch (error) {
-            logger.error(`[MsgRecvMgr] 活动通用数据同步 ${error}`);
+            logger.error(`[ActivityMgr] 活动通用数据同步 ${error}`);
         }
     }
 

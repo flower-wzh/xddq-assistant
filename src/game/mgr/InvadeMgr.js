@@ -8,23 +8,33 @@ export default class InvadeMgr {
     constructor() {
         this.isProcessing = false;
         this.enabled = global.account.switch.invade || false;
-        this.maxCount = 5
+        this.maxCount = 5;
         this.battleNum = 0;
 
         LoopMgr.inst.add(this);
     }
+
     static get inst() {
         if (!this._instance) {
             this._instance = new InvadeMgr();
         }
         return this._instance;
     }
+
+    static reset() {
+        if (this._instance) {
+            this._instance.clear();
+        }
+        this._instance = null;
+    }
+
     clear() {
         LoopMgr.inst.remove(this);
     }
+
     InvadeDataMsg(t) {
-        this.battleNum = t.count
-        this.curInvadeId = t.curInvadeId
+        this.battleNum = t.count;
+        this.curInvadeId = t.curInvadeId;
     }
 
     InvadeChallengeResp(t) {
@@ -32,32 +42,33 @@ export default class InvadeMgr {
             logger.info(`[异兽入侵]挑战成功`);
         }
     }
+
     async loopUpdate() {
-        if (!this.enabled) return
-        if (this.isProcessing) return
-        this.isProcessing = true
+        if (!this.enabled) return;
+        if (this.isProcessing) return;
+        this.isProcessing = true;
         try {
             if (this.battleNum >= this.maxCount) {
-                logger.info(`[异兽入侵] 任务完成`)
+                logger.info(`[异兽入侵] 任务完成`);
                 // 任务完成后切换为默认分身
                 const defaultIdx = global.account.switch.defaultIndex || 0; //默认分身
-                PlayerAttributeMgr.inst.setSeparationIdx(defaultIdx)
+                PlayerAttributeMgr.inst.setSeparationIdx(defaultIdx);
 
-                this.clear()
-                return
+                this.clear();
+                return;
             }
             logger.debug("[异兽入侵] 初始化");
             logger.info(`[异兽入侵]当前次数:${this.battleNum}`);
-            //切换到分身
+            // 切换到分身
             const idx = global.account.switch.invadeIndex || 0;
-            PlayerAttributeMgr.inst.setSeparationIdx(idx)
-            //挑战
+            PlayerAttributeMgr.inst.setSeparationIdx(idx);
+            // 挑战
             GameNetMgr.inst.sendPbMsg(Protocol.S_INVADE_CHALLENGE, {});
-            this.battleNum++
+            this.battleNum++;
         } catch (error) {
             logger.error(`[异兽入侵] InvadeDataMsg error: ${error}`);
         } finally {
-            this.isProcessing = false
+            this.isProcessing = false;
         }
     }
 }

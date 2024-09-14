@@ -22,6 +22,13 @@ export default class BagMgr {
         return this._instance;
     }
 
+    static reset() {
+        if (this._instance) {
+            this._instance.clear();
+        }
+        this._instance = null;
+    }
+
     clear() {
         this.bagData = [];
         LoopMgr.inst.remove(this);

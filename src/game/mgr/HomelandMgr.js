@@ -152,6 +152,13 @@ export default class HomelandMgr {
         return this._instance;
     }
 
+    static reset() {
+        if (this._instance) {
+            this._instance.clear();
+        }
+        this._instance = null;
+    }
+
     clear() {
         LoopMgr.inst.remove(this);
     }

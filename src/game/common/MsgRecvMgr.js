@@ -31,6 +31,12 @@ import YueBaoMgr from "#game/mgr/YueBaoMgr.js";
 import YardDpbMgr from "#game/mgr/YardDpbMgr.js";
 import UnionTreasureMgr from "#game/mgr/UnionTreasureMgr.js";
 
+import fs from 'fs/promises';
+import path from 'path';
+import createPath from '#utils/path.js';
+
+const resolvePath = createPath(import.meta.url);
+
 class MsgRecvMgr {
     constructor() {
         this.loginMsgIdList = [
@@ -40,6 +46,29 @@ class MsgRecvMgr {
             Protocol.S_DREAM_DATA_SYNC,          // 207 做梦数据同步(树状态及未处理装备) Done
             Protocol.S_TASK_DATA_SEND,           // 501 玩家登录任务数据下发 TODO
         ];
+    }
+
+    static async reset() {
+        const mgrPath = path.resolve(__dirname, '../mgr');
+
+        try {
+            const mgrFiles = await fs.readdir(mgrPath);
+
+            const managers = mgrFiles.filter(file => path.extname(file) === '.js').map(file => path.basename(file, '.js'));
+
+            managers.forEach((mgr) => {
+                const ManagerClass = global[mgr];
+
+                if (ManagerClass && typeof ManagerClass.reset === 'function') {
+                    ManagerClass.reset();
+                    logger.info(`[MsgRecvMgr] ${mgr} 重置成功`);
+                } else {
+                    logger.warn(`[MsgRecvMgr] ${mgr} 不支持 reset 方法`);
+                }
+            });
+        } catch (err) {
+            logger.error(`[MsgRecvMgr] 读取管理器目录失败: ${err.message}`);
+        }
     }
 
     // 101 用户信息同步
@@ -68,7 +97,7 @@ class MsgRecvMgr {
         logger.debug("[MsgRecvMgr] 树状态同步");
         PlayerAttributeMgr.inst.SyncTree(t);
         // 初始化完成后 自定义管理器初始化
-        CustomMgr.inst.init();
+        CustomMgr.inst.Start();
     }
 
     // 209 获取未处理装备数据

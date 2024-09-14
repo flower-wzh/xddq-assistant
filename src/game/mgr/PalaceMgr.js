@@ -18,6 +18,13 @@ export default class PalaceMgr {
         return this._instance;
     }
 
+    static reset() {
+        if (this._instance) {
+            this._instance.clear();
+        }
+        this._instance = null;
+    }
+
     clear() { }
 
     async checkReward(t) {

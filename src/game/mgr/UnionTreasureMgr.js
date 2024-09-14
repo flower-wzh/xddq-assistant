@@ -2,12 +2,10 @@ import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import UserMgr from "#game/mgr/UserMgr.js";
-import BagMgr from "#game/mgr/BagMgr.js";
 
 export default class UnionTreasureMgr {
     constructor() {
-        this.unionId = null;              // 妖盟ID
+        this.unionId = null;
         this.isProcessing = false;
         this.lotteryTimes = null;
         this.lotteryTimesMax = 3;
@@ -22,6 +20,13 @@ export default class UnionTreasureMgr {
             this._instance = new UnionTreasureMgr();
         }
         return this._instance;
+    }
+
+    static reset() {
+        if (this._instance) {
+            this._instance.clear();
+        }
+        this._instance = null;
     }
 
     clear() {
@@ -39,14 +44,14 @@ export default class UnionTreasureMgr {
         this.memberList = this.collectPlayerData(t.memberList) || [];
     }
 
-    //请求进入寻宝返回
+    // 请求进入寻宝返回
     UnionTreasureEnterResp(t) {
         this.callback = true
         this.lotteryTimes = t.msg.playerData.lotteryTimes
         this.mapDatas = t.msg.playerData.mapDatas
     }
 
-    //寻宝
+    // 寻宝
     UnionTreasureDrawChip() {
         console.log(this.lotteryTimes)
         for (let i = this.lotteryTimes; i < this.lotteryTimesMax; i++) {
@@ -56,7 +61,7 @@ export default class UnionTreasureMgr {
         this.lotteryTimes = this.lotteryTimesMax
     }
 
-    //领奖
+    // 领奖
     getReward() {
         logger.info(`[妖盟寻宝] 开始领奖`);
         for (let i = 290001; i < 290006; i++) {

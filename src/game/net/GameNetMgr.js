@@ -236,18 +236,16 @@ class GameNetMgr {
     }
 
     async reconnect(resetInterval = null) {
-        logger.info("[GameNetMgr] 重启中...");
-
+        logger.info("[GameNetMgr] 重连中...");
         this.isReConnectting = true;
         this.close();
         LoopMgr.inst.end();
-    
+        MsgRecvMgr.reset();
+
         const reconnectInterval = resetInterval || global.account.reconnectInterval || 5000;
-    
         await this.countdown(reconnectInterval);
-    
-        const { wsAddress, playerId, token } = await this.relogin();
-    
+
+        const { wsAddress, playerId, token } = await this.doLogin();
         this.connectGameServer(wsAddress, playerId, token);
 
         this.isReConnectting = false;
@@ -262,11 +260,10 @@ class GameNetMgr {
         this.handlers = {};
     }
 
-    async relogin() {
-
+    async doLogin() {
         const authServiceInstance = new AuthService();
-        
-        const {serverId, token, uid, username, password} = global.account;
+        const { serverId, token, uid, username, password } = global.account;
+
         try {
             // Login first, and then fetch the wsAddress and token
             let response;
