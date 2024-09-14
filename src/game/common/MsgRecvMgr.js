@@ -49,7 +49,7 @@ class MsgRecvMgr {
     }
 
     static async reset() {
-        const mgrPath = path.resolve(__dirname, '../mgr');
+        const mgrPath = resolvePath('../mgr');
 
         try {
             const mgrFiles = await fs.readdir(mgrPath);
