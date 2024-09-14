@@ -33,6 +33,10 @@ export default class YardDpbMgr {
         return this._instance;
     }
 
+    static reset() {
+        this._instance = null;
+    }
+
     clear() {
         LoopMgr.inst.remove(this);
     }
