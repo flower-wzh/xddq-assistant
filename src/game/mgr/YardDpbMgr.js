@@ -51,7 +51,8 @@ export default class YardDpbMgr {
     YardEnterResp(t) {
         this.freeDrawTimes = t.drawData.freeDrawTimes || 0;
         this.adCount = t.drawData.adCount || 0;
-        this.buildingMsg = t.areaInfo[0].buildingMsg || [];
+        // this.buildingMsg = t.areaInfo[0].buildingMsg || [];
+        this.buildingMsg = t.areaInfo.reduce((acc, area) => acc.concat(area.buildingMsg || []), []);
         this.retLock = true;
     }
 
