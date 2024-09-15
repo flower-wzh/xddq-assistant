@@ -39,20 +39,26 @@ export default class CustomMgr {
         zeroFifteenToday.setHours(0, 15, 0, 0);
 
         if (now >= zeroFifteenToday) {
-            logger.debug("[CustomMgr] 立即执行");
+            logger.debug("[自定义管理] 立即执行");
             this.init();
         } else {
+            if (this.timeoutId) {
+                clearTimeout(this.timeoutId);
+            }
             const delay = zeroFifteenToday.getTime() - now.getTime();
-            logger.info(`[CustomMgr] 将在 ${zeroFifteenToday} 执行`);
-            setTimeout(() => {this.init();}, delay);
+            logger.info(`[自定义管理] 将在 ${zeroFifteenToday} 执行`);
+            this.timeoutId = setTimeout(() => {
+                this.init();
+            }, delay);
         }
     }
 
     init() {
+        logger.info("[自定义管理] 准备初始化");
         if (this.initialized) {
             return;
         }
-        logger.info("[自定义管理] 初始化");
+        logger.info("[自定义管理] 正在初始化");
 
         // 聚灵阵状态
         GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {});
