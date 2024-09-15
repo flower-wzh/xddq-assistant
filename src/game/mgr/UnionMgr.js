@@ -180,41 +180,40 @@ export default class UnionMgr {
     LoopCheck() {
         const now = Date.now();
         if (now - this.lastCheckTime >= this.CHECK_CD) {
-            logger.debug("[妖盟管理] 妖盟讨伐 请求砍价数据");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_CUT_PRICE_SYNC, {});
-
-            logger.debug("[妖盟管理] 妖盟讨伐 主动请求妖盟讨伐");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_ENTER, {});
-
-            logger.debug("[妖盟管理] 妖盟讨伐 领取妖盟讨伐奖励");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_GET_REWARD_INFO, {});
-
+            // 日常任务
             logger.debug("[妖盟管理] 妖盟日常任务");
             GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_DAILYTASK, {});
-
+    
+            // 非周末才执行讨伐任务
+            if (new Date().getDay() !== 6 && new Date().getDay() !== 0) {
+                logger.debug("[妖盟管理] 妖盟讨伐 请求砍价数据");
+                GameNetMgr.inst.sendPbMsg(Protocol.S_CUT_PRICE_SYNC, {});
+                logger.debug("[妖盟管理] 妖盟讨伐 主动请求妖盟讨伐");
+                GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_ENTER, {});
+                logger.debug("[妖盟管理] 妖盟讨伐 领取妖盟讨伐奖励");
+                GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_GET_REWARD_INFO, {});
+            }
+    
             this.lastCheckTime = now;
         }
     }
-
+    
     async loopUpdate() {
         if (this.isProcessing) return;
         this.isProcessing = true;
-
+    
         try {
-            // 获取当前时间
-            const now = new Date();
-            const isWeekend = now.getDay() === 6 || now.getDay() === 0;
-            if (!this.unionId || isWeekend) {
-                logger.info("[妖盟管理] 未加入妖盟 或者 今天是周末");
+            if (!this.unionId) {
+                logger.info("[妖盟管理] 未加入妖盟");
                 this.clear();
                 return;
+            } else {
+                this.LoopCheck();
             }
-
-            this.LoopCheck();
         } catch (error) {
             logger.error(`[妖盟管理] loopUpdate error: ${error}`);
         } finally {
             this.isProcessing = false;
         }
-    }
+    }    
 }
