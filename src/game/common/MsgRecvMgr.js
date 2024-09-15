@@ -30,6 +30,7 @@ import UniverseMgr from "#game/mgr/UniverseMgr.js";
 import YueBaoMgr from "#game/mgr/YueBaoMgr.js";
 import YardDpbMgr from "#game/mgr/YardDpbMgr.js";
 import UnionTreasureMgr from "#game/mgr/UnionTreasureMgr.js";
+import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 
 class MsgRecvMgr {
     constructor() {}
@@ -40,6 +41,12 @@ class MsgRecvMgr {
         UserMgr.playerId = t.playerId;
         UserMgr.roleId = t.roleId;
         UserMgr.serverId = Number(t.serverId);
+    }
+
+    // 102 系统解锁同步
+    static SystemUnlockSync(t) {
+        logger.debug("[MsgRecvMgr] 同步系统解锁");
+        SystemUnlockMgr.inst.SyncData(t);
     }
 
     // 104 同步特权卡数据

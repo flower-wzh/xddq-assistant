@@ -74,7 +74,7 @@ export default class CustomMgr {
         GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { mallId: 400000003, count: 1, activityId: 9875533 });
         // 福泽签到
         for (let i = 0; i < 8; i++) {
-            conditionId = 10000 + i
+            const conditionId = 10000 + i
             GameNetMgr.inst.sendPbMsg(Protocol.S_GOOD_FORTUNE_GET_REWARD_REQ, { activityId: 9295167, conditionId: conditionId, type: 1 });
         }
         // 疯狂聚宝盆签到

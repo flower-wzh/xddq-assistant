@@ -15,7 +15,6 @@ async function start() {
     const data = fs.readFileSync(configPath, 'utf8');
     const account = JSON.parse(data);
 
-    const { username, password, serverId, token, uid } = account;
     global.account = account;   // 设置 global.account
     global.colors = {
         reset: "\x1b[0m",       // 重置颜色
@@ -32,8 +31,7 @@ async function start() {
     };
     global.configFile = configPath;
 
-
-    await initialize(username, password, serverId, token, uid);
+    await initialize();
 }
 
 start();

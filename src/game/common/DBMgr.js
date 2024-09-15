@@ -13,6 +13,7 @@ class DBMgr {
         this.LanguageWordDB = {};       // i18n
         this.SpiritsDB = {};            // 精怪
         this.GameSkillDB = {};          // 神通
+        this.SystemInfoDB = {};         // 系统解锁/妖途
         this.initialized = false;
         this.basePath = resolvePath('../config/db');
     }
@@ -38,7 +39,8 @@ class DBMgr {
             'LanguageWordDB.json': 'LanguageWordDB',
             'SpiritsDB.json': 'SpiritsDB',
             'GameSkillDB.json': 'GameSkillDB',
-            'RealmsDB.json': 'RealmsDB'
+            'RealmsDB.json': 'RealmsDB',
+            'SystemInfoDB.json': 'SystemInfoDB'
         };
 
         try {
@@ -49,10 +51,22 @@ class DBMgr {
             });
 
             await Promise.all(readPromises);
+
             logger.debug('All databases initialized successfully.');
         } catch (error) {
             logger.error('Error initializing databases:', error);
         }
+    }
+
+    getPreviewSystemIdList() {
+        const t = Object.keys(this.SystemInfoDB);
+        const previewSystemIdList = [];
+        for (let e = 0; e < t.length; ++e) {
+            if (this.SystemInfoDB[t[e]].reward !== "0") {
+                previewSystemIdList.push(+t[e]);
+            }
+        }
+        return previewSystemIdList;
     }
 
     getRealms(id) {

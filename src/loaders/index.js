@@ -2,7 +2,7 @@ import dependencyInjectorLoader from "#loaders/dependencyInjector.js";
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import logger from '#utils/logger.js';
 
-export default async (username, password, serverId, app_pst, uid) => {
+export default async () => {
     await dependencyInjectorLoader();
 
     try {
