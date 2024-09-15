@@ -31,6 +31,22 @@ export default class CustomMgr {
         LoopMgr.inst.remove(this);
     }
 
+    scheduleRun() {
+        const now = new Date();
+        const zeroFifteenToday = new Date();
+
+        zeroFifteenToday.setHours(0, 15, 0, 0);
+
+        if (now >= zeroFifteenToday) {
+            logger.debug("[CustomMgr] 立即执行");
+            this.init();
+        } else {
+            const delay = zeroFifteenToday.getTime() - now.getTime();
+            logger.info(`[CustomMgr] 将在 ${zeroFifteenToday} 执行`);
+            setTimeout(() => {this.init();}, delay);
+        }
+    }
+
     init() {
         if (this.initialized) {
             return;

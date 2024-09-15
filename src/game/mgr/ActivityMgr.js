@@ -2,6 +2,7 @@ import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import RegistMgr from '#game/common/RegistMgr.js';
+import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 
 export default class ActivityMgr {
     constructor() {
@@ -78,6 +79,13 @@ export default class ActivityMgr {
                 const activityId = item.activityId;
                 const { id, buyLimit, name } = item.mallTempMsg;
 
+                // 黑名单会跳过
+                const blackList = [9655276]
+                if (blackList.includes(activityId)) {
+                    logger.debug(`[活动管理] ${activityId} 被跳过`);
+                    return;
+                }
+
                 // 检查活动是否已经激活过
                 if (!this.activatedActivities.has(activityId)) {
                     GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_MESSAGE_LIST, { activityId: activityId });
@@ -86,9 +94,10 @@ export default class ActivityMgr {
                 }
 
                 const logAndBuy = (remaining) => {
-                    logger.info(`[活动管理] ${activityId} 购买 ${name} ${remaining}次`);
+                    logger.debug(`[活动管理] ${activityId} 购买 ${name} ${remaining}次`);
                     for (let i = 0; i < remaining; i++) {
-                        GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: activityId, mallId: id, count: 1 });
+                        const logContent = `[活动管理] ${activityId} 购买 ${name} 第 ${i}/${remaining}次`;
+                        AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_ACTIVITY_BUY_MALL_GOODS, data: { activityId: activityId, mallId: id, count: 1 }, logStr: logContent });
                     }
                 };
 
