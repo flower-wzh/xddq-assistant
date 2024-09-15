@@ -80,7 +80,7 @@ export default class ActivityMgr {
                 const { id, buyLimit, name } = item.mallTempMsg;
 
                 // 黑名单会跳过
-                const blackList = [9655276]
+                const blackList = [9655276, 9712892]
                 if (blackList.includes(activityId)) {
                     logger.debug(`[活动管理] ${activityId} 被跳过`);
                     return;
@@ -96,7 +96,7 @@ export default class ActivityMgr {
                 const logAndBuy = (remaining) => {
                     logger.debug(`[活动管理] ${activityId} 购买 ${name} ${remaining}次`);
                     for (let i = 0; i < remaining; i++) {
-                        const logContent = `[活动管理] ${activityId} 购买 ${name} 第 ${i}/${remaining}次`;
+                        const logContent = `[活动管理] ${activityId} 购买 ${name} 第 ${i + 1}/${remaining}次`;
                         AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_ACTIVITY_BUY_MALL_GOODS, data: { activityId: activityId, mallId: id, count: 1 }, logStr: logContent });
                     }
                 };
