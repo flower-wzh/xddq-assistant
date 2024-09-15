@@ -1,8 +1,9 @@
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
-import LoopMgr from "#game/common/LoopMgr.js";
 import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
+import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
+import LoopMgr from "#game/common/LoopMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class SecretTowerMgr {
@@ -18,6 +19,11 @@ export default class SecretTowerMgr {
     }
 
     static get inst() {
+        if (!SystemUnlockMgr.SECRETTOWER) {
+            logger.warn(`[六道秘境] ${global.colors.red}系统未解锁${global.colors.reset}`);
+            return null;
+        }
+
         if (!this._instance) {
             this._instance = new SecretTowerMgr();
         }
@@ -33,7 +39,7 @@ export default class SecretTowerMgr {
     }
 
     SyncData(t) {
-        logger.debug("[真火秘境管理] 初始化");
+        logger.debug("[六道秘境] 初始化");
     }
 
     challengeResult(t) {
@@ -46,7 +52,7 @@ export default class SecretTowerMgr {
 
             if (this.showResult) {
                 const isWinText = t.allBattleRecord.isWin == true ? `${global.colors.red}成功${global.colors.reset}` : `${global.colors.yellow}失败${global.colors.reset}`;
-                logger.info(`[真火秘境管理] ${isWinText} 当前层数:${t.info.floor} 剩余次数:${this.challenge}`);
+                logger.info(`[六道秘境] ${isWinText} 当前层数:${t.info.floor} 剩余次数:${this.challenge}`);
             }
         }
     }
@@ -58,7 +64,7 @@ export default class SecretTowerMgr {
         try {
             if (this.challenge == 0) {
                 this.clear();
-                logger.info("[真火秘境管理] 任务完成停止循环");
+                logger.info("[六道秘境] 任务完成停止循环");
                 // 任务完成后切换为默认分身
                 const defaultIdx = global.account.switch.defaultIndex || 0; //默认分身
                 PlayerAttributeMgr.inst.setSeparationIdx(defaultIdx)
@@ -73,7 +79,7 @@ export default class SecretTowerMgr {
             }
 
         } catch (error) {
-            logger.error(`[真火秘境管理] loopUpdate error: ${error}`);
+            logger.error(`[六道秘境] loopUpdate error: ${error}`);
         } finally {
             this.isProcessing = false;
         }

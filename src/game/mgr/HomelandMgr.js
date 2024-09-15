@@ -188,36 +188,38 @@ export default class HomelandMgr {
 
     doManage(t) {
         const playerId = UserMgr.playerId.toString();
-        const ongoing = [];
-
         const now = new Date();
-
-        t.reward.forEach((i) => {
+        const ongoing = [];
+    
+        for (const i of t.reward) {
             const finishTime = new Date(parseInt(i.finishTime));
             const isOverTwoHours = (finishTime - now) > 2 * 60 * 60 * 1000;
-            if ((this.worker.energy > 50) && isOverTwoHours) { // 体力超过50且 & 任务完成超过2小时, 撤回并重新派遣
+    
+            const iAmEnemy = i.enemy?.playerId.toString() === playerId;
+            const iAmOwner = i.owner?.playerId.toString() === playerId;
+    
+            // 体力超过50且 & 任务完成超过2小时, 如果不赢则撤回并重新派遣
+            if ((this.worker.energy > 50) && isOverTwoHours && !(iAmOwner && i.owner.isWinner) && !(iAmEnemy && i.enemy.isWinner)) {
                 logger.info(`[福地管理] ${i.playerId.toString()}位置${i.pos}的任务已完成或超过2小时, 撤回并重新派遣!`);
+                Homeland.ExploreEnter(i.playerId);
                 Homeland.Reset(i.playerId, i.pos);
                 Homeland.Steal(i.playerId, i.pos, 1);
-            } else if (i.enemy && i.enemy.playerId.toString() == playerId) {
-                if (!i.enemy.isWinner) {
-                    logger.info(`[福地管理] ${i.playerId.toString()}位置${i.pos}的老鼠必赢, 撤走自己的老鼠!`);
-                    Homeland.Reset(i.playerId, i.pos);
-                } else {
-                    ongoing.push(i.playerId.toString());
-                }
-            } else if (i.owner && i.owner.playerId.toString() == playerId) {
-                if (!i.owner.isWinner) {
-                    logger.info(`[福地管理] ${i.playerId.toString()}位置${i.pos}的老鼠必赢, 撤走自己的老鼠!`);
-                    Homeland.Reset(i.playerId, i.pos);
-                } else {
-                    ongoing.push(i.playerId.toString());
-                }
+                break;
             }
-        });
-
+    
+            if ((iAmEnemy && !i.enemy.isWinner) || (iAmOwner && !i.owner.isWinner)) {
+                logger.info(`[福地管理] ${i.playerId.toString()}位置${i.pos}的老鼠必赢, 撤走自己的老鼠!`);
+                Homeland.Reset(i.playerId, i.pos);
+            }
+            
+            if (iAmEnemy || iAmOwner) {
+                ongoing.push(i.playerId.toString());
+            }
+        }
+    
         this.player.ongoing = ongoing;
     }
+    
 
     async doCheckAndSteal(myself = false) {
         if (this.worker.ready) {

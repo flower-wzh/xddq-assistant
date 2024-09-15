@@ -1,6 +1,7 @@
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
+import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
 
@@ -18,6 +19,11 @@ export default class UnionTreasureMgr {
     }
 
     static get inst() {
+        if (!SystemUnlockMgr.UNION_TREASURE) {
+            logger.warn(`[妖盟寻宝] ${global.colors.red}系统未解锁${global.colors.reset}`);
+            return null;
+        }
+
         if (!this._instance) {
             this._instance = new UnionTreasureMgr();
         }

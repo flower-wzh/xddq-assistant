@@ -4,6 +4,7 @@ import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import PlayerAttributeMgr from "#game/mgr/PlayerAttributeMgr.js";
 import PalaceMgr from "#game/mgr/PalaceMgr.js";
+import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class WildBossMgr {
@@ -55,11 +56,11 @@ export default class WildBossMgr {
             return;
         }
         if (this.getAdRewardTimes < this.AD_REWARD_DAILY_MAX_NUM && now - this.lastAdRewardTime >= this.AD_REWARD_CD) {
-            // TODO 判断是否已开启仙宫
-            // if (!PalaceMgr.inst.checkIsMiracle && PalaceMgr.Enabled) {
-            if (!PalaceMgr.inst.checkIsMiracle) {
-                logger.info("[挑战妖王管理] 仙宫未开启");
-                return;
+            if (SystemUnlockMgr.PALACE) {
+                if (!PalaceMgr.inst.checkIsMiracle) {
+                    logger.info("[挑战妖王管理] 仙宫未开启");
+                    return;
+                }
             }
             logger.info(`[挑战妖王管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次`);
             GameNetMgr.inst.sendPbMsg(Protocol.S_WILDBOSS_REPEAT, {});

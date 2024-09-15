@@ -3,7 +3,8 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import PalaceMgr from "#game/mgr/PalaceMgr.js";
-import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
+import PlayerAttributeMgr from "#game/mgr/PlayerAttributeMgr.js";;
+import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class TowerMgr {
@@ -69,13 +70,14 @@ export default class TowerMgr {
 
     processReward() {
         if (this.data.curPassId == 0) {
-            // TODO 判断是否已开启仙宫
-            // if (!PalaceMgr.inst.checkIsMiracle && PalaceMgr.Enabled) {
-            if (!PalaceMgr.inst.checkIsMiracle) {
-                return;
+            if (SystemUnlockMgr.PALACE) {
+                if (!PalaceMgr.inst.checkIsMiracle) {
+                    return;
+                }
             }
             logger.info("[镇妖塔管理] 开始领取镇妖塔奖励");
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_VIEW_SAVE_SELECT, { markPreference: [{ priority: 1, skillType: 1017 }, { priority: 2, skillType: 1018 }, { priority: 3, skillType: 1023 }, { priority: 4, skillType: 1001 }, { priority: 5, skillType: 1022 }] });
+            // 强灵 增伤 减伤 攻击
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_VIEW_SAVE_SELECT, { markPreference: [{ priority: 1, skillType: 1017 }, { priority: 2, skillType: 1018 }, { priority: 3, skillType: 1023 }, { priority: 4, skillType: 1001 }] });
             GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_QUICK_CHANLLENGE, {});
             GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_SELECT_BUFF, { index: 0, isOneKey: true });
             this.hasReward = true;

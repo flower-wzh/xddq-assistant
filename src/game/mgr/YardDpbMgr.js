@@ -4,6 +4,7 @@ import LoopMgr from "#game/common/LoopMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import UserMgr from "#game/mgr/UserMgr.js";
+import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class YardDpbMgr {
@@ -29,6 +30,11 @@ export default class YardDpbMgr {
     }
 
     static get inst() {
+        if (!SystemUnlockMgr.YARD) {
+            logger.warn(`[仙居管理] ${global.colors.red}系统未解锁${global.colors.reset}`);
+            return null;
+        }
+
         if (!this._instance) {
             this._instance = new YardDpbMgr();
         }

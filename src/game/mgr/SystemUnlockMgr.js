@@ -36,6 +36,7 @@ export default class SystemUnlockMgr {
     static INVADE = false;                 // 异兽入侵
     static HERORANK = false;               // 群英榜
     static MAGIC = false;                  // 神通
+    static PALACE = false;                 // 仙宫
     static EQUIPMENT_ADVANCE = false;      // 装备精炼
     static SECRETTOWER = false;            // 六道秘境
     static MAGIC_TREASURE = false;         // 法宝
@@ -52,6 +53,8 @@ export default class SystemUnlockMgr {
     static UNIVERSE = false;               // 小世界
     static YARD = false;                   // 仙居
     static PLANES_TRIAL = false;           // 三界征途
+    static UNION_TREASURE = false;         // 妖盟寻宝
+    static YUE_BAO = false;                // 余额宝
 
     // 创建一个映射关系
     static systemMapping = {
@@ -68,6 +71,7 @@ export default class SystemUnlockMgr {
         19: "INVADE",                // 异兽入侵
         37: "HERORANK",              // 群英榜
         44: "MAGIC",                 // 神通
+        54: "PALACE",                // 仙宫
         55: "EQUIPMENT_ADVANCE",     // 装备精炼
         56: "SECRETTOWER",           // 六道秘境
         63: "MAGIC_TREASURE",        // 法宝
@@ -83,7 +87,9 @@ export default class SystemUnlockMgr {
         142: "FAIRY_LAND",           // 飞升仙界
         143: "UNIVERSE",             // 小世界
         158: "YARD",                 // 仙居
-        160: "PLANES_TRIAL"          // 三界征途
+        160: "PLANES_TRIAL",         // 三界征途
+        162: "UNION_TREASURE",       // 妖盟寻宝
+        170: "YUE_BAO"               // 余额宝        
     };
 
     // 102
@@ -92,9 +98,10 @@ export default class SystemUnlockMgr {
         // 转换为二进制
         this.systemUnlockInfo = BigInt(t.unlockInfo).toString(2);
 
-        const YaoTuList = DBMgr.inst.getPreviewSystemIdList();
+        // const SystemIdList = DBMgr.inst.getPreviewSystemIdList();
+        const SystemIdList = Object.keys(SystemUnlockMgr.systemMapping).map(Number);
 
-        YaoTuList.forEach(systemId => {
+        SystemIdList.forEach(systemId => {
             const isUnlocked = this.checkUnlockStateBySystemId(systemId);
             const systemKey = SystemUnlockMgr.systemMapping[systemId];
 

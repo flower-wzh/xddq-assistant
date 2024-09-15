@@ -1,6 +1,7 @@
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
+import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
 
@@ -16,6 +17,11 @@ export default class StarTrialMgr {
     }
 
     static get inst() {
+        if (!SystemUnlockMgr.STARTRIAL) {
+            logger.warn(`[星宿试炼] ${global.colors.red}系统未解锁${global.colors.reset}`);
+            return null;
+        }
+
         if (!this._instance) {
             this._instance = new StarTrialMgr();
         }
@@ -39,12 +45,12 @@ export default class StarTrialMgr {
     StarTrialChallenge() {
         // 开始战斗
         this.lastBossId = this.bossId
-        logger.info(`[星宿试炼]挑战星宿`)
+        logger.info(`[星宿试炼] 挑战星宿`)
         GameNetMgr.inst.sendPbMsg(Protocol.S_STARTRIAL_Fight, { BossId: this.bossId });
         this.challengeTimes--
         //开始领奖
         if (this.rewardState == 0) {
-            logger.info(`[星宿试炼]领取每日奖励奖`)
+            logger.info(`[星宿试炼] 领取每日奖励奖`)
             GameNetMgr.inst.sendPbMsg(Protocol.S_STARTRIAL_GetDailyFightReward, {});
         }
     }
@@ -55,12 +61,12 @@ export default class StarTrialMgr {
         this.isProcessing = true
         try {
             if (this.challengeTimes <= 20) {
-                logger.info(`[星宿试炼]任务完成,停止循环`)
+                logger.info(`[星宿试炼] 任务完成,停止循环`)
                 this.clear()
                 return
             }
             if (this.lastBossId == this.bossId) {
-                logger.info(`[星宿试炼]无法杀死星宿,任务终止`)
+                logger.info(`[星宿试炼] 无法杀死星宿,任务终止`)
                 this.clear()
                 return
             }

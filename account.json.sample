@@ -173,7 +173,5 @@
     "maxRetries": "infinity",
     "_comment_maxRetries": "最大重连次数 不设置的话 默认为10 设置为infinity就是无限重连",
     "reconnectInterval": 300000,
-    "_comment_reconnectInterval": "重连间隔 默认为60 * 1000 * 5 即5分钟",
-    "messageDelay": 0,
-    "_comment_messageDelay": "消息的发送延迟 针对秒断 单位为毫秒 一般20-100 默认无延迟"
+    "_comment_reconnectInterval": "重连间隔 默认为60 * 1000 * 5 即5分钟"
 }

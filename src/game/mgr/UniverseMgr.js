@@ -1,8 +1,9 @@
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
-import LoopMgr from "#game/common/LoopMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import GameNetMgr from "#game/net/GameNetMgr.js";
+import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
+import LoopMgr from "#game/common/LoopMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class UniverseMgr {
@@ -20,6 +21,11 @@ export default class UniverseMgr {
     }
 
     static get inst() {
+        if (!SystemUnlockMgr.UNIVERSE) {
+            logger.warn(`[小世界管理] ${global.colors.red}系统未解锁${global.colors.reset}`);
+            return null;
+        }
+
         if (!this._instance) {
             this._instance = new UniverseMgr();
         }

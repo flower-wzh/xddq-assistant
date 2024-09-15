@@ -1,6 +1,7 @@
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
+import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
 
@@ -65,8 +66,10 @@ export default class CustomMgr {
             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250100, times: 1 }); // 运势抽奖
             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250101, times: 1 }); // 运势抽奖
         }
-        // 检查是否有分身
-        GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {});
+        // 检查是否有分身 登天后才有的
+        if (SystemUnlockMgr.SOARING) {
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_GET_SEPARATION_DATAA_MSG_LIST_REQ, {});
+        }
         // 道友一键赠送和领取
         GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 1 });
         GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 2 });
@@ -82,7 +85,9 @@ export default class CustomMgr {
             GameNetMgr.inst.sendPbMsg(Protocol.S_TREASURE_BOWL_SIGN, { activityId: 9295167, conditionId: 10001, getType: i });
         }
         // 进入余额宝
-        GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_ENTER, { activityId: 10004986 });
+        if (SystemUnlockMgr.YUE_BAO) {
+            GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_ENTER, { activityId: 10004986 });
+        }
 
         this.initialized = true;
     }
@@ -91,13 +96,18 @@ export default class CustomMgr {
         const now = Date.now();
         if (now - this.lastExecuteTime >= this.CUSTOM_INTERVAL) {
             this.lastExecuteTime = now;
-            // 进入宗门系统 TODO 判断是否开启宗门系统
-            GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_ENTER, {});
-            if (global.account.switch.pupil) {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_TRAIN, { isOneKey: 1 });
+            if (SystemUnlockMgr.PUPIL) {
+                // 进入宗门系统 
+                GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_ENTER, {});
+                if (global.account.switch.pupil) {
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_TRAIN, { isOneKey: 1 });
+                }
             }
-            // 仙宫外部数据请求 TODO 判断是否开启仙宫
-            GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_ENTER_OUTER, {});
+
+            if (SystemUnlockMgr.PALACE) {
+                // 仙宫外部数据请求
+                GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_ENTER_OUTER, {});
+            }
         }
     }
 

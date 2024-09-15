@@ -24,11 +24,7 @@ class GameNetMgr {
         // Retry parameters
         this.maxRetries = (typeof global.account.maxRetries === 'string' && global.account.maxRetries.toLowerCase() === 'infinity') ? Infinity : (global.account.maxRetries || 10); // 默认最大重连次数
         this.retryCount = 0;    // 当前重连次数
-
-        this.messageQueue = []; // 创建消息队列
-        this.isSending = false; // 标记是否正在发送消息
-        this.messageDelay = global.account.messageDelay || 0; // 默认无延迟
-}
+    }
 
     static get inst() {
         if (this._instance == null) {
@@ -142,27 +138,7 @@ class GameNetMgr {
         stream.buff = t;
         stream.streamsize = stream.offset;
 
-        // Add stream to messageQueue
-        this.messageQueue.push(stream);
-        this.sendNextMessage();
-    }
-
-    sendNextMessage() {
-        if (!this.isSending && this.messageQueue && this.messageQueue.length > 0) {
-            this.isSending = true;
-            const stream = this.messageQueue.shift();
-            const sendMessage = (stream) => {
-                try {
-                    this.net.sendMsg(stream); // Send the message
-                    this.isSending = false;
-                    setTimeout(() => this.sendNextMessage(), this.messageDelay || 0);
-                } catch (err) {
-                    this.isSending = false;
-                    logger.error(`[Message] Error sending message: ${err.message}`);
-                }
-            };
-            sendMessage(stream);
-        }
+        this.net.sendMsg(stream);
     }
 
     parseArrayBuffMsg(arrayBuffer) {

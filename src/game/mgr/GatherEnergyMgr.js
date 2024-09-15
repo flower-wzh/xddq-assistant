@@ -1,9 +1,10 @@
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
-import LoopMgr from "#game/common/LoopMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import BagMgr from "#game/mgr/BagMgr.js";
+import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
+import LoopMgr from "#game/common/LoopMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class GatherEnergyMgr {
@@ -15,7 +16,7 @@ export default class GatherEnergyMgr {
         this.openNum = 0;                   // 聚灵阵开启数量
         this.attendNum = 0;                 // 聚灵阵参加数量                 
         this.num = 0;                       // 腾蛇信物数量
-        this.lock = false;                  //锁一下，避免拿不到
+        this.lock = false;                  // 锁一下，避免拿不到
 
         this.isProcessing = false;
 
@@ -24,6 +25,11 @@ export default class GatherEnergyMgr {
     }
 
     static get inst() {
+        if (!SystemUnlockMgr.GATHERENERGY) {
+            logger.warn(`[聚灵阵管理] ${global.colors.red}系统未解锁${global.colors.reset}`);
+            return null;
+        }
+
         if (!this._instance) {
             this._instance = new GatherEnergyMgr();
         }
@@ -91,9 +97,6 @@ export default class GatherEnergyMgr {
     processReward() {
         const now = Date.now();
         if (this.getAdRewardTimes < this.AD_REWARD_DAILY_MAX_NUM && now - this.lastAdRewardTime >= this.AD_REWARD_CD) {
-            logger.info(`[聚灵阵管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`);
-            // GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_GET_AD_AWARD, { isUseADTime: false });
-
             const logContent = `[聚灵阵] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`;
             AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_GATHER_ENERGY_GET_AD_AWARD, data: { isUseADTime: false }, logStr: logContent });
 

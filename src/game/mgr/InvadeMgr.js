@@ -1,8 +1,9 @@
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
-import LoopMgr from "#game/common/LoopMgr.js";
 import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
+import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
+import LoopMgr from "#game/common/LoopMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class InvadeMgr {
@@ -17,6 +18,11 @@ export default class InvadeMgr {
     }
 
     static get inst() {
+        if (!SystemUnlockMgr.INVADE) {
+            logger.warn(`[异兽入侵] ${global.colors.red}系统未解锁${global.colors.reset}`);
+            return null;
+        }
+
         if (!this._instance) {
             this._instance = new InvadeMgr();
         }
@@ -38,7 +44,7 @@ export default class InvadeMgr {
 
     InvadeChallengeResp(t) {
         if (t.ret == 0) {
-            logger.info(`[异兽入侵]挑战成功`);
+            logger.info(`[异兽入侵] 挑战成功`);
         }
     }
 
@@ -57,7 +63,7 @@ export default class InvadeMgr {
                 return;
             }
             logger.debug("[异兽入侵] 初始化");
-            logger.info(`[异兽入侵]当前次数:${this.battleNum}`);
+            logger.info(`[异兽入侵] 当前次数:${this.battleNum}`);
             // 切换到分身
             const idx = global.account.switch.invadeIndex || 0;
             PlayerAttributeMgr.inst.setSeparationIdx(idx);

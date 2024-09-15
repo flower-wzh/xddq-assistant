@@ -26,11 +26,11 @@ export default class AdRewardMgr {
 
     SyncVip(isVip) {
         logger.info(`[广告管理] 同步VIP状态 ${isVip}`);
-        this.INTERVAL = isVip ? 1000 : 12000;
+        this.INTERVAL = isVip ? 1000 : 30000;
     }
 
     AddAdRewardTask(adTask) {
-        logger.info(`[广告管理] 增加待执行任务 ${adTask.protoId}  ${adTask.logStr}`);
+        logger.debug(`[广告管理] 增加待执行任务 ${adTask.protoId}  ${adTask.logStr}`);
         this.taskList.push(adTask);
     }
 

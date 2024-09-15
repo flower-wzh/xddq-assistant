@@ -3,6 +3,7 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import BagMgr from "#game/mgr/BagMgr.js";
+import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class YueBaoMgr {
@@ -16,6 +17,11 @@ export default class YueBaoMgr {
     }
 
     static get inst() {
+        if (!SystemUnlockMgr.YUE_BAO) {
+            logger.warn(`[余额宝管理] ${global.colors.red}系统未解锁${global.colors.reset}`);
+            return null;
+        }
+        
         if (!this._instance) {
             this._instance = new YueBaoMgr();
         }

@@ -1,6 +1,7 @@
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
+import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
@@ -16,6 +17,11 @@ export default class PupilMgr {
     }
 
     static get inst() {
+        if (!SystemUnlockMgr.PUPIL) {
+            logger.warn(`[宗门管理] ${global.colors.red}系统未解锁${global.colors.reset}`);
+            return null;
+        }
+
         if (!this._instance) {
             this._instance = new PupilMgr();
         }
@@ -80,10 +86,8 @@ export default class PupilMgr {
     processReward() {
         const now = Date.now();
         if (this.getAdRewardTimes < this.AD_REWARD_DAILY_MAX_NUM && now - this.lastAdRewardTime >= this.AD_REWARD_CD) {
-            logger.info(`[宗门管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`);
-            const logContent = `[宗门] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`;
+            const logContent = `[宗门管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`;
             AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_PUPIL_GET_AD_REWARD, data: { isUseADTime: false }, logStr: logContent });
-            // GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_GET_AD_REWARD, { isUseADTime: false });
             this.getAdRewardTimes++;
             this.lastAdRewardTime = now;
         }

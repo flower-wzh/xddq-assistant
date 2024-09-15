@@ -80,7 +80,7 @@ export default class ActivityMgr {
                 const { id, buyLimit, name } = item.mallTempMsg;
 
                 // 黑名单会跳过
-                const blackList = [9655276, 9712892]
+                const blackList = [9655276, 9712892, 9655196]
                 if (blackList.includes(activityId)) {
                     logger.debug(`[活动管理] ${activityId} 被跳过`);
                     return;
@@ -91,23 +91,24 @@ export default class ActivityMgr {
                     GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_MESSAGE_LIST, { activityId: activityId });
                     this.activatedActivities.add(activityId);
                     logger.info(`[活动管理] 活动 ${activityId} 激活成功`);
-                }
 
-                const logAndBuy = (remaining) => {
-                    logger.debug(`[活动管理] ${activityId} 购买 ${name} ${remaining}次`);
-                    for (let i = 0; i < remaining; i++) {
-                        const logContent = `[活动管理] ${activityId} 购买 ${name} 第 ${i + 1}/${remaining}次`;
-                        AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_ACTIVITY_BUY_MALL_GOODS, data: { activityId: activityId, mallId: id, count: 1 }, logStr: logContent });
-                    }
-                };
+                    
+                    const logAndBuy = (remaining) => {
+                        logger.debug(`[活动管理] ${activityId} 购买 ${name} ${remaining}次`);
+                        for (let i = 0; i < remaining; i++) {
+                            const logContent = `[活动管理] ${activityId} 购买 ${name} 第 ${i + 1}/${remaining}次`;
+                            AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_ACTIVITY_BUY_MALL_GOODS, data: { activityId: activityId, mallId: id, count: 1 }, logStr: logContent });
+                        }
+                    };
 
-                if (!i.mallBuyCountList || i.mallBuyCountList.length === 0) {
-                    logAndBuy(buyLimit);
-                } else {
-                    const boughtItem = i.mallBuyCountList.find(j => j.mallId === id);
-                    const boughtCount = boughtItem ? boughtItem.count.toNumber() : 0;
-                    if (boughtCount < buyLimit) {
-                        logAndBuy(buyLimit - boughtCount);
+                    if (!i.mallBuyCountList || i.mallBuyCountList.length === 0) {
+                        logAndBuy(buyLimit);
+                    } else {
+                        const boughtItem = i.mallBuyCountList.find(j => j.mallId === id);
+                        const boughtCount = boughtItem ? boughtItem.count.toNumber() : 0;
+                        if (boughtCount < buyLimit) {
+                            logAndBuy(buyLimit - boughtCount);
+                        }
                     }
                 }
             });

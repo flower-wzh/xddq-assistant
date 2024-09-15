@@ -677,11 +677,8 @@ export default class PlayerAttributeMgr {
         }
 
         if (canExecuteReward) {
-            logger.info(`[仙树管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`);
-
-            const logContent = `[仙树] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`;
+            const logContent = `[仙树管理] 还剩 ${this.AD_REWARD_DAILY_MAX_NUM - this.getAdRewardTimes} 次广告激励`;
             AdRewardMgr.inst.AddAdRewardTask({ protoId: Protocol.S_ATTRIBUTE_DREAM_LV_UP_SPEED_UP, data: { speedUpType: 1, useTimes: 1, isUseADTime: false }, logStr: logContent });
-            // GameNetMgr.inst.sendPbMsg(Protocol.S_ATTRIBUTE_DREAM_LV_UP_SPEED_UP, { speedUpType: 1, useTimes: 1, isUseADTime: false });
             this.getAdRewardTimes++;
             this.lastAdRewardTime = now;
         }
