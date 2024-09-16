@@ -4721,6 +4721,46 @@
             "smMethod": "LiveShowNotifyRespMsg"
         }
     ],
+    "ComposeBall": [
+        {
+            "comment": "ComposeBallConfigSync解析",
+            "byteDecode": "ComposeBallConfigSync"
+        },
+        {
+            "comment": "ComposeBallUserDataSync解析",
+            "byteDecode": "ComposeBallUserDataSync"
+        },
+        {
+            "key": "S_COMPOSE_BALL_ENTER_REQ",
+            "comment": "进入游戏",
+            "cmMethod": "ComposeBallEnterGameReq",
+            "smMethod": "ComposeBallEnterGameResp"
+        },
+        {
+            "key": "S_COMPOSE_BALL_COMPOSE_REQ",
+            "comment": "请求合成",
+            "cmMethod": "ComposeBallComposeReq",
+            "smMethod": "ComposeBallComposeResp"
+        },
+        {
+            "key": "S_COMPOSE_BALL_USE_ITEM_REQ",
+            "comment": "请求使用道具",
+            "cmMethod": "ComposeBallUseItemReq",
+            "smMethod": "ComposeBallUseItemResp"
+        },
+        {
+            "key": "S_COMPOSE_BALL_HP_ITEM_REQ",
+            "comment": "请求增加体力",
+            "cmMethod": "ComposeBallHpItemReq",
+            "smMethod": "ComposeBallHpItemResp"
+        },
+        {
+            "key": "S_COMPOSE_BALL_SETTLE_REQ",
+            "comment": "请求结算",
+            "cmMethod": "ComposeBallSettleReq",
+            "smMethod": "ComposeBallSettleResp"
+        }
+    ],
     "Friend": [
         {
             "key": "S_FRIEND_GET_LIST",
@@ -4751,6 +4791,615 @@
             "comment": "删除世交",
             "cmMethod": "FriendDeleteReq",
             "smMethod": "FriendDeleteResp"
+        }
+    ],
+    "Monopoly": [
+        {
+            "key": "S_MONOPOLY_ENTER_ACTIVITY",
+            "comment": "进入活动",
+            "cmMethod": "MonopolyEnterActivityReq",
+            "smMethod": "MonopolyEnterActivityResp"
+        },
+        {
+            "key": "S_MONOPOLY_ENTER_MAP",
+            "comment": "进入地图",
+            "cmMethod": "MonopolyEnterMapReq",
+            "smMethod": "MonopolyEnterMapResp"
+        },
+        {
+            "key": "S_MONOPOLY_ROLL_DICE",
+            "comment": "摇色子",
+            "cmMethod": "MonopolyRollDiceReq",
+            "smMethod": "MonopolyRollDiceResp"
+        },
+        {
+            "key": "S_MONOPOLY_LOG_LIST",
+            "comment": "获取协助列表",
+            "cmMethod": "MonopolyAssistListReq",
+            "smMethod": "MonopolyAssistListResp"
+        },
+        {
+            "key": "S_MONOPOLY_USE_STRENGHTH_ITEM",
+            "comment": "使用道具 补充体力",
+            "cmMethod": "MonopolyReplenishStrengthReq",
+            "smMethod": "MonopolyReplenishStrengthResp"
+        },
+        {
+            "key": "S_MONOPOLY_RESCUE_TRAP",
+            "comment": "协助队友出陷阱",
+            "cmMethod": "MonopolyRescueTrapReq",
+            "smMethod": "MonopolyRescueTrapResp"
+        },
+        {
+            "key": "S_MONOPOLY_REQ_ROB_LIST",
+            "comment": "获取可掠夺的妖盟列表",
+            "cmMethod": "MonopolyRobListReq",
+            "smMethod": "MonopolyRobListResp"
+        },
+        {
+            "key": "S_MONOPOLY_DO_ROB",
+            "comment": "掠夺其他妖盟",
+            "cmMethod": "MonopolyRobReq",
+            "smMethod": "MonopolyRobResp"
+        },
+        {
+            "key": "S_MONOPOLY_ROB_LOG",
+            "comment": "获取妖盟日志列表",
+            "cmMethod": "MonopolyUnionLogListReq",
+            "smMethod": "MonopolyUnionLogListResp"
+        },
+        {
+            "key": "S_MONOPOLY_ROB_LOG_DETAIL",
+            "comment": "获取玩家日志详情",
+            "cmMethod": "MonopolyPlayerLogDetailReq",
+            "smMethod": "MonopolyPlayerLogDetailResp"
+        },
+        {
+            "key": "S_MONOPOLY_ASSIST_ATTACK_MONSTER",
+            "comment": "协助队友攻击怪物",
+            "cmMethod": "MonopolyAssistAttackMonsterReq",
+            "smMethod": "MonopolyAssistAttackMonsterResp"
+        },
+        {
+            "key": "S_MONOPOLY_RECEIVE_ASSIST_REWARD",
+            "comment": "领取队友帮忙打死怪后的奖励",
+            "cmMethod": "MonopolyReceiveMonsterRewardReq",
+            "smMethod": "MonopolyReceiveMonsterRewardResp"
+        },
+        {
+            "key": "S_MONOPOLY_RED_POINT",
+            "comment": "红点详情",
+            "cmMethod": "MonopolyRedPointReqMsg",
+            "smMethod": "MonopolyRedPointRespMsg"
+        },
+        {
+            "key": "S_MONOPOLY_NOTIFY_BULLET_TEXT",
+            "comment": "弹幕推送",
+            "cmMethod": "",
+            "smMethod": "MonopolyBarrageNotify"
+        },
+        {
+            "key": "S_MONOPOLY_NOTIFY_PLAYER_MOVE",
+            "comment": "同妖盟移动同步",
+            "cmMethod": "",
+            "smMethod": "MonopolyMoveNotify"
+        },
+        {
+            "key": "S_MONOPOLY_NOTIFY_PLAYER_BREAK_TRAP",
+            "comment": "如果队友主动或者被协助 挣脱了陷阱 同步",
+            "cmMethod": "",
+            "smMethod": "MonopolyNotifyPlayerEndTrap"
+        },
+        {
+            "key": "S_MONOPOLY_NOTIFY_BUILDING_UP_LEVEL",
+            "comment": "触发建筑升级的推送",
+            "cmMethod": "",
+            "smMethod": "MonopolyNotifyBuildingUpgrade"
+        },
+        {
+            "key": "S_MONOPOLY_TEAM_SCORE_CHANGED",
+            "comment": "妖盟积分变动",
+            "cmMethod": "",
+            "smMethod": "MonopolyScoreNotify"
+        },
+        {
+            "key": "S_MONOPOLY_SELF_RANK_CHANGED",
+            "comment": "同步排名信息",
+            "cmMethod": "",
+            "smMethod": "MonopolyRankNotify"
+        },
+        {
+            "key": "S_MONOPOLY_USE_REMOTE_ROLL",
+            "comment": "遥控骰子",
+            "cmMethod": "MonopolyRemoteRollDiceReq",
+            "smMethod": "MonopolyRemoteRollDiceResp"
+        },
+        {
+            "key": "S_MONOPOLY_ENTER_ROB",
+            "comment": "进入其他妖盟地图，请求详细数据",
+            "cmMethod": "MonopolyEnterRobMapReq",
+            "smMethod": "MonopolyEnterRobMapResp"
+        },
+        {
+            "key": "S_MONOPOLY_AUTO_UNLOCK",
+            "comment": "自动操作解锁",
+            "cmMethod": "MonopolyAutoUnlockReq",
+            "smMethod": "MonopolyAutoUnlockResp"
+        },
+        {
+            "comment": "MonopolyConfigSyncMsg解析",
+            "byteDecode": "MonopolyConfigSyncMsg"
+        },
+        {
+            "key": "S_MONOPOLY_USE_MOVE_BUFF",
+            "comment": "神行符移动",
+            "cmMethod": "MonopolyQuickMoveReq",
+            "smMethod": "MonopolyQuickMoveResp"
+        },
+        {
+            "key": "S_MONOPOLY_SPE_MOVE",
+            "comment": "暗格移动",
+            "cmMethod": "MonopolyDarkGridMoveReq",
+            "smMethod": "MonopolyDarkGridMoveResp"
+        },
+        {
+            "key": "S_MONOPOLY_EVENT_HANDLE",
+            "comment": "处理事件同一接口",
+            "cmMethod": "MonopolyEventHandleReq",
+            "smMethod": "MonopolyEventHandleResp"
+        },
+        {
+            "comment": "MonopolyBreakFreeReq解析",
+            "byteDecode": "MonopolyBreakFreeReq"
+        },
+        {
+            "comment": "MonopolyBreakFreeResp解析",
+            "byteDecode": "MonopolyBreakFreeResp"
+        },
+        {
+            "comment": "MonopolyDrawReq解析",
+            "byteDecode": "MonopolyDrawReq"
+        },
+        {
+            "comment": "MonopolyDrawResp解析",
+            "byteDecode": "MonopolyDrawResp"
+        },
+        {
+            "comment": "MonopolyEventActionReqMsg解析",
+            "byteDecode": "MonopolyEventActionReqMsg"
+        },
+        {
+            "comment": "MonopolyEventActionRespMsg解析",
+            "byteDecode": "MonopolyEventActionRespMsg"
+        },
+        {
+            "comment": "MonopolyRankList解析",
+            "byteDecode": "MonopolyRankList"
+        },
+        {
+            "key": "S_MONOPOLY_MONSTER_INFO",
+            "comment": "查看怪物详情",
+            "cmMethod": "MonopolyMonsterAttrReq",
+            "smMethod": "MonopolyMonsterAttrResp"
+        },
+        {
+            "key": "S_MONOPOLY_REQ_SELF_RANK",
+            "comment": "获取个人排名",
+            "cmMethod": "MonopolyGetPlayerRankReq",
+            "smMethod": "MonopolyGetPlayerRankResp"
+        },
+        {
+            "key": "S_MONOPOLY_REQ_ENEMY_LIST",
+            "comment": "获取仇人列表",
+            "cmMethod": "MonopolyGetEnemyListReq",
+            "smMethod": "MonopolyGetEnemyListResp"
+        },
+        {
+            "key": "S_MONOPOLY_BUILDING_SCORE_DETAIL",
+            "comment": "建筑积分详情",
+            "cmMethod": "MonopolyBuildingScoreDetailReq",
+            "smMethod": "MonopolyBuildingScoreDetailResp"
+        },
+        {
+            "key": "S_MONOPOLY_GROUP_DETAIL",
+            "comment": "分组内积分详情",
+            "cmMethod": "MonopolyGetGroupDetailReq",
+            "smMethod": "MonopolyGetGroupDetailResp"
+        },
+        {
+            "key": "S_MONOPOLY_WORSHIP",
+            "comment": "膜拜",
+            "cmMethod": "MonopolyWorshipReq",
+            "smMethod": "MonopolyWorshipResp"
+        },
+        {
+            "key": "S_MONOPOLY_SCORE_DETAIL",
+            "comment": "积分详情",
+            "cmMethod": "MonopolyScoreDetailReq",
+            "smMethod": "MonopolyScoreDetailResp"
+        },
+         {
+            "key": "S_MONOPOLY_REQ_GETBRESSING",
+            "comment": "领取天赐祥瑞奖励",
+            "cmMethod": "MonopolyReceiveBlessingReq",
+            "smMethod": "MonopolyReceiveBlessingResp"
+        },
+        {
+            "key": "S_MONOPOLY_BRESSINGLIST",
+            "comment": "获取天赐福源列表",
+            "cmMethod": "MonopolyBlessingListReq",
+            "smMethod": "MonopolyBlessingListResp"
+        },
+        {
+            "key":"S_MONOPOLY_BLESSING_ASYNC",
+            "comment": "天赐福源推送",
+            "smMethod":"MonopolySendBlessingNotify"
+        },
+        {
+            "key":"S_MONOPOLY_MY_BLESSING",
+            "comment":"天赐福源推送-我的",
+            "smMethod":"MonopolyMyBlessingNotify"
+        },
+        {
+            "key":"S_MONOPOLY_ASSIST_RED",
+            "comment":"协助红点推送",
+            "smMethod":"MonopolyAssistRedNotify"
+        },
+        {
+            "key":"S_MONOPOLY_ASSIST_SCORE_CHANGED",
+            "comment":"协助击杀后积分推送",
+            "smMethod":"MonopolyPlayerScoreChangeNotify"
+        },
+        {
+            "key":"S_MONOPOLY_GUESS_PLAYERS",
+            "comment":"竞猜正确玩家数据",
+            "cmMethod":"MonopolyGuessPlayersReq",
+            "smMethod":"MonopolyGuessPlayersResp"
+        },
+        {
+            "key":"S_MONOPOLY_GET_GUESS_DATA",
+            "comment":"请求竞猜界面数据",
+            "cmMethod":"MonopolyGetGuessDataReq",
+            "smMethod":"MonopolyGetGuessDataResp"
+        },
+        {
+            "key":"S_MONOPOLY_GUESS_SELECT",
+            "comment":"请求竞猜选择",
+            "cmMethod":"MonopolyGuessSelectReq",
+            "smMethod":"MonopolyGuessSelectResp"
+        },
+        {
+            "key":"S_MONOPOLY_GUESS_REWARD",
+            "comment":"请求竞猜奖励",
+            "cmMethod":"MonopolyGuessRewardReq",
+            "smMethod":"MonopolyGuessRewardResp"
+        }
+    ],
+    "PlanesTrial":[
+        {
+            "key": "S_PLANES_TRIAL_ENTER",
+            "comment": "进入三界征途界面",
+            "cmMethod": "EnterPlanesTrialReq",
+            "smMethod": "EnterPlanesTrialRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_CREATE_TEAM",
+            "comment": "创建队伍",
+            "cmMethod": "PlanesTrialCreateTeamReq",
+            "smMethod": "PlanesTrialCreateTeamRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_QUIT_TEAM",
+            "comment": "退出队伍",
+            "cmMethod": "PlanesTrialQuitTeamReq",
+            "smMethod":"PlanesTrialQuitTeamRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_CHANGE_LEADER",
+            "comment": "转让队长",
+            "cmMethod": "PlanesTrialChangeLeaderReq",
+            "smMethod":"PlanesTrialChangeLeaderRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_CANCEL_TEAM_APPLY",
+            "comment": "取消加入队伍",
+            "cmMethod": "PlanesTrialCancelTeamApplyReq",
+            "smMethod": "PlanesTrialCancelTeamApplyRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_GET_TEAM_LIST",
+            "comment": "获取队伍列表",
+            "cmMethod": "PlanesTrialGetTeamListReq",
+            "smMethod": "PlanesTrialGetTeamListRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_KICK_OUT_TEAM",
+            "comment": "踢出队伍",
+            "cmMethod": "PlanesTrialKickOutTeamReq",
+            "smMethod": "PlanesTrialKickOutTeamRsp"
+        },{
+            "key": "S_PLANES_TRIAL_APPLY_JOIN_TEAM_AGREE",
+            "comment": "同意申请",
+            "cmMethod": "PlanesTrialApplyJoinTeamAgreeReq",
+            "smMethod": "PlanesTrialApplyJoinTeamAgreeRsp"
+        },{
+            "key": "S_PLANES_TRIAL_APPLY_JOIN_TEAM_REFUSED",
+            "comment": "一键拒绝",
+            "cmMethod": "PlanesTrialApplyJoinTeamRefusedReq",
+            "smMethod": "PlanesTrialApplyJoinTeamRefusedRsp"
+        },{
+            "key": "S_PLANES_TRIAL_GET_TEAM_INFO",
+            "comment": "查找队伍",
+            "cmMethod": "PlanesTrialGetTeamInfoReq",
+            "smMethod": "PlanesTrialGetTeamInfoRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_START_BATTLE",
+            "comment": "开始战斗",
+            "cmMethod": "PlanesTrialStartBattleReq",
+            "smMethod": "PlanesTrialStartBattleRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_RANK_PLAYER_INFO",
+            "comment": "请求玩家数据",
+            "cmMethod": "PlanesTrialGetPlayerInfoReq",
+            "smMethod": "PlanesTrialGetPlayerInfoRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_TEAM_START",
+            "comment": "组队页面请求",
+            "cmMethod": "PlanesTrialTeamStartReq",
+            "smMethod": "PlanesTrialTeamStartRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_ENTER_TEAM",
+            "comment": "组队内部请求",
+            "cmMethod": "EnterPlanesTrialTeamReq",
+            "smMethod": "EnterPlanesTrialTeamRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_START_MATCH",
+            "comment": "开始匹配",
+            "cmMethod": "PlanesTrialStartMatchReq",
+            "smMethod": "PlanesTrialStartMatchRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_MATCH_MEMBER",
+            "comment": "匹配",
+            "cmMethod": "PlanesTrialMatchMemberReq",
+            "smMethod": "PlanesTrialMatchMemberRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_TEAM_PREPARE",
+            "comment": "开始准备",
+            "cmMethod": "PlanesTrialTeamPrepareReq",
+            "smMethod": "PlanesTrialTeamPrepareRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_INVITE",
+            "comment": "邀请",
+            "cmMethod": "PlanesTrialInviteReq", 
+            "smMethod": "PlanesTrialInviteRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_GET_BOSS_INFO",
+            "comment": "获取boss信息",
+            "cmMethod": "PlanesTrialGetBossInfoReq",
+            "smMethod": "PlanesTrialGetBossInfoRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_LEAVE",
+            "comment": "离开系统",
+            "cmMethod": "LeavePlanesTrialReq",
+            "smMethod": "LeavePlanesTrialRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_GET_BOSS_POWER",
+            "comment": "获取boss妖力",
+            "cmMethod": "PlanesTrialGetBossPowerReq",
+            "smMethod": "PlanesTrialGetBossPowerRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_LEADER_JUMP_ANIM",
+            "comment": "队长跳过战斗",
+            "cmMethod": "PlanesTrialSkipBattleReq",
+            "smMethod": "PlanesTrialSkipBattleRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_LEADER_REQ_SELECT_BUFF",
+            "comment": "队长开始选buff",
+            "cmMethod": "PlanesTrialStartSelectBuffReq",
+            "smMethod": "PlanesTrialStartSelectBuffRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_TEAM_SELECT_BUFF",
+            "comment": "选buff",
+            "cmMethod": "PlanesTrialSelectBuffReq",
+            "smMethod": "PlanesTrialSelectBuffRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_SET_BUFF_PRE",
+            "comment": "保存选择选项",
+            "cmMethod": "PlanesTrialSetBuffPreferenceReq",
+            "smMethod": "PlanesTrialSetBuffPreferenceRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_GET_SELECTED_BUFF",
+            "comment": "查看自己选的buff",
+            "cmMethod": "PlanesTrialGetSelectedBuffReq",
+            "smMethod": "PlanesTrialGetSelectedBuffRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_GET_BUFF_PRE",
+            "comment": "查看预设buff",
+            "cmMethod": "PlanesTrialGetBuffPreferenceReq",
+            "smMethod": "PlanesTrialGetBuffPreferenceRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_TEAM_LEADER_NOTIFY_SYNC",
+            "comment": "队长接受到广播",
+            "cmMethod": "",
+            "smMethod": "PlanesTrialTeamLeaderNotify"
+        },
+        {
+            "key": "S_PLANES_TRIAL_TEAM_MEMBER_NOTIFY_SYNC",
+            "comment": "队员接收到的广播",
+            "cmMethod": "",
+            "smMethod": "PlanesTrialTeamMemberNotify"
+        },
+        {
+            "key": "S_PLANES_TRIAL_ENTER_BATTLE",
+            "comment": "进入布阵",
+            "cmMethod": "PlanesTrialEnterBattleReq",
+            "smMethod": "PlanesTrialEnterBattleResp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_ENTER_SWITCH_SEPARATION",
+            "comment": "进入切换分身界面",
+            "cmMethod": "PlanesTrialEnterSwitchSeparationReq",
+            "smMethod": "PlanesTrialEnterSwitchSeparationRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_SWITCH_SEPARATION",
+            "comment": "切换上阵的分身",
+            "cmMethod": "PlanesTrialSwitchSeparationReq",
+            "smMethod": "PlanesTrialSwitchSeparationRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_SEPARATION_DETAIL",
+            "comment": "查看上阵分身详细数据",
+            "cmMethod": "PlanesTrialSeparationDetailReq",
+            "smMethod": "PlanesTrialSeparationDetailRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_CHANGE_POS",
+            "comment": "变更参战玩家位置",
+            "cmMethod": "PlanesTrialChangePosReq",
+            "smMethod": "PlanesTrialChangePosRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_DO_BATTLE",
+            "comment": "进行战斗",
+            "cmMethod": "PlanesTrialDoBattleReq",
+            "smMethod": "PlanesTrialDoBattleRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_VIDEO_INFO",
+            "comment": "查看关卡录像数据",
+            "cmMethod": "PlanesTrialVideoInfoReq",
+            "smMethod": "PlanesTrialVideoInfoRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_PLAY_VIDEO",
+            "comment": "播放关卡录像",
+            "cmMethod": "PlanesTrialPlayVideoReq",
+            "smMethod": "PlanesTrialPlayVideoRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_CLOSE_RESULE",
+            "comment": "播放关卡录像",
+            "cmMethod": "PlanesTrialCloseSettleScreenReq",
+            "smMethod": "PlanesTrialCloseSettleScreenResp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_ENTER_BATTLE_NOTIFY",
+            "comment": "广播进入布阵界面",
+            "cmMethod": "",
+            "smMethod": "PlanesTrialEnterBattleNotify"
+        },
+        {
+            "key": "S_PLANES_TRIAL_SWITCH_SEPARATION_NOTIFY",
+            "comment": "通知上阵的分身变更",
+            "cmMethod": "",
+            "smMethod": "PlanesTrialSwitchSeparationNotify"
+        },
+        {
+            "key": "S_PLANES_TRIAL_DO_BATTLE_NOTIFY",
+            "comment": "通知进入战斗",
+            "cmMethod": "",
+            "smMethod": "PlanesTrialDoBattleNotify"
+        },
+        {
+            "key": "S_PLANES_TRIAL_CHANGE_POS_NOTIFY",
+            "comment": "通知参战玩家位置变更",
+            "cmMethod": "",
+            "smMethod": "PlanesTrialChangePosNotify"
+        },
+        {
+            "key": "S_PLANES_TRIAL_GET_BATTLE_REPLAY",
+            "comment": "战斗回放",
+            "cmMethod": "PlanesTrialGetBattleVideoReq",
+            "smMethod": "PlanesTrialGetBattleVideoRsp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_GET_TRIALmEMBER_COUNT_REQ",
+            "comment": "获取秘境人数请求",
+            "cmMethod": "getPlanesTrialTrialMemberCountReq",
+            "smMethod": "getPlanesTrialTrialMemberCountResp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_GET_PLAYER_RESTRAIN_INFO_MSG_REQ",
+            "comment": "获取被压制属性",
+            "cmMethod": "PlayerRestrainInfoMsgReq",
+            "smMethod": "PlayerRestrainInfoMsgResp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_GET_ACHIEVEMENT_REWARD",
+            "comment": "领取成就奖励",
+            "cmMethod": "PlanesTrialGetAchievementRewardReq",
+            "smMethod": "PlanesTrialGetAchievementRewardRsp"
+        },
+        {
+            "comment": "PlanesTrialRankTeamList解析",
+            "byteDecode": "PlanesTrialRankTeamList"
+        },
+        {
+            "key": "S_PLANES_TRIAL_GET_RANK",
+            "comment": "获取排行榜",
+            "cmMethod": "PlanesTrialRankGetReq",
+            "smMethod": "PlanesTrialRankGetResp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_HEARTBEAT",
+            "comment": "心跳包",
+            "cmMethod": "PlanesTrialHeartbeatReq",
+            "smMethod": "PlanesTrialHeartbeatResp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_GET_SELECT_REWARD_DETAIL_REQ",
+            "comment": "获取自选奖励信息",
+            "cmMethod": "PlanesTrialGetSelectRewardDetailReq",
+            "smMethod": "PlanesTrialGetSelectRewardDetailResp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_SELECT_REWARD_REQ",
+            "comment": "选择奖励",
+            "cmMethod": "PlanesTrialSelectRewardReq",
+            "smMethod": "PlanesTrialSelectRewardResp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_GET_TRIAL_UPDATE_LOCK_DATA",
+            "comment": "更新绑定数据",
+            "cmMethod": "PlanesTrialUpdateLockDataReq",
+            "smMethod": "PlanesTrialUpdateLockDataResp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_GET_GOD_BODY_DETAIL_DATA_MSG",
+            "comment": "获取分身数据",
+            "cmMethod": "PlanesTrialGetGodBodyDataReq",
+            "smMethod": "PlanesTrialGetGodBodyDataResp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_GET_GRAND_PRIZE_INFO",
+            "comment": "获取大奖信息",
+            "cmMethod": "PlanesTrialGetGrandPrizeInfoReq",
+            "smMethod": "PlanesTrialGetGrandPrizeInfoResp"
+        },
+        {
+            "key": "S_PLANES_TRIAL_RECEIVE_GRAND_PRIZE",
+            "comment": "领取大奖",
+            "cmMethod": "PlanesTrialReceiveGrandPrizeReq",
+            "smMethod": "PlanesTrialReceiveGrandPrizeResp"
         }
     ],
     "Pupil": [
@@ -4921,6 +5570,30 @@
             "byteDecode": "MarriageRecordTempMsg"
         }
     ],
+    "PupilRankActivity": [
+        {
+            "comment": "PupilRankRankListMsg解析",
+            "byteDecode": "PupilRankRankListMsg"
+        },
+        {
+            "key": "S_PUPIL_RANK_ENTER",
+            "comment": "进入宗门大比",
+            "cmMethod": "EnterPupilRankActivityReq",
+            "smMethod": "EnterPupilRankActivityResp"
+        },
+        {
+            "key": "S_PUPIL_RANK_GET_INCREASE_RECORD",
+            "comment": "获取涨幅记录",
+            "cmMethod": "GetIncreaseRecordReq",
+            "smMethod": "GetIncreaseRecordResp"
+        },
+        {
+            "key": "S_PUPIL_RANK_DETAIL",
+            "comment": "查看 排行榜上玩家的 涨幅记录",
+            "cmMethod": "PupilRankDetailReq",
+            "smMethod": "PupilRankDetailResp"
+        }
+    ],
     "RegressionActivity": [
         {
             "comment": "RegressionActivityConfig解析",
@@ -4977,6 +5650,216 @@
             "smMethod":"RuleTrialMonsterAttrResp"
         }
     ],
+    "SkyTrade": [
+        {
+            "key": "S_SKY_TRADE_ENTER",
+            "comment": "进入活动",
+            "cmMethod": "SkyTradeEnterActivityReq",
+            "smMethod": "SkyTradeEnterActivityResp"
+        },
+        {
+            "key": "S_SKY_TRADE_ENTER_MAP",
+            "comment": "进入地图",
+            "cmMethod": "SkyTradeEnterReq",
+            "smMethod": "SkyTradeEnterResp"
+        },
+        {
+            "key": "S_SKY_TRADE_GROUP_INFO",
+            "comment": "查看分组信息",
+            "cmMethod": "SkyTradeGroupInfoReq",
+            "smMethod": "SkyTradeGroupInfoResp"
+        },
+        {
+            "key": "S_SKY_TRADE_SPEED_UP",
+            "comment": "加速移动",
+            "cmMethod": "SkyTradeAddSpeedReq",
+            "smMethod": "SkyTradeAddSpeedResp"
+        },
+        {
+            "key": "S_SKY_TRADE_MOVE",
+            "comment": "请求移动",
+            "cmMethod": "SkyTradeGotoPortReq",
+            "smMethod": "SkyTradeGotoPortResp"
+        },
+        {
+            "key": "S_SKY_TRADE_BUY",
+            "comment": "购买货物",
+            "cmMethod": "SkyTradeDealReq",
+            "smMethod": "SkyTradeDealResp"
+        },
+        {
+            "key": "S_SKY_TRADE_CHALLENGE_LIST",
+            "comment": "挑战列表",
+            "cmMethod": "SkyTradeChallengeListReq",
+            "smMethod": "SkyTradeChallengeListResp"
+        },
+        {
+            "key": "S_SKY_TRADE_CHALLENGE_INFO",
+            "comment": "请求挑战",
+            "cmMethod": "SkyTradeChallengeReq",
+            "smMethod": "SkyTradeChallengeResp"
+        },
+        {
+            "key": "S_SKY_TRADE_PLAYER_INFO",
+            "comment": "妖盟成员跑商威望信息",
+            "cmMethod": "SkyTradeUnionFameReq",
+            "smMethod": "SkyTradeUnionFameResp"
+        },
+        {
+            "key": "S_SKY_TRADE_REQ_MOVE_FINISH",
+            "comment": "领取到港事件奖励",
+            "cmMethod": "SkyTradeGetRewardReq",
+            "smMethod": "SkyTradeGetRewardResp"
+        },
+        {
+            "key": "S_SKY_TRADE_REPORT",
+            "comment": "请求战报",
+            "cmMethod": "SkyTradeReportReq",
+            "smMethod": "SkyTradeReportResp"
+        },
+        {
+            "key": "S_SKY_TRADE_LOG",
+            "comment": "获取日志",
+            "cmMethod": "SkyTradePortLogReq",
+            "smMethod": "SkyTradeLogResp"
+        },
+        {
+            "key": "S_SKY_TRADE_PLANT_INFO",
+            "comment": "天地灵石信息",
+            "cmMethod": "SkyTradeSparInfoReq",
+            "smMethod": "SkyTradeSparInfoResp"
+        },
+        {
+            "key": "S_SKY_TRADE_PLANT_NOTICE",
+            "comment": "领取天地灵石等级奖励",
+            "cmMethod": "SkyTradeGetSparPowerReq",
+            "smMethod": "SkyTradeGetSparPowerResp"
+        },
+        {
+            "key": "S_SKY_TRADE_PLANT_WATER",
+            "comment": "领取天地灵石盟友奖励",
+            "cmMethod": "SkyTradeGetWelfareReq",
+            "smMethod": "SkyTradeGetWelfareResp"
+        },
+        {
+            "key": "S_SKY_TRADE_PLANT_SEND",
+            "comment": "发送灵液",
+            "cmMethod": "SkyTradeSendWelfareReq",
+            "smMethod": "SkyTradeSendWelfareResp"
+        },
+        {
+            "key": "S_SKY_TRADE_PLANT_SEND_LOG",
+            "comment": "灵液记录",
+            "cmMethod": "SkyTradeWelfareRecordReq",
+            "smMethod": "SkyTradeWelfareRecordResp"
+        },
+        {
+            "key": "S_SKY_TRADE_KEEP_HEART",
+            "comment": "挑战界面心跳",
+            "cmMethod": "SkyTradeChallengeHeartBeatReq",
+            "smMethod": "SkyTradeChallengeHeartBeatResp"
+        },
+        {
+            "key": "S_SKY_TRADE_USE_ITEM",
+            "comment": "使用道具补充挑战次数",
+            "cmMethod": "SkyTradeUseRobItemReq",
+            "smMethod": "SkyTradeUseRobItemResp"
+        },
+        {
+            "key": "S_SKY_TRADE_REPORT_DETAIL",
+            "comment": "请求详细战报信息",
+            "cmMethod": "SkyTradeReportDetailReq",
+            "smMethod": "SkyTradeReportDetailResp"
+        },
+        {
+            "key": "S_SKY_TRADE_SCORE_CHANGED",
+            "comment": "妖盟分数积分变更",
+            "cmMethod": "",
+            "smMethod": "SkyTradeUnionDataSync"
+        },
+        {
+            "key": "S_SKY_TRADE_BUILDING_REST_NOTIFY",
+            "comment": "货物刷新",
+            "cmMethod": "",
+            "smMethod": "SkyTradeResetSync"
+        },
+        {
+            "key": "S_SKY_TRADE_SHIP_DATA_NOTIFY",
+            "comment": "同步地图盟友的航行信息",
+            "cmMethod": "",
+            "smMethod": "SkyTradeAirshipInfoSync"
+        },
+        {
+            "key": "S_SKY_TRADE_CHANLLENGE_NOTIFY",
+            "comment": "同步挑战信息",
+            "cmMethod": "",
+            "smMethod": "SkyTradeChallengeInfoSync"
+        },
+        {
+            "key": "S_SKY_TRADE_RAREGOODS_NOTIFY",
+            "comment": "同步紧缺货物信息",
+            "cmMethod": "",
+            "smMethod": "SkyTradeRareGoodsSync"
+        },
+        {
+            "key": "S_SKY_TRADE_FAME_RANK_NOTIFY",
+            "comment": "同步威望排名",
+            "cmMethod": "",
+            "smMethod": "SkyTradeFameRankSync"
+        },
+        {
+            "key": "S_SKY_TRADE_GUESS_PLAYER_LIST",
+            "comment": "竞猜结果",
+            "cmMethod": "SkyTradeGuessPlayersReq",
+            "smMethod": "SkyTradeGuessPlayersResp"
+        },
+        {
+            "key": "S_SKY_TRADE_BET_DATA",
+            "comment": "请求竞猜界面数据",
+            "cmMethod": "SkyTradeGuessDataReq",
+            "smMethod": "SkyTradeGuessDataResp"
+        },
+        {
+            "key": "S_SKY_TRADE_BET_SELECT",
+            "comment": "设置竞猜选择",
+            "cmMethod": "SkyTradeGuessSelectReq",
+            "smMethod": "SkyTradeGuessSelectResp"
+        },
+        {
+            "key": "S_SKY_TRADE_BET_REWARD",
+            "comment": "领取竞猜奖励",
+            "cmMethod": "SkyTradeGuessRewardReq",
+            "smMethod": "SkyTradeGuessRewardResp"
+        },
+        {
+            "key": "S_SKY_TRADE_REPORT_GOODS",
+            "comment": "请求上报所在地点稀缺货物",
+            "cmMethod": "SkyTradeReportGoodsReq",
+            "smMethod": "SkyTradeReportGoodsResp"
+        },
+        {
+            "key": "S_SKY_TRADE_RESET_STOCK",
+            "comment": "请求刷新货物库存",
+            "cmMethod": "SkyTradeResetStockReq",
+            "smMethod": "SkyTradeResetStockResp"
+        },
+        {
+            "key": "S_SKY_TRADE_RED",
+            "comment": "红点详情",
+            "cmMethod": "SkyTradeRedPointReq",
+            "smMethod": "SkyTradeRedPointResp"
+        },
+        {
+            "key": "S_SKY_TRADE_UNION_GROUP_DAMAGE",
+            "comment": "妖盟分段为伤害信息",
+            "cmMethod": "SkyTradeUnionGroupDamageReq",
+            "smMethod": "SkyTradeUnionGroupDamageResp"
+        },
+        {
+            "comment": "SkyTradeConfigSync解析",
+            "byteDecode": "SkyTradeConfigSync"
+        }
+    ],
     "TreasureBowl":[
         {
             "key": "S_TREASURE_BOWL_SIGN",
@@ -4987,6 +5870,134 @@
         {
             "comment": "TreasureBowlData解析",
             "byteDecode": "TreasureBowlData"
+        }
+    ],
+    "UnionBounty": [
+        {
+            "key": "S_UNION_BOUNTY_ENTRY_MAP",
+            "comment": "妖盟悬赏-打开护送地图",
+            "cmMethod": "UnionBountyEnterMapReq",
+            "smMethod": "UnionBountyEnterMapResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_EXIT_MAP",
+            "comment": "妖盟悬赏-离开护送地图",
+            "cmMethod": "UnionBountyExitMapReq",
+            "smMethod": "UnionBountyExitMapResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_PLUNDER",
+            "comment": "妖盟悬赏-掠夺某个镖车",
+            "cmMethod": "UnionBountyPlunderReq",
+            "smMethod": "UnionBountyPlunderResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_DEAL_BOUNTY",
+            "comment": "妖盟悬赏-处理悬赏事件",
+            "cmMethod": "UnionBountyDealBountyReq",
+            "smMethod": "UnionBountyDealBountyResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_GET_REWARD_ESCORT",
+            "comment": "妖盟悬赏-领取护送镖车奖励",
+            "cmMethod": "UnionBountyGetRewardEscortReq",
+            "smMethod": "UnionBountyGetRewardEscortResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_CHECK_ESCORT",
+            "comment": "妖盟悬赏-查找某个玩家的镖车",
+            "cmMethod": "UnionBountyCheckEscortReq",
+            "smMethod": "UnionBountyCheckEscortResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_GET_REPORT",
+            "comment": "妖盟悬赏-打开战报",
+            "cmMethod": "UnionBountyGetReportReq",
+            "smMethod": "UnionBountyGetReportResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_REPORT_CHECK_ESCORT",
+            "comment": "妖盟悬赏-战报中打开某个玩家的镖车",
+            "cmMethod": "UnionBountyReportCheckEscortReq",
+            "smMethod": "UnionBountyReportCheckEscortResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_WORSHIP",
+            "comment": "妖盟悬赏-排行榜膜拜",
+            "cmMethod": "UnionBountyWorshipReq",
+            "smMethod": "UnionBountyWorshipResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_REFRESH_MAP",
+            "comment": "妖盟悬赏-刷新护送地图",
+            "cmMethod": "UnionBountyRefreshMapReq",
+            "smMethod": "UnionBountyRefreshMapResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_OPEN_BOUNTY_EVENT",
+            "comment": "妖盟悬赏-打开妖盟战报",
+            "cmMethod": "UnionBountyOpenBountyEventReq",
+            "smMethod": "UnionBountyOpenBountyEventResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_OPEN_BOUNTY_RETALIATE",
+            "comment": "妖盟悬赏-反击",
+            "cmMethod": "UnionBountyRetaliateReq",
+            "smMethod": "UnionBountyRetaliateResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_GET_MEMBER_SCORE",
+            "comment": "妖盟悬赏-查看联盟积分",
+            "cmMethod": "UnionBountyGetMemberScoreReq",
+            "smMethod": "UnionBountyGetMemberScoreResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_OPEN_ESCORT_DETAIL",
+            "comment": "妖盟悬赏-查看镖车详情",
+            "cmMethod": "UnionBountyOpenEscortCartDetailReq",
+            "smMethod": "UnionBountyOpenEscortCartDetailRsp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_OPEN_MONSTER",
+            "comment": "妖盟悬赏-打开妖兽界面",
+            "cmMethod": "UnionBountyOpenMonsterReq",
+            "smMethod": "UnionBountyOpenMonsterResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_ATTACK_MONSTER",
+            "comment": "妖盟悬赏-打妖兽",
+            "cmMethod": "UnionBountyAttackMonsterReq",
+            "smMethod": "UnionBountyAttackMonsterResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_ASK_HELP",
+            "comment": "妖盟悬赏-邀请",
+            "cmMethod": "UnionBountyAskHelpReq",
+            "smMethod": "UnionBountyAskHelpResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_OPEN_ASK_HELP",
+            "comment": "妖盟悬赏-打开邀请界面",
+            "cmMethod": "UnionBountyOpenAskHelpReq",
+            "smMethod": "UnionBountyOpenAskHelpResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_DEAL_ASK_HELP",
+            "comment": "妖盟悬赏-处理邀请（同意加入、拒绝、一键拒绝）",
+            "cmMethod": "UnionBountyDealAskHelpReq",
+            "smMethod": "UnionBountyDealAskHelpResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_GET_MONSTER_ATTRIBUTE",
+            "comment": "妖盟悬赏-查看当前妖兽的属性",
+            "cmMethod": "UnionBountyGetMonsterAttributeReq",
+            "smMethod": "UnionBountyGetMonsterAttributeResp"
+        },
+        {
+            "key": "S_UNION_BOUNTY_MONSTER_CHANGE_POS",
+            "comment": "妖盟悬赏-变更参战玩家位置",
+            "cmMethod": "UnionBountyMonsterChangePosReq",
+            "smMethod": "UnionBountyMonsterChangePosRsp"
         }
     ],
     "Universe": [
@@ -5039,6 +6050,159 @@
             "smMethod": "UniverseDrawTwiceResp"
         }
     ],
+    "MountainSea":[
+        {
+            "key": "S_MOUNTAIN_SEA_ENTER",
+            "comment": "进入山海界面",
+            "cmMethod": "EnterMountainSeaReq",
+            "smMethod": "EnterMountainSeaRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_CREATE_TEAM",
+            "comment": "创建队伍",
+            "cmMethod": "MountainSeaCreateTeamReq",
+            "smMethod": "MountainSeaCreateTeamRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_QUIT_TEAM",
+            "comment": "退出队伍",
+            "cmMethod": "MountainSeaQuitTeamReq",
+            "smMethod":"MountainSeaQuitTeamRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_CHANGE_LEADER",
+            "comment": "转让队长",
+            "cmMethod": "MountainSeaChangeLeaderReq",
+            "smMethod":"MountainSeaChangeLeaderRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_CANCEL_TEAM_APPLY",
+            "comment": "取消加入队伍",
+            "cmMethod": "MountainSeaCancelTeamApplyReq",
+            "smMethod": "MountainSeaCancelTeamApplyRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_GET_TEAM_LIST",
+            "comment": "获取队伍列表",
+            "cmMethod": "MountainSeaGetTeamListReq",
+            "smMethod": "MountainSeaGetTeamListRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_KICK_OUT_TEAM",
+            "comment": "踢出队伍",
+            "cmMethod": "MountainSeaKickOutTeamReq",
+            "smMethod": "MountainSeaKickOutTeamRsp"
+        },{
+            "key": "S_MOUNTAIN_SEA_APPLY_JOIN_TEAM_AGREE",
+            "comment": "同意申请",
+            "cmMethod": "MountainSeaApplyJoinTeamAgreeReq",
+            "smMethod": "MountainSeaApplyJoinTeamAgreeRsp"
+        },{
+            "key": "S_MOUNTAIN_SEA_APPLY_JOIN_TEAM_REFUSED",
+            "comment": "一键拒绝",
+            "cmMethod": "MountainSeaApplyJoinTeamRefusedReq",
+            "smMethod": "MountainSeaApplyJoinTeamRefusedRsp"
+        },{
+            "key": "S_MOUNTAIN_SEA_GET_TEAM_INFO",
+            "comment": "查找队伍",
+            "cmMethod": "MountainSeaGetTeamInfoReq",
+            "smMethod": "MountainSeaGetTeamInfoRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_START_BATTLE",
+            "comment": "开始战斗",
+            "cmMethod": "MountainSeaStartBattleReq",
+            "smMethod": "MountainSeaStartBattleRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_RANK_PLAYER_INFO",
+            "comment": "请求玩家数据",
+            "cmMethod": "MountainSeaGetPlayerInfoReq",
+            "smMethod": "MountainSeaGetPlayerInfoRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_TEAM_START",
+            "comment": "组队页面请求",
+            "cmMethod": "MountainSeaTeamStartReq",
+            "smMethod": "MountainSeaTeamStartRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_ENTER_TEAM",
+            "comment": "组队内部请求",
+            "cmMethod": "EnterMountainSeaTeamReq",
+            "smMethod": "EnterMountainSeaTeamRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_START_MATCH",
+            "comment": "开始匹配",
+            "cmMethod": "MountainSeaStartMatchReq",
+            "smMethod": "MountainSeaStartMatchRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_MATCH_MEMBER",
+            "comment": "匹配",
+            "cmMethod": "MountainSeaMatchMemberReq",
+            "smMethod": "MountainSeaMatchMemberRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_TEAM_PREPARE",
+            "comment": "开始准备",
+            "cmMethod": "MountainSeaTeamPrepareReq",
+            "smMethod": "MountainSeaTeamPrepareRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_INVITE",
+            "comment": "邀请",
+            "cmMethod": "MountainSeaInviteReq", 
+            "smMethod": "MountainSeaInviteRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_GET_BOSS_INFO",
+            "comment": "获取boss信息",
+            "cmMethod": "MountainSeaGetBossInfoReq",
+            "smMethod": "MountainSeaGetBossInfoRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_LEAVE",
+            "comment": "离开系统",
+            "cmMethod": "LeaveMountainSeaReq",
+            "smMethod": "LeaveMountainSeaRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_GET_BOSS_POWER",
+            "comment": "获取boss妖力",
+            "cmMethod": "MountainSeaGetBossPowerReq",
+            "smMethod": "MountainSeaGetBossPowerRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_TEAM_LEADER_NOTIFY_SYNC",
+            "comment": "队长接受到广播",
+            "cmMethod": "",
+            "smMethod": "MountainSeaTeamLeaderNotify"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_TEAM_MEMBER_NOTIFY_SYNC",
+            "comment": "队员接收到的广播",
+            "cmMethod": "",
+            "smMethod": "MountainSeaTeamMemberNotify"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_WORSHIP",
+            "comment": "膜拜",
+            "cmMethod": "MountainSeaWorshipReq",
+            "smMethod": "MountainSeaWorshipRsp"
+        },
+        {
+            "key": "S_MOUNTAIN_SEA_GET_BATTLE_REPLAY",
+            "comment": "战斗回放",
+            "cmMethod": "MountainSeaGetBattleVideoReq",
+            "smMethod": "MountainSeaGetBattleVideoRsp"
+        },
+        {
+            "comment": "MountainSeaRankTeamList解析",
+            "byteDecode": "MountainSeaRankTeamList"
+        }
+    ],
     "YueBao": [
         {
             "key": "S_YUE_BAO_ENTER",
@@ -5064,9 +6228,82 @@
             "smMethod": "YueBaoInteractResp"
         }
     ],
+    "SkyWar": [
+        {
+            "key": "S_SKY_WAR_ENTER",
+            "comment": "进入征战诸天",
+            "cmMethod": "SkyWarEnterReq",
+            "smMethod": "SkyWarEnterRsp"
+        },
+        {
+            "key": "S_SKY_WAR_REFRESH_ENEMY",
+            "comment": "刷新对手玩家",
+            "cmMethod": "SkyWarRefreshEnemyReq",
+            "smMethod": "SkyWarRefreshEnemyRsp"
+        },
+        {
+            "key": "S_SKY_WAR_FIGHT",
+            "comment": "斗法",
+            "cmMethod": "SkyWarFightReq",
+            "smMethod": "SkyWarFightRsp"
+        },
+        {
+            "key": "S_SKY_WAR_RANK",
+            "comment": "获取排行榜数据",
+            "cmMethod": "SkyWarRankReq",
+            "smMethod": "SkyWarRankRsp"
+        },
+        {
+            "key": "S_SKY_WAR_LOG",
+            "comment": "获取日志",
+            "cmMethod": "SkyWarLogReq",
+            "smMethod": "SkyWarLogRsp"
+        },
+        {
+            "key": "S_SKY_WAR_PLAY_BACK",
+            "comment": "战斗回放",
+            "cmMethod": "SkyWarLogPlaybackReq",
+            "smMethod": "SkyWarLogPlaybackRsp"
+        },
+        {
+            "key": "S_SKY_WAR_FORMATION",
+            "comment": "获取布阵详情",
+            "cmMethod": "SkyWarFormationReq",
+            "smMethod": "SkyWarFormationRsp"
+        },
+        {
+            "key": "S_SKY_WAR_SET_ORDER",
+            "comment": "设置顺位",
+            "cmMethod": "SkyWarSetOrderReq",
+            "smMethod": "SkyWarSetOrderRsp"
+        },
+        {
+            "key": "S_SKY_WAR_SKY_RANK",
+            "comment": "诸天榜",
+            "cmMethod": "SkyWarSkyRankReq",
+            "smMethod": "SkyWarSkyRankRsp"
+        },
+        {
+            "key": "S_SKY_WAR_WORSHIP",
+            "comment": "膜拜",
+            "cmMethod": "SkyWarWorshipReq",
+            "smMethod": "SkyWarWorshipRsp"
+        },
+        {
+            "key": "S_SKY_WAR_BUY_TIMES",
+            "comment": "购买次数(斗法、刷新)",
+            "cmMethod": "SkyWarBuyTimesReq",
+            "smMethod": "SkyWarBuyTimesRsp"
+        },
+        {
+            "key": "S_SKY_WAR_DATA_SYNC",
+            "comment": "数据同步",
+            "smMethod": "SkyWarDataSync"
+        }
+    ],
     "Yard":[
         {
-            "key": "S_YARDPB_ENTER",
+             "key": "S_YARDPB_ENTER",
             "comment": "家园-进入",
             "cmMethod": "YardEnterReq",
             "smMethod": "YardEnterResp"

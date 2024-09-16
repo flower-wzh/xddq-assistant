@@ -108,7 +108,7 @@ export default class SystemUnlockMgr {
             if (systemKey) {
                 SystemUnlockMgr[systemKey] = isUnlocked;
                 const systemName = DBMgr.inst.getLanguageWord(`SystemName-${systemId}`);
-                logger.info(`[系统解锁] ${systemName} ${isUnlocked ? `${global.colors.green}已解锁${global.colors.reset}` : `${global.colors.red}未解锁${global.colors.reset}`}`);
+                logger.info(`[系统解锁] ${isUnlocked ? `${global.colors.green}已解锁${global.colors.reset}` : `${global.colors.red}未解锁${global.colors.reset}`} ${systemName}`);
             } else {
                 logger.warn(`[系统解锁] 未知 ${systemId}`);
             }

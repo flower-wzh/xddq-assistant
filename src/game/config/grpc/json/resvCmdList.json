@@ -9572,19 +9572,43 @@
     null,
     null,
     null,
+    {
+        "smMethod": "CityMsg.SkyWarEnterRsp"
+    },
+    {
+        "smMethod": "CityMsg.SkyWarRefreshEnemyRsp"
+    },
+    {
+        "smMethod": "CityMsg.SkyWarFightRsp"
+    },
+    {
+        "smMethod": "CityMsg.SkyWarRankRsp"
+    },
+    {
+        "smMethod": "CityMsg.SkyWarLogRsp"
+    },
+    {
+        "smMethod": "CityMsg.SkyWarLogPlaybackRsp"
+    },
+    {
+        "smMethod": "CityMsg.SkyWarFormationRsp"
+    },
+    {
+        "smMethod": "CityMsg.SkyWarSetOrderRsp"
+    },
+    {
+        "smMethod": "CityMsg.SkyWarSkyRankRsp"
+    },
+    {
+        "smMethod": "CityMsg.SkyWarWorshipRsp"
+    },
+    {
+        "smMethod": "CityMsg.SkyWarBuyTimesRsp"
+    },
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.SkyWarDataSync"
+    },
     {
         "smMethod": "CityMsg.SkyWarDataLoginSync"
     },
@@ -10910,42 +10934,92 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.EnterMountainSeaRsp"
+    },
+    {
+        "smMethod": "CityMsg.EnterMountainSeaTeamRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaTeamStartRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaCreateTeamRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaGetTeamListRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaGetTeamInfoRsp"
+    },
     {
         "smMethod": "CityMsg.MountainSeaJoinTeamRsp"
     },
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.MountainSeaCancelTeamApplyRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaApplyJoinTeamAgreeRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaApplyJoinTeamRefusedRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaQuitTeamRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaKickOutTeamRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaChangeLeaderRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaTeamPrepareRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaMatchMemberRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaStartBattleRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaGetPlayerInfoRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaWorshipRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaGetBattleVideoRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaGetBossInfoRsp"
+    },
     {
         "smMethod": "CityMsg.MountainSeaChallengeTimeRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaStartMatchRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaInviteRsp"
+    },
+    {
+        "smMethod": "CityMsg.LeaveMountainSeaRsp"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaGetBossPowerRsp"
     },
     null,
     null,
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.MountainSeaTeamLeaderNotify"
+    },
+    {
+        "smMethod": "CityMsg.MountainSeaTeamMemberNotify"
+    },
     null,
     null,
     null,
@@ -14430,6 +14504,21 @@
     null,
     null,
     null,
+    {
+        "smMethod": "CityMsg.ComposeBallEnterGameResp"
+    },
+    {
+        "smMethod": "CityMsg.ComposeBallComposeResp"
+    },
+    {
+        "smMethod": "CityMsg.ComposeBallUseItemResp"
+    },
+    {
+        "smMethod": "CityMsg.ComposeBallHpItemResp"
+    },
+    {
+        "smMethod": "CityMsg.ComposeBallSettleResp"
+    },
     null,
     null,
     null,
@@ -14525,59 +14614,138 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.MonopolyEnterActivityResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyEnterMapResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyRollDiceResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyAssistListResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyReplenishStrengthResp"
+    },
+    null,
+    {
+        "smMethod": "CityMsg.MonopolyRescueTrapResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyRobListResp"
+    },
+    null,
+    {
+        "smMethod": "CityMsg.MonopolyRobResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyUnionLogListResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyPlayerLogDetailResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyAssistAttackMonsterResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyReceiveMonsterRewardResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyRedPointRespMsg"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyRemoteRollDiceResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyEnterRobMapResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyAutoUnlockResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyBlessingListResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyReceiveBlessingResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyQuickMoveResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyDarkGridMoveResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyEventHandleResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyMonsterAttrResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyGetPlayerRankResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyGetEnemyListResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyScoreDetailResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyBuildingScoreDetailResp"
+    },
+    null,
+    {
+        "smMethod": "CityMsg.MonopolyBarrageNotify"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyMoveNotify"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyNotifyPlayerEndTrap"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyNotifyBuildingUpgrade"
+    },
+    null,
+    {
+        "smMethod": "CityMsg.MonopolySendBlessingNotify"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyScoreNotify"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyRankNotify"
+    },
+    null,
+    {
+        "smMethod": "CityMsg.MonopolyMyBlessingNotify"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyAssistRedNotify"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyGetGroupDetailResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyWorshipResp"
+    },
+    null,
+    {
+        "smMethod": "CityMsg.MonopolyPlayerScoreChangeNotify"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyGuessPlayersResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyGetGuessDataResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyGuessSelectResp"
+    },
+    {
+        "smMethod": "CityMsg.MonopolyGuessRewardResp"
+    },
     null,
     null,
     null,
@@ -15043,38 +15211,80 @@
     null,
     null,
     null,
+    {
+        "smMethod": "CityMsg.UnionBountyEnterMapResp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyExitMapResp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyPlunderResp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyDealBountyResp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyGetRewardEscortResp"
+    },
     null,
+    {
+        "smMethod": "CityMsg.UnionBountyCheckEscortResp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyGetReportResp"
+    },
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.UnionBountyReportCheckEscortResp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyWorshipResp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyRefreshMapResp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyOpenBountyEventResp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyRetaliateResp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyGetMemberScoreResp"
+    },
     {
         "smMethod": "CityMsg.UnionBountyHaveEscortResp"
     },
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.UnionBountyOpenEscortCartDetailRsp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyOpenMonsterResp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyAttackMonsterResp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyAskHelpResp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyOpenAskHelpResp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyDealAskHelpResp"
+    },
     {
         "smMethod": "CityMsg.UnionBountyManageAskHelpResp"
     },
     {
         "smMethod": "CityMsg.UnionBountySynMonsterInfoMsg"
     },
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.UnionBountyGetMonsterAttributeResp"
+    },
+    {
+        "smMethod": "CityMsg.UnionBountyMonsterChangePosRsp"
+    },
     {
         "smMethod": "CityMsg.UnionBountyGetExistMonsterResp"
     },
@@ -15250,9 +15460,15 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.EnterPupilRankActivityResp"
+    },
+    {
+        "smMethod": "CityMsg.GetIncreaseRecordResp"
+    },
+    {
+        "smMethod": "CityMsg.PupilRankDetailResp"
+    },
     null,
     null,
     null,
@@ -16499,6 +16715,90 @@
     null,
     null,
     null,
+    {
+        "smMethod": "CityMsg.SkyTradeEnterActivityResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeEnterResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeGroupInfoResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeAddSpeedResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeGotoPortResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeDealResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeChallengeListResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeChallengeResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeUnionFameResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeGetRewardResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeReportResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeLogResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeSparInfoResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeGetSparPowerResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeGetWelfareResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeSendWelfareResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeWelfareRecordResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeChallengeHeartBeatResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeUseRobItemResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeReportDetailResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeGuessPlayersResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeGuessDataResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeGuessSelectResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeGuessRewardResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeReportGoodsResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeResetStockResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeRedPointResp"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeUnionGroupDamageResp"
+    },
     null,
     null,
     null,
@@ -16521,40 +16821,24 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.SkyTradeUnionDataSync"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeResetSync"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeAirshipInfoSync"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeChallengeInfoSync"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeRareGoodsSync"
+    },
+    {
+        "smMethod": "CityMsg.SkyTradeFameRankSync"
+    },
     null,
     null,
     null,
@@ -17580,17 +17864,119 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.EnterPlanesTrialRsp"
+    },
+    {
+        "smMethod": "CityMsg.EnterPlanesTrialTeamRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialTeamStartRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialCreateTeamRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialGetTeamListRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialGetTeamInfoRsp"
+    },
     {
         "smMethod": "CityMsg.PlanesTrialJoinTeamRsp"
     },
+    {
+        "smMethod": "CityMsg.PlanesTrialCancelTeamApplyRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialApplyJoinTeamAgreeRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialApplyJoinTeamRefusedRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialQuitTeamRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialKickOutTeamRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialChangeLeaderRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialTeamPrepareRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialMatchMemberRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialStartBattleRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialGetPlayerInfoRsp"
+    },
+    null,
+    {
+        "smMethod": "CityMsg.PlanesTrialGetBattleVideoRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialGetBossInfoRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialChallengeTimeRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialStartMatchRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialInviteRsp"
+    },
+    {
+        "smMethod": "CityMsg.LeavePlanesTrialRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialGetBossPowerRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialSkipBattleRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialStartSelectBuffRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialSelectBuffRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialSetBuffPreferenceRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialGetSelectedBuffRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialGetAchievementRewardRsp"
+    },
+    null,
+    {
+        "smMethod": "CityMsg.PlanesTrialGetBuffPreferenceRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialGetGodBodyDataResp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialGetGrandPrizeInfoResp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialReceiveGrandPrizeResp"
+    },
     null,
     null,
+    null,
+    {
+        "smMethod": "CityMsg.PlanesTrialTeamLeaderNotify"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialTeamMemberNotify"
+    },
     null,
     null,
     null,
@@ -17603,7 +17989,48 @@
     null,
     null,
     {
-        "smMethod": "CityMsg.PlanesTrialChallengeTimeRsp"
+        "smMethod": "CityMsg.PlanesTrialEnterBattleResp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialEnterSwitchSeparationRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialSwitchSeparationRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialSeparationDetailRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialChangePosRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialDoBattleRsp"
+    },
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    {
+        "smMethod": "CityMsg.PlanesTrialDoBattleNotify"
+    },
+    null,
+    null,
+    null,
+    null,
+    {
+        "smMethod": "CityMsg.PlanesTrialEnterBattleNotify"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialSwitchSeparationNotify"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialUpdateLockDataResp"
+    },
+    null,
+    {
+        "smMethod": "CityMsg.PlanesTrialChangePosNotify"
     },
     null,
     null,
@@ -17618,68 +18045,33 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.PlayerRestrainInfoMsgResp"
+    },
+    {
+        "smMethod": "CityMsg.getPlanesTrialTrialMemberCountResp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialRankGetResp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialHeartbeatResp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialGetSelectRewardDetailResp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialSelectRewardResp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialVideoInfoRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialPlayVideoRsp"
+    },
+    {
+        "smMethod": "CityMsg.PlanesTrialCloseSettleScreenResp"
+    },
     null,
     null,
     null,

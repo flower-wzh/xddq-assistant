@@ -72,6 +72,9 @@ export default class CustomMgr {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_ENTER, { activityId: 10004986 });
             }
 
+            // 进入仙域商途
+            GameNetMgr.inst.sendPbMsg(Protocol.S_SKY_TRADE_ENTER, { activityId: 10027240 });
+
             // 道友一键赠送和领取
             GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 1 });
             GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 2 });
