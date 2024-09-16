@@ -130,7 +130,10 @@ class GameNetMgr {
             const body = stream.pbMsg.encode(msgData).finish();
             stream.writeBytes(body, 18);
         } catch (err) {
-            logger.error(`${msgId} ${msgData}`); // TODO 重写一下sendPbMsg逻辑
+            // TODO 重写一下sendPbMsg逻辑
+            if (msgData && Object.keys(msgData).length > 0) {
+                logger.error(`msgId: ${msgId}, msgData: ${JSON.stringify(msgData)}`);
+            }
         }
 
         stream.writeInt(stream.offset, 2);
