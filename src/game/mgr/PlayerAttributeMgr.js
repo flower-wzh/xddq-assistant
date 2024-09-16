@@ -7,6 +7,7 @@ import BagMgr from "#game/mgr/BagMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import UnionMgr from "#game/mgr/UnionMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
+import WorkFlowMgr from '#game/common/WorkFlowMgr.js';
 
 class Attribute {
     static Chop(times = 1) {
@@ -82,7 +83,6 @@ export default class PlayerAttributeMgr {
             2: "阴身"
         };
         this.useSeparationIdx = null;                               // 使用的分身
-        this.defaultIdx = global.account.switch.defaultIndex || 0; //默认分身
 
         // 仙树及砍树
         this.treeInitialized = false;                               // 树是否初始化
@@ -105,13 +105,6 @@ export default class PlayerAttributeMgr {
         this.unDealTalentDataMsg = [];                              // 未处理灵脉数据
         this.talentEnabled = global.account.switch.talent || false; // 是否开启砍灵脉
         this.previousFlowerNum = 0;                                 // 用于存储上一次的灵脉花数量
-
-        // 确保 talentEnabled 和 chopEnabled 不同时开启
-        if (this.chopEnabled && this.talentEnabled) {
-            logger.error('灵脉 和 砍树 不能同时开启。');
-            this.chopEnabled = false;
-            this.talentEnabled = false;
-        }
 
         // 🔒储存状态防止出现问题
         this.isProcessing = false;
@@ -145,9 +138,14 @@ export default class PlayerAttributeMgr {
     // 新增方法：手动设置分身
     setSeparationIdx(index) {
         if (this.useSeparationIdx !== index) {
-            logger.info(`分身切换至 ${this.separationNames[index]}`);
+            logger.info(`[分身切换器] 至 ${this.separationNames[index]}`);
             Attribute.SwitchSeparation(index);
         }
+    }
+
+    switchToDefaultSeparation() {
+        const defaultIdx = global.account.switch.defaultIndex || 0;
+        PlayerAttributeMgr.inst.setSeparationIdx(defaultIdx);
     }
 
     // 201 玩家属性信息同步
@@ -326,7 +324,8 @@ export default class PlayerAttributeMgr {
             this.chopEnabled = false;
 
             // 任务完成后切换为默认分身
-            this.setSeparationIdx(this.defaultIdx)
+            this.switchToDefaultSeparation()
+            WorkFlowMgr.inst.remove("ChopTree");
             return;
         } else {
             if (peachNum !== this.previousPeachNum) {
@@ -631,7 +630,8 @@ export default class PlayerAttributeMgr {
             this.talentEnabled = false;
 
             // 任务完成后切换为默认分身
-            this.setSeparationIdx(this.defaultIdx)
+            this.switchToDefaultSeparation()
+            WorkFlowMgr.inst.remove("Talent");
             return;
         }
         Attribute.RandomTalentReq(this.talentCreateTimes);
@@ -734,13 +734,23 @@ export default class PlayerAttributeMgr {
             this.processReward();
 
             // 自动砍树
-            if (this.chopEnabled && this.separation) {
-                this.doChopTree();
+            if (WorkFlowMgr.inst.canExecute("ChopTree")) {
+                if (this.chopEnabled && this.separation) {
+                    this.doChopTree();
+                } else {
+                    WorkFlowMgr.inst.remove("ChopTree");
+                    logger.warn(`[砍树] 未执行`);
+                }
             }
 
             // 自动砍灵脉
-            if (this.talentEnabled && this.separation) {
-                this.doAutoTalent();
+            if (WorkFlowMgr.inst.canExecute("Talent")) {
+                if (this.talentEnabled && this.separation) {
+                    this.doAutoTalent();
+                } else {
+                    WorkFlowMgr.inst.remove("Talent");
+                    logger.warn(`[灵脉] 未执行`);
+                }
             }
         } catch (error) {
             logger.error(`[PlayerAttributeMgr] loopUpdate error: ${error}`);

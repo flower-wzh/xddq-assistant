@@ -5,6 +5,7 @@ import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
+import WorkFlowMgr from '#game/common/WorkFlowMgr.js';
 
 export default class SecretTowerMgr {
     constructor() {
@@ -58,6 +59,7 @@ export default class SecretTowerMgr {
     }
 
     async loopUpdate() {
+        if (!WorkFlowMgr.inst.canExecute("Challenge")) return;
         if (this.isProcessing || this.isSyncing) return;
         this.isProcessing = true;
 
@@ -66,13 +68,12 @@ export default class SecretTowerMgr {
                 this.clear();
                 logger.info("[六道秘境] 任务完成停止循环");
                 // 任务完成后切换为默认分身
-                const defaultIdx = global.account.switch.defaultIndex || 0; //默认分身
-                PlayerAttributeMgr.inst.setSeparationIdx(defaultIdx)
+                PlayerAttributeMgr.inst.switchToDefaultSeparation();
             } else {
-                //切换到分身
+                // 切换到分身
                 const idx = global.account.switch.challengeIndex || 0;
                 PlayerAttributeMgr.inst.setSeparationIdx(idx)
-                //挑战
+                // 挑战
                 GameNetMgr.inst.sendPbMsg(Protocol.S_SECRETTOWER_FIGHT, { type: 1 });
                 this.challenge--;
                 await new Promise((resolve) => setTimeout(resolve, 1000 * 10));

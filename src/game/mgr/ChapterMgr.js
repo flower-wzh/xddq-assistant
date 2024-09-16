@@ -3,7 +3,8 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
+import WorkFlowMgr from "#game/common/WorkFlowMgr.js";
 
 export default class ChapterMgr {
     constructor() {
@@ -48,13 +49,15 @@ export default class ChapterMgr {
             }
 
             if (this.showResult) {
-                const isWinText = t.challengeSuccess == true ? `${global.colors.red}成功${global.colors.reset}` : `${global.colors.yellow}失败${global.colors.reset}`;
+                const isWinText =
+                    t.challengeSuccess == true ? `${global.colors.red}成功${global.colors.reset}` : `${global.colors.yellow}失败${global.colors.reset}`;
                 logger.info(`[冒险管理] ${isWinText} 当前层数:${this.passStageId} 剩余次数:${this.challenge}`);
             }
         }
     }
 
     async loopUpdate() {
+        if (!WorkFlowMgr.inst.canExecute("Challenge")) return;
         if (this.isProcessing || this.isSyncing) return;
         this.isProcessing = true;
 
@@ -63,18 +66,16 @@ export default class ChapterMgr {
                 this.clear();
                 logger.info("[冒险管理] 任务完成停止循环");
                 // 任务完成后切换为默认分身
-                const defaultIdx = global.account.switch.defaultIndex || 0; //默认分身
-                PlayerAttributeMgr.inst.setSeparationIdx(defaultIdx)
+                PlayerAttributeMgr.inst.switchToDefaultSeparation();
             } else {
                 //切换到分身
                 const idx = global.account.switch.challengeIndex || 0;
-                PlayerAttributeMgr.inst.setSeparationIdx(idx)
+                PlayerAttributeMgr.inst.setSeparationIdx(idx);
                 //挑战
                 GameNetMgr.inst.sendPbMsg(Protocol.S_STAGE_CHALLENGE, {});
                 this.challenge--;
                 await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
             }
-
         } catch (error) {
             logger.error(`[冒险管理] loopUpdate error: ${error}`);
         } finally {

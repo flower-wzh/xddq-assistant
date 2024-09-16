@@ -8,6 +8,7 @@ import AuthService from "#services/authService.js";
 import MsgRecvMgr from '#game/common/MsgRecvMgr.js';
 import LoopMgr from '#game/common/LoopMgr.js';
 import RegistMgr from '#game/common/RegistMgr.js';
+import WorkFlowMgr from '#game/common/WorkFlowMgr.js';
 
 class GameNetMgr {
     constructor() {
@@ -47,6 +48,7 @@ class GameNetMgr {
         GameNetMgr.inst.net.heartbeatStart();
         logger.debug("[LoopMgr] 开始循环任务");
         LoopMgr.inst.start()
+        WorkFlowMgr.inst.start()
     }
 
     netStateChangeHandler(state) {
@@ -132,7 +134,7 @@ class GameNetMgr {
         } catch (err) {
             // TODO 重写一下sendPbMsg逻辑
             if (msgData && Object.keys(msgData).length > 0) {
-                logger.error(`msgId: ${msgId}, msgData: ${JSON.stringify(msgData)}`);
+                logger.warn(`msgId: ${msgId}, msgData: ${JSON.stringify(msgData)}`);
             }
         }
 

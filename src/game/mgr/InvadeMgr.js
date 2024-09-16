@@ -5,6 +5,7 @@ import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
+import WorkFlowMgr from '#game/common/WorkFlowMgr.js';
 
 export default class InvadeMgr {
     constructor() {
@@ -48,25 +49,30 @@ export default class InvadeMgr {
         }
     }
 
+    completeTask() {
+        logger.info(`[异兽入侵] 任务完成`);
+        PlayerAttributeMgr.inst.switchToDefaultSeparation();  // 切换到默认分身
+        this.clear();
+        WorkFlowMgr.inst.remove("Invade");
+    }
+
     async loopUpdate() {
-        if (!this.enabled) return;
-        if (this.isProcessing) return;
+        if (!WorkFlowMgr.inst.canExecute("Invade") || !this.enabled || this.isProcessing) return;
+        
         this.isProcessing = true;
         try {
             if (this.battleNum >= this.maxCount) {
-                logger.info(`[异兽入侵] 任务完成`);
-                // 任务完成后切换为默认分身
-                const defaultIdx = global.account.switch.defaultIndex || 0; //默认分身
-                PlayerAttributeMgr.inst.setSeparationIdx(defaultIdx);
-
-                this.clear();
+                this.completeTask();  // 如果达到最大挑战次数，任务完成
                 return;
             }
+
             logger.debug("[异兽入侵] 初始化");
-            logger.info(`[异兽入侵] 当前次数:${this.battleNum}`);
+            logger.info(`[异兽入侵] 当前次数: ${this.battleNum}`);
+
             // 切换到分身
             const idx = global.account.switch.invadeIndex || 0;
             PlayerAttributeMgr.inst.setSeparationIdx(idx);
+            
             // 挑战
             GameNetMgr.inst.sendPbMsg(Protocol.S_INVADE_CHALLENGE, {});
             this.battleNum++;

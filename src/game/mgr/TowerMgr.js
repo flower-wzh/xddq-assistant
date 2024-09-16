@@ -6,6 +6,7 @@ import PalaceMgr from "#game/mgr/PalaceMgr.js";
 import PlayerAttributeMgr from "#game/mgr/PlayerAttributeMgr.js";;
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
+import WorkFlowMgr from '#game/common/WorkFlowMgr.js';
 
 export default class TowerMgr {
     constructor() {
@@ -85,6 +86,7 @@ export default class TowerMgr {
     }
 
     async loopUpdate() {
+        if (!WorkFlowMgr.inst.canExecute("Challenge")) return;
         if (this.isProcessing || this.isSyncing) return;
         this.isProcessing = true;
 
@@ -93,13 +95,12 @@ export default class TowerMgr {
                 this.clear();
                 logger.info("[镇妖塔管理] 任务完成停止循环");
                 // 任务完成后切换为默认分身
-                const defaultIdx = global.account.switch.defaultIndex || 0; //默认分身
-                PlayerAttributeMgr.inst.setSeparationIdx(defaultIdx)
+                PlayerAttributeMgr.inst.switchToDefaultSeparation();
             } else {
-                //切换到分身
+                // 切换到分身
                 const idx = global.account.switch.challengeIndex || 0;
                 PlayerAttributeMgr.inst.setSeparationIdx(idx)
-                //挑战
+                // 挑战
                 GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_CHALLENGE, { index: 0, isOneKey: true });
                 this.challenge--;
                 await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
