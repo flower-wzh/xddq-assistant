@@ -137,7 +137,7 @@ class GameNetMgr {
         } catch (err) {
             // TODO 重写一下sendPbMsg逻辑
             if (msgData && Object.keys(msgData).length > 0) {
-                logger.warn(`msgId: ${msgId}, msgData: ${JSON.stringify(msgData)}`);
+                logger.debug(`msgId: ${msgId}, msgData: ${JSON.stringify(msgData)}`);
             }
         }
 

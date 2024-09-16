@@ -102,6 +102,12 @@ export default class CustomMgr {
             for (let i = 0; i < 8; i++) {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_TREASURE_BOWL_SIGN, { activityId: 9295167, conditionId: 10001, getType: i });
             }
+
+            // 福地自动收获
+            const homelandGetReward = global.account.switch.homelandGetReward || false;
+            if (homelandGetReward) {
+                GameNetMgr.inst.sendPbMsg(Protocol.S_HOMELAND_GET_REWARD, {});
+            }
         }
     }
 
