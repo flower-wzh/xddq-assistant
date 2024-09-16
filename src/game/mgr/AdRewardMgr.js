@@ -27,6 +27,7 @@ export default class AdRewardMgr {
     SyncVip(isVip) {
         logger.info(`[广告管理] 同步VIP状态 ${isVip}`);
         this.INTERVAL = isVip ? 1000 : 30000;
+        global.messageDelay = isVip ? 0 : 20; // Vip可以不需要延迟
     }
 
     AddAdRewardTask(adTask) {

@@ -25,6 +25,9 @@ class GameNetMgr {
         // Retry parameters
         this.maxRetries = (typeof global.account.maxRetries === 'string' && global.account.maxRetries.toLowerCase() === 'infinity') ? Infinity : (global.account.maxRetries || 10); // 默认最大重连次数
         this.retryCount = 0;    // 当前重连次数
+
+        this.messageQueue = []; // 创建消息队列
+        this.isSending = false; // 标记是否正在发送消息
     }
 
     static get inst() {
@@ -115,7 +118,7 @@ class GameNetMgr {
         };
     }
 
-    sendPbMsg(msgId, msgData) {
+    sendPbMsg(msgId, msgData, directSend = false) { 
         if (!this.net.isConnected()) {
             return;
         }
@@ -144,8 +147,33 @@ class GameNetMgr {
         t.set(stream.buff.subarray(0, stream.offset));
         stream.buff = t;
         stream.streamsize = stream.offset;
+        
+        if (directSend) {
+            this.net.send(stream.buff);
+        } else {
+            this.messageQueue.push({ msgId, msgData });
+            this.startSending();
+        }
+    }
 
-        this.net.sendMsg(stream);
+    startSending() {
+        if (this.isSending || this.messageQueue.length === 0) {
+            return;
+        }
+
+        this.isSending = true;
+
+        const sendNextMessage = () => {
+            if (this.messageQueue.length > 0) {
+                const { msgId, msgData} = this.messageQueue.shift();
+                this.sendPbMsg(msgId, msgData, true);
+                setTimeout(sendNextMessage, global.messageDelay);
+            } else {
+                this.isSending = false;
+            }
+        };
+
+        sendNextMessage();
     }
 
     parseArrayBuffMsg(arrayBuffer) {

@@ -30,6 +30,7 @@ async function start() {
         white: "\x1b[37m",      // 白色
     };
     global.configFile = configPath;
+    global.messageDelay = 20;   // 默认延迟
 
     await initialize();
 }
