@@ -40,7 +40,9 @@ export default class WorkFlowMgr {
         logger.debug(`[顺序管理] 排序后的任务队列: ${this.sortedQueue}`);
     }
 
-    start() {
+    async start() {
+        await new Promise((resolve) => setTimeout(resolve, 2000));  // 等待一下,同步账号数据需要时间
+
         // 添加0级项目
         const ChopTree = global.account.switch.chopTree || false;
         if (ChopTree) {
