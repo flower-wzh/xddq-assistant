@@ -4721,6 +4721,38 @@
             "smMethod": "LiveShowNotifyRespMsg"
         }
     ],
+    "Friend": [
+        {
+            "key": "S_FRIEND_GET_LIST",
+            "comment": "获取世交列表",
+            "cmMethod": "FriendGetListReq",
+            "smMethod": "FriendGetListResp"
+        },
+        {
+            "key": "S_FRIEND_SEND",
+            "comment": "赠送",
+            "cmMethod": "FriendSendReq",
+            "smMethod": "FriendSendResp"
+        },
+        {
+            "key": "S_FRIEND_RECEIVE",
+            "comment": "领取",
+            "cmMethod": "FriendReceiveReq",
+            "smMethod": "FriendReceiveResp"
+        },
+        {
+            "key": "S_FRIEND_ONE_KEY",
+            "comment": "一键赠送、领取",
+            "cmMethod": "FriendReceiveAllReq",
+            "smMethod": "FriendReceiveAllResp"
+        },
+        {
+            "key": "S_FRIEND_REMOVE",
+            "comment": "删除世交",
+            "cmMethod": "FriendDeleteReq",
+            "smMethod": "FriendDeleteResp"
+        }
+    ],
     "Pupil": [
         {
             "key": "S_PUPIL_ENTER",
@@ -4889,6 +4921,42 @@
             "byteDecode": "MarriageRecordTempMsg"
         }
     ],
+    "RegressionActivity": [
+        {
+            "comment": "RegressionActivityConfig解析",
+            "byteDecode": "RegressionActivityConfig"
+        },
+        {
+            "key": "S_REGRESSION_ACTIVITY_SHARE",
+            "comment": "仙友回归-首次分享领奖",
+            "cmMethod": "RegressionShareReq",
+            "smMethod": "RegressionShareResp"
+        },
+        {
+            "key": "S_REGRESSION_ACTIVITY_LOTTERY",
+            "comment": "仙友回归-抽奖",
+            "cmMethod": "RegressionLotteryReq",
+            "smMethod": "RegressionLotteryResp"
+        },
+        {
+            "key": "S_REGRESSION_ACTIVITY_BIND_LIST",
+            "comment": "仙友回归-绑定回归玩家数据",
+            "cmMethod": "GetRegressionPlayerDataReq",
+            "smMethod": "GetRegressionPlayerDataResp"
+        },
+        {
+            "key": "S_REGRESSION_ACTIVITY_TASK_REWARD",
+            "comment": "仙友回归-领取绑定玩家的任务奖励",
+            "cmMethod": "GetRegressionReceiveRewardReq",
+            "smMethod": "GetRegressionReceiveRewardResp"
+        },
+        {
+            "key": "S_REGRESSION_SAVE_SELECT_ITEM",
+            "comment": "仙友回归-保存自选奖励",
+            "cmMethod": "RegressionSaveSelectItemReq",
+            "smMethod": "RegressionSaveSelectItemResp"
+        }
+    ],
     "RuleTrial":[       
         {
             "key": "S_RULE_TRIAL_CHALLENGE",
@@ -4907,6 +4975,18 @@
             "comment":"请求法则试炼Boss数据",
             "cmMethod": "RuleTrialMonsterAttrReq",
             "smMethod":"RuleTrialMonsterAttrResp"
+        }
+    ],
+    "TreasureBowl":[
+        {
+            "key": "S_TREASURE_BOWL_SIGN",
+            "comment": "疯狂聚宝盆签到",
+            "cmMethod": "ReqGetConditionReward",
+            "smMethod": "RspGetConditionReward"
+        },
+        {
+            "comment": "TreasureBowlData解析",
+            "byteDecode": "TreasureBowlData"
         }
     ],
     "Universe": [
@@ -5184,6 +5264,12 @@
             "comment":"家园装饰建筑一键升级",
             "cmMethod":"YardOneKeyLevelUpReq",
             "smMethod":"YardOneKeyLevelUpResp"
+        },
+        {
+            "key":"S_YARDPB_REPORT",
+            "comment":"家园举报",
+            "cmMethod":"YardReportReq",
+            "smMethod":"YardReportResp"
         }
     ]
 }

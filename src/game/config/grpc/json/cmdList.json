@@ -1,13 +1,13 @@
 [
     {
-        "comment": "活动表配置",
+        "comment": "RegressionActivityConfig解析",
         "smMsgId": 0,
-        "byteDecode": "CityMsg.GodDemonBattleConfig"
+        "byteDecode": "CityMsg.RegressionActivityConfig"
     },
     {
-        "comment": "FestivalCelebrationsPlayerInfoMsg解析",
+        "comment": "TreasureBowlData解析",
         "smMsgId": 1,
-        "byteDecode": "CityMsg.FestivalCelebrationsPlayerInfoMsg"
+        "byteDecode": "CityMsg.TreasureBowlData"
     },
     {
         "comment": "FestivalCelebrationsConfigSync解析",
@@ -212983,7 +212983,12 @@
     null,
     null,
     null,
-    null,
+    {
+        "comment": "疯狂聚宝盆签到",
+        "smMsgId": 9901,
+        "cmMethod": "CityMsg.ReqGetConditionReward",
+        "smMethod": "CityMsg.RspGetConditionReward"
+    },
     null,
     null,
     null,
@@ -213087,11 +213092,36 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "comment": "仙友回归-首次分享领奖",
+        "smMsgId": 10001,
+        "cmMethod": "CityMsg.RegressionShareReq",
+        "smMethod": "CityMsg.RegressionShareResp"
+    },
+    {
+        "comment": "仙友回归-抽奖",
+        "smMsgId": 10002,
+        "cmMethod": "CityMsg.RegressionLotteryReq",
+        "smMethod": "CityMsg.RegressionLotteryResp"
+    },
+    {
+        "comment": "仙友回归-绑定回归玩家数据",
+        "smMsgId": 10003,
+        "cmMethod": "CityMsg.GetRegressionPlayerDataReq",
+        "smMethod": "CityMsg.GetRegressionPlayerDataResp"
+    },
+    {
+        "comment": "仙友回归-领取绑定玩家的任务奖励",
+        "smMsgId": 10004,
+        "cmMethod": "CityMsg.GetRegressionReceiveRewardReq",
+        "smMethod": "CityMsg.GetRegressionReceiveRewardResp"
+    },
+    {
+        "comment": "仙友回归-保存自选奖励",
+        "smMsgId": 10005,
+        "cmMethod": "CityMsg.RegressionSaveSelectItemReq",
+        "smMethod": "CityMsg.RegressionSaveSelectItemResp"
+    },
     null,
     null,
     null,
@@ -217632,11 +217662,36 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "comment": "获取世交列表",
+        "smMsgId": 14101,
+        "cmMethod": "CityMsg.FriendGetListReq",
+        "smMethod": "CityMsg.FriendGetListResp"
+    },
+    {
+        "comment": "赠送",
+        "smMsgId": 14102,
+        "cmMethod": "CityMsg.FriendSendReq",
+        "smMethod": "CityMsg.FriendSendResp"
+    },
+    {
+        "comment": "领取",
+        "smMsgId": 14103,
+        "cmMethod": "CityMsg.FriendReceiveReq",
+        "smMethod": "CityMsg.FriendReceiveResp"
+    },
+    {
+        "comment": "一键赠送、领取",
+        "smMsgId": 14104,
+        "cmMethod": "CityMsg.FriendReceiveAllReq",
+        "smMethod": "CityMsg.FriendReceiveAllResp"
+    },
+    {
+        "comment": "删除世交",
+        "smMsgId": 14105,
+        "cmMethod": "CityMsg.FriendDeleteReq",
+        "smMethod": "CityMsg.FriendDeleteResp"
+    },
     null,
     null,
     null,
@@ -219658,7 +219713,12 @@
         "smMsgId": 15851,
         "smMethod": "CityMsg.YardBuildUpSync"
     },
-    null,
+    {
+        "comment": "家园举报",
+        "smMsgId": 15852,
+        "cmMethod": "CityMsg.YardReportReq",
+        "smMethod": "CityMsg.YardReportResp"
+    },
     null,
     null,
     null,

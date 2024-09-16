@@ -11150,7 +11150,9 @@
     null,
     null,
     null,
-    null,
+    {
+        "smMethod": "CityMsg.RspGetConditionReward"
+    },
     null,
     null,
     null,
@@ -11252,11 +11254,21 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.RegressionShareResp"
+    },
+    {
+        "smMethod": "CityMsg.RegressionLotteryResp"
+    },
+    {
+        "smMethod": "CityMsg.GetRegressionPlayerDataResp"
+    },
+    {
+        "smMethod": "CityMsg.GetRegressionReceiveRewardResp"
+    },
+    {
+        "smMethod": "CityMsg.RegressionSaveSelectItemResp"
+    },
     null,
     null,
     null,
@@ -15538,11 +15550,21 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    {
+        "smMethod": "CityMsg.FriendGetListResp"
+    },
+    {
+        "smMethod": "CityMsg.FriendSendResp"
+    },
+    {
+        "smMethod": "CityMsg.FriendReceiveResp"
+    },
+    {
+        "smMethod": "CityMsg.FriendReceiveAllResp"
+    },
+    {
+        "smMethod": "CityMsg.FriendDeleteResp"
+    },
     null,
     null,
     null,
@@ -17405,7 +17427,9 @@
     {
         "smMethod": "CityMsg.YardBuildUpSync"
     },
-    null,
+    {
+        "smMethod": "CityMsg.YardReportResp"
+    },
     null,
     null,
     null,

@@ -67,7 +67,7 @@ class MsgRecvMgr {
         logger.debug("[MsgRecvMgr] 树状态同步");
         PlayerAttributeMgr.inst.SyncTree(t);
         // 初始化完成后 自定义管理器初始化
-        CustomMgr.inst.scheduleRun();
+        CustomMgr.inst.init();
     }
 
     // 209 获取未处理装备数据

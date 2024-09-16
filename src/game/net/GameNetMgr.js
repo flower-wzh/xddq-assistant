@@ -126,9 +126,11 @@ class GameNetMgr {
         stream.writeInt(msgId);
         stream.writeLong(this.playerId);
 
-        if (stream.pbMsg) {
+        try {
             const body = stream.pbMsg.encode(msgData).finish();
             stream.writeBytes(body, 18);
+        } catch (err) {
+            logger.error(`${msgId} ${msgData}`); // TODO 重写一下sendPbMsg逻辑
         }
 
         stream.writeInt(stream.offset, 2);

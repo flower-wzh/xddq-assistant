@@ -444,3 +444,11 @@ message YardOneKeyLevelUpResp {
     required int32 ret = 1;
     repeated YardBuildInfoMsg decorateList = 2;
 }
+message YardReportReq {
+    required int64 playerId = 1;
+    required int32 type = 2;
+    optional string text = 3;
+}
+message YardReportResp {
+    optional int32 ret = 1;
+}

@@ -1,7 +1,6 @@
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
-import LoopMgr from "#game/common/LoopMgr.js";
 import BagMgr from "#game/mgr/BagMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
@@ -12,7 +11,6 @@ export default class YueBaoMgr {
         this.lastEnterTime = 0;
         this.enterInterval = 60 * 1000;
 
-        LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
     }
 
@@ -32,9 +30,7 @@ export default class YueBaoMgr {
         this._instance = null;
     }
 
-    clear() {
-        LoopMgr.inst.remove(this);
-    }
+    clear() {}
 
     // 处理消息，判定取款或存钱
     checkStatus(t) {
@@ -58,31 +54,11 @@ export default class YueBaoMgr {
 
                 if (parseInt(playerData.endTime) == 0 && playerData.index == 0 && playerData.depositNum == 0 && xianYu > 3000) {
                     logger.info(`[余额宝管理] 执行存款操作`);
-                    GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_DEPOSIT, { activityId: 10004986, index: 1, depositNum: 3000 }, null);
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_DEPOSIT, { activityId: 10004986, index: 1, depositNum: 3000 });
                 }
             }
         }
 
         this.isProcessing = false;
-    }
-
-    async loopUpdate() {
-        const currentTime = Date.now();
-
-        // 如果正在处理或者1分钟内已经调用过 enter
-        if (this.isProcessing || currentTime - this.lastEnterTime < this.enterInterval) return;
-
-        this.isProcessing = true;
-
-        try {
-            GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_ENTER, { activityId: 10004986 });
-
-            // 更新最后一次调用 enter 的时间
-            this.lastEnterTime = currentTime;
-        } catch (error) {
-            logger.error(`[余额宝管理] loopUpdate error: ${error}`);
-        } finally {
-            this.isProcessing = false;
-        }
     }
 }
