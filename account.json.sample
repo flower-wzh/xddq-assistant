@@ -51,6 +51,8 @@
     "switch": {
         "homeland": true,
         "_comment_homeland": "福地自动总开关",
+        "homelandGetReward": false,
+        "_comment_homelandGetReward": "福地自动收获",
         "chopTree": false,
         "_comment_chopTree": "自动砍树",
         "talent": false,
@@ -82,9 +84,9 @@
     },
     "chopTree": {
         "stop": {
-            "num": 19000,
+            "num": 100,
             "_comment_num": "桃子数量<该数 砍树停止",
-            "level": 455,
+            "level": 999,
             "_comment_level": "玩家等级等于该数 设置为渡劫等级 砍树停止"
         },
         "showResult": true,

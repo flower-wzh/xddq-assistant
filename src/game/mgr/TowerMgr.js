@@ -77,8 +77,8 @@ export default class TowerMgr {
                 }
             }
             logger.info("[镇妖塔管理] 开始领取镇妖塔奖励");
-            // 1017增伤 1018减伤 1023强灵  1001攻击
-            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_VIEW_SAVE_SELECT, { markPreference: [{ priority: 1, skillType: 1017 }, { priority: 2, skillType: 1018 }, { priority: 3, skillType: 1023 }, { priority: 4, skillType: 1001 }] });
+            // 1017增伤 1018减伤 1023强灵 1001攻击 第五个为空
+            GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_VIEW_SAVE_SELECT, { markPreference: [{ priority: 1, skillType: 1017 }, { priority: 2, skillType: 1018 }, { priority: 3, skillType: 1023 }, { priority: 4, skillType: 1001 }, { priority: 5, skillType: 0 }] });
             GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_QUICK_CHANLLENGE, {});
             GameNetMgr.inst.sendPbMsg(Protocol.S_TOWER_SELECT_BUFF, { index: 0, isOneKey: true });
             this.hasReward = true;
