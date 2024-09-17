@@ -81,7 +81,10 @@ export default class HomelandMgr {
             failure: 0,          // 记录探寻失败次数
             maxFailure: 6,       // 连续 6 x 5 分钟未发现合适的福地, 且不在高产时间区间, 停止刷新福地
         };
-
+        
+        // 如果配置中没有定义rules, 则使用默认规则, 默认只偷取3级以上的仙桃
+        this.rules = global.account.rules || HomelandMgr.DEFAULT_RULES;
+        this.isWeak = false;     // 默认是有活力的
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
@@ -126,9 +129,9 @@ export default class HomelandMgr {
         10047: "100047=5", // 5级昆仑铁
     }
 
-    static DEAFULT_RULES = [
+    static DEFAULT_RULES = [
         { ItemId: 100004, minItemLv: 3, isCheck: true, description: "仙桃" },
-        { ItemId: 100025, minItemLv: 5, isCheck: false, description: "净瓶水" },
+        { ItemId: 100025, minItemLv: 5, isCheck: true, description: "净瓶水" },
         { ItemId: 100000, minItemLv: 5, isCheck: false, description: "仙玉" },
         { ItemId: 100003, minItemLv: 5, isCheck: false, description: "灵石" },
         { ItemId: 100029, minItemLv: 5, isCheck: false, description: "琉璃珠" },
@@ -155,17 +158,61 @@ export default class HomelandMgr {
         return JSON.parse(JSON.stringify(obj));
     }
 
-    // TODO
-    // energy < 20 为虚弱状态
-    // 虚弱状态下 时间如果2-8点间 修改为只偷3级和5级仙桃 5级净瓶水
-    // 虚弱状态下 时间如果8-16点间 只偷2级和5级仙桃 5级净瓶水
-    // 虚弱状态下 时间如果16-18点间 只偷1级和5级仙桃 5级净瓶水
+    initializeResult(priority) {
+        const result = {};
+        priority.forEach((itemId) => {
+            const rule = this.rules.find((rule) => rule.ItemId == itemId);
+            if (rule && rule.isCheck) {
+                for (let lv = 5; lv >= rule.minItemLv; lv--) {
+                    result[`${itemId}=${lv}`] = [];
+                }
+            }
+        });
+        // Generate rules description
+        const description = this.generateRulesDescription(this.rules);
+        logger.info(`[福地管理] 将采集${description}`);
+        return result;
+    }
+
+    generateRulesDescription(rules) {
+        const descriptions = rules.filter((rule) => rule.isCheck).map((rule) => `大于${rule.minItemLv}级的${rule.description}`);
+
+        return descriptions.join(" | ");
+    }
+
+    adjustRulesForLowEnergy() {
+        if (this.worker.energy < 20) {
+            // 虚弱状态下的规则调整
+            const hours = new Date().getHours();
+            if (hours >= 2 && hours < 8) {
+                this.template = { "100004=5": [], "100004=3": [], "100025=5": [] };
+                logger.info(`[福地管理] [虚弱状态] 当前能量: ${this.worker.energy} 2-8点: 只偷3级和5级仙桃, 5级净瓶水`);
+            } else if (hours >= 8 && hours < 16) {
+                this.template = { "100004=5": [], "100004=2": [], "100025=5": [] };
+                logger.info(`[福地管理] [虚弱状态] 当前能量: ${this.worker.energy} 8-16点: 只偷2级和5级仙桃, 5级净瓶水`);
+            } else if (hours >= 16 && hours < 18) {
+                this.template = { "100004=5": [], "100004=1": [], "100025=5": [] };
+                logger.info(`[福地管理] [虚弱状态] 当前能量: ${this.worker.energy} 16-18点: 只偷1级和5级仙桃, 5级净瓶水`);
+            }
+            this.isWeak = true;
+        } else {
+            // 当能量恢复时，重新初始化规则模板，只执行一次
+            if (!this.template || this.isWeak) {
+                logger.info("[福地管理] 能量恢复，重新初始化规则模板");
+                const priority = [100029, 100044, 100000, 100003, 100047, 100004, 100025];
+                this.template = this.initializeResult(priority);
+                this.isWeak = false;
+            }
+        }
+    }
+
     doInit(t) {
         this.worker.free = t.freeWorkerNum || 0;
         this.worker.total = t.totalWorkerNum || 0;
         this.worker.energy = t.energy || 0;
-        // 如果配置中没有定义rules, 则使用默认规则, 默认只偷取3级以上的仙桃
-        this.rules = global.account.rules || HomelandMgr.DEAFULT_RULES;
+
+        // 调整规则根据当前能量状态
+        this.adjustRulesForLowEnergy();
 
         if (t.freeWorkerNum > 0 && t.energy > 0) {
             logger.info(`[福地管理] 有${t.freeWorkerNum}只空闲老鼠, 还剩${t.energy}体力`);
@@ -399,41 +446,11 @@ export default class HomelandMgr {
         return result;
     }
 
-    initializeResult(priority) {
-        const result = {};
-
-        priority.forEach((itemId) => {
-            const rule = this.rules.find((rule) => rule.ItemId == itemId);
-            if (rule && rule.isCheck) {
-                for (let lv = 5; lv >= rule.minItemLv; lv--) {
-                    result[`${itemId}=${lv}`] = [];
-                }
-            }
-        });
-        // Generate rules description
-        const description = this.generateRulesDescription(this.rules);
-        logger.info(`[福地管理] 将采集${description}`);
-        return result;
-    }
-
-    generateRulesDescription(rules) {
-        const descriptions = rules.filter((rule) => rule.isCheck).map((rule) => `大于${rule.minItemLv}级的${rule.description}`);
-
-        return descriptions.join(" | ");
-    }
-
     findDescription(id) {
         return this.rules.find((rule) => rule.ItemId == id).description;
     }
 
     checkItems(itemData, prefix, isEnter = false, idOnly = false) {
-        // Initialize the template
-        if (!this.template) {
-            logger.info("[福地管理] 初始化规则模板");
-            const priority = [100029, 100044, 100000, 100003, 100047, 100004, 100025];
-            this.template = this.initializeResult(priority);
-        }
-
         // Deep copy the initialized result
         const result = this.deepCopy(this.template);
 
