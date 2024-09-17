@@ -159,6 +159,11 @@ export default class HomelandMgr {
         return JSON.parse(JSON.stringify(obj));
     }
 
+    generateTemplate() {
+        const priority = [100029, 100044, 100000, 100003, 100047, 100004, 100025];
+        return this.initializeResult(priority);
+    }
+
     initializeResult(priority) {
         const result = {};
         priority.forEach((itemId) => {
@@ -190,29 +195,30 @@ export default class HomelandMgr {
             // 虚弱状态下的规则调整
             if (hours >= 2 && hours < 8) {
                 this.template = { "100004=5": [], "100004=3": [], "100025=5": [] };
-                logger.info(`[福地管理] [虚弱状态] 当前能量: ${this.worker.energy} 2-8点: 只偷3级和5级仙桃, 5级净瓶水`);
+                logger.debug(`[福地管理] [虚弱状态] 当前能量: ${this.worker.energy} 2-8点: 只偷3级和5级仙桃, 5级净瓶水`);
             } else if (hours >= 8 && hours < 16) {
                 this.template = { "100004=5": [], "100004=2": [], "100025=5": [] };
-                logger.info(`[福地管理] [虚弱状态] 当前能量: ${this.worker.energy} 8-16点: 只偷2级和5级仙桃, 5级净瓶水`);
+                logger.debug(`[福地管理] [虚弱状态] 当前能量: ${this.worker.energy} 8-16点: 只偷2级和5级仙桃, 5级净瓶水`);
             } else if (hours >= 16 && hours < 18) {
                 this.template = { "100004=5": [], "100004=1": [], "100025=5": [] };
-                logger.info(`[福地管理] [虚弱状态] 当前能量: ${this.worker.energy} 16-18点: 只偷1级和5级仙桃, 5级净瓶水`);
+                logger.debug(`[福地管理] [虚弱状态] 当前能量: ${this.worker.energy} 16-18点: 只偷1级和5级仙桃, 5级净瓶水`);
+            } else {
+                this.template = this.generateTemplate();
             }
             this.isInitialized = true;
         } else {
             // 检查是否处于高效时间段，设置特殊规则
             if (this.highEfficiencyTime(hours)) {
                 this.template = { "100004=5": [], "100025=5": [], "100004=4": [], "100025=4": [], "100025=3": [] };
-                logger.info("[福地管理] [高效时间] 仅偷取 5级仙桃 > 5级净瓶水 > 4级仙桃 > 4级净瓶水 > 3级净瓶水");
+                logger.debug("[福地管理] [高效时间] 仅偷取 5级仙桃 > 5级净瓶水 > 4级仙桃 > 4级净瓶水 > 3级净瓶水");
                 this.isInitialized = true;
-                return;  // 跳过后续逻辑
+                return;
             }
 
             // 当能量恢复时，重新初始化规则模板，只执行一次
             if (!this.template || this.isInitialized) {
                 logger.info("[福地管理] 初始化规则模板");
-                const priority = [100029, 100044, 100000, 100003, 100047, 100004, 100025];
-                this.template = this.initializeResult(priority);
+                this.template = this.generateTemplate();
                 this.isInitialized = false;
             }
         }
@@ -489,6 +495,11 @@ export default class HomelandMgr {
     }
 
     checkItems(itemData, prefix, isEnter = false, idOnly = false) {
+        if (!this.template) {
+            logger.info("[福地管理] 初始化规则模板");
+            this.template = this.generateTemplate();
+        }
+
         // Deep copy the initialized result
         const result = this.deepCopy(this.template);
 
