@@ -247,15 +247,18 @@ export default class HomelandMgr {
         const ongoing = [];
     
         for (const i of t.reward) {
-            const finishTime = new Date(parseInt(i.finishTime));
-            const isOverTwoHours = (finishTime - now) > 2 * 60 * 60 * 1000;
+            const maxWorkerNum = i.maxWorkerNum; // 最大鼠宝数量
+            const finishTime = new Date(parseInt(i.finishTime)); // 结束时间
+            const timeRemaining = finishTime - now;
+            const isOverTwoHours = timeRemaining > 2 * 60 * 60 * 1000;
     
             const iAmEnemy = i.enemy?.playerId.toString() === playerId;
-            
             const iAmOwner = i.owner?.playerId.toString() === playerId;
+            const data = iAmOwner ? i.owner : iAmEnemy ? i.enemy : null;
+            const isSafe = (iAmOwner && !i.enemy?.playerId) || (iAmEnemy && !i.owner?.playerId);
     
-            // 体力超过50且 & 任务完成超过2小时 & 有对抗且赢
-            if ((this.worker.energy > 50) && isOverTwoHours && !(iAmOwner && i.owner.isWinner && i.enemy?.playerId) && !(iAmEnemy && i.enemy.isWinner && i.owner?.playerId)) {
+            // 体力超过50且 & 任务完成超过2小时 & 且不存在敌人
+            if ((this.worker.energy > 50) && isOverTwoHours && isSafe) {
                 logger.info(`[福地管理] ${i.playerId.toString()}位置${i.pos}的任务已完成或超过2小时, 撤回并重新派遣!`);
                 Homeland.ExploreEnter(i.playerId);
                 Homeland.Reset(i.playerId, i.pos);
@@ -267,16 +270,31 @@ export default class HomelandMgr {
             if ((iAmEnemy && !i.enemy.isWinner) || (iAmOwner && !i.owner.isWinner)) {
                 logger.info(`[福地管理] ${i.playerId.toString()}位置${i.pos}的老鼠必赢, 撤走自己的老鼠!`);
                 Homeland.Reset(i.playerId, i.pos);
+                break;
             }
 
-            // // TODO 强化高效时间的效率 如果高效时间内有空余的老鼠 那么多派遣1只老鼠偷取 在结束前20秒撤回到1只老鼠
-            // if (this.highEfficiencyTime(hours)) {
-
-            // }
-
-            if (iAmEnemy || iAmOwner) {
-                ongoing.push(i.playerId.toString());
+            // 强化高效时间的效率 如果高效时间内有空余的老鼠 那么多派遣1只老鼠偷取 在结束前20秒撤回到1只老鼠
+            const highEfficientSteal = () => {
+                if (this.worker.free == 0 || this.worker.energy < 20) {
+                    logger.debug("[福地管理] 没有空闲老鼠或体力不足");
+                    return;
+                }
+                // 将鼠宝数量重置为1 跳过剩余逻辑
+                if (timeRemaining < 40 * 1000 && data.workerNum != 1) {
+                    logger.info(`[福地管理] [高效偷取] ${i.playerId.toString()}位置${i.pos}重置数量至1`);
+                    Homeland.Steal(i.playerId, i.pos, 1);
+                    return;
+                }
+                if (data.workerNum < maxWorkerNum && this.worker.free > maxWorkerNum) {
+                    logger.info(`[福地管理] [高效偷取] ${i.playerId.toString()}位置${i.pos}鼠宝数量调整至${maxWorkerNum}`);
+                    Homeland.Steal(i.playerId, i.pos, maxWorkerNum);
+                }
+            };
+            if (this.highEfficiencyTime(hours)) {
+                highEfficientSteal();
             }
+
+            ongoing.push(i.playerId.toString());
         }
     
         this.player.ongoing = ongoing;
