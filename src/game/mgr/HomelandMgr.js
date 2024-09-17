@@ -283,11 +283,13 @@ export default class HomelandMgr {
                 if (timeRemaining < 40 * 1000 && data.workerNum != 1) {
                     logger.info(`[福地管理] [高效偷取] ${i.playerId.toString()}位置${i.pos}重置数量至1`);
                     Homeland.Steal(i.playerId, i.pos, 1);
+                    this.worker.free = this.worker.free + (maxWorkerNum - 1); // 增加空闲鼠宝数量
                     return;
                 }
                 if (data.workerNum < maxWorkerNum && this.worker.free > maxWorkerNum) {
                     logger.info(`[福地管理] [高效偷取] ${i.playerId.toString()}位置${i.pos}鼠宝数量调整至${maxWorkerNum}`);
                     Homeland.Steal(i.playerId, i.pos, maxWorkerNum);
+                    this.worker.free = this.worker.free - (maxWorkerNum - data.workerNum); // 减少空闲鼠宝数量
                 }
             };
             if (this.highEfficiencyTime(hours)) {
