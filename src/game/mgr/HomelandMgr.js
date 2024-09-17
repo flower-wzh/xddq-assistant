@@ -84,7 +84,8 @@ export default class HomelandMgr {
         
         // 如果配置中没有定义rules, 则使用默认规则, 默认只偷取3级以上的仙桃
         this.rules = global.account.rules || HomelandMgr.DEFAULT_RULES;
-        this.isWeak = false;     // 默认是有活力的
+        this.isInitialized = false;
+        
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
@@ -181,9 +182,12 @@ export default class HomelandMgr {
     }
 
     adjustRulesForLowEnergy() {
+        // 检查当前时间是否在允许刷新时间段
+        const now = new Date();
+        const hours = now.getHours();
+
         if (this.worker.energy < 20) {
             // 虚弱状态下的规则调整
-            const hours = new Date().getHours();
             if (hours >= 2 && hours < 8) {
                 this.template = { "100004=5": [], "100004=3": [], "100025=5": [] };
                 logger.info(`[福地管理] [虚弱状态] 当前能量: ${this.worker.energy} 2-8点: 只偷3级和5级仙桃, 5级净瓶水`);
@@ -194,16 +198,29 @@ export default class HomelandMgr {
                 this.template = { "100004=5": [], "100004=1": [], "100025=5": [] };
                 logger.info(`[福地管理] [虚弱状态] 当前能量: ${this.worker.energy} 16-18点: 只偷1级和5级仙桃, 5级净瓶水`);
             }
-            this.isWeak = true;
+            this.isInitialized = true;
         } else {
+            // 检查是否处于高效时间段，设置特殊规则
+            if (this.highEfficiencyTime(hours)) {
+                this.template = { "100004=5": [], "100025=5": [], "100004=4": [], "100025=4": [], "100025=3": [] };
+                logger.info("[福地管理] [高效时间] 仅偷取 5级仙桃 > 5级净瓶水 > 4级仙桃 > 4级净瓶水 > 3级净瓶水");
+                this.isInitialized = true;
+                return;  // 跳过后续逻辑
+            }
+
             // 当能量恢复时，重新初始化规则模板，只执行一次
-            if (!this.template || this.isWeak) {
-                logger.info("[福地管理] 能量恢复，重新初始化规则模板");
+            if (!this.template || this.isInitialized) {
+                logger.info("[福地管理] 初始化规则模板");
                 const priority = [100029, 100044, 100000, 100003, 100047, 100004, 100025];
                 this.template = this.initializeResult(priority);
-                this.isWeak = false;
+                this.isInitialized = false;
             }
         }
+    }
+    
+    // 高效时间段
+    highEfficiencyTime(hours) {
+        return (hours >= 10 && hours < 12) || (hours >= 18 && hours < 20) || (hours >= 22 && hours < 24);
     }
 
     doInit(t) {
@@ -226,6 +243,7 @@ export default class HomelandMgr {
     doManage(t) {
         const playerId = UserMgr.playerId.toString();
         const now = new Date();
+        const hours = now.getHours();
         const ongoing = [];
     
         for (const i of t.reward) {
@@ -250,7 +268,12 @@ export default class HomelandMgr {
                 logger.info(`[福地管理] ${i.playerId.toString()}位置${i.pos}的老鼠必赢, 撤走自己的老鼠!`);
                 Homeland.Reset(i.playerId, i.pos);
             }
-            
+
+            // // TODO 强化高效时间的效率 如果高效时间内有空余的老鼠 那么多派遣1只老鼠偷取 在结束前20秒撤回到1只老鼠
+            // if (this.highEfficiencyTime(hours)) {
+
+            // }
+
             if (iAmEnemy || iAmOwner) {
                 ongoing.push(i.playerId.toString());
             }
@@ -368,12 +391,7 @@ export default class HomelandMgr {
         const now = new Date();
         const hours = now.getHours();
 
-        const isRefreshAllowed =
-            (hours >= 10 && hours < 12) ||
-            (hours >= 18 && hours < 20) ||
-            (hours >= 22 && hours < 24);
-
-        if (isRefreshAllowed) {
+        if (this.highEfficiencyTime(hours)) {
             this.counter.failure = 0;
         }
 
