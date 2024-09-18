@@ -86,6 +86,7 @@ export default class TowerMgr {
     }
 
     async loopUpdate() {
+        if (!this.hasReward) this.processReward();
         if (!WorkFlowMgr.inst.canExecute("Challenge")) return;
         if (this.isProcessing || this.isSyncing) return;
         this.isProcessing = true;
@@ -106,9 +107,6 @@ export default class TowerMgr {
                 await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
             }
 
-            if (!this.hasReward) {
-                this.processReward();
-            }
         } catch (error) {
             logger.error(`[镇妖塔管理] loopUpdate error: ${error}`);
         } finally {
