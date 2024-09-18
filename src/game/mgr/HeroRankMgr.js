@@ -124,16 +124,21 @@ export default class HeroRankMgr {
     }
 
     isLoopActive() {
+        // 检查是否启用
         if (!this.enabled) {
             logger.info("[群英榜管理] 停止循环。未开启速通群英榜");
             this.clear();
             return false;
         }
+
+        // 检查体力
         if (this.energy < 1) {
             logger.info("[群英榜管理] 停止循环。体力不足");
             this.clear();
             return false;
         }
+
+        // 检查当前排名是否第一
         if (this.rank === 1) {
             logger.info("[群英榜管理] 停止循环。当前排名第一, 不需要再打了");
             this.clear();
@@ -142,6 +147,7 @@ export default class HeroRankMgr {
         return true;
     }
 
+    // 检查是否是 周一 00:05分
     shouldStartFight(now) {
         const isMonday = now.getDay() === 1;
         const isZeroFive = now.getHours() === 0 && now.getMinutes() >= 5 && now.getMinutes() <= 10;
