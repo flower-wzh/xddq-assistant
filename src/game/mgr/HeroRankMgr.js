@@ -8,7 +8,10 @@ import RegistMgr from '#game/common/RegistMgr.js';
 export default class HeroRankMgr {
     constructor() {
         this.isProcessing = false;
-        this.enabled = global.account.switch.herorank || false;  // 是否开启光速群英榜
+        // 是否开启光速群英榜
+        this.enabled = global.account.switch.herorank || false;
+        // 是否每天自动打群英榜，默认为false
+        this.autoFightDaily = global.account.switch.herorankFightDaily || false;
         this.buyNumDaily = 0;   // 当天已买数量
         this.energy = 0;        // 当前剩余体力
         this.rank = null;       // 当前排名
@@ -73,6 +76,12 @@ export default class HeroRankMgr {
         }
     }
 
+    findRandomPlayer(t) {
+        const playerList = t.fightPlayerList.canFightPlayerInfoList;
+        const randomIndex = Math.floor(Math.random() * playerList.length);
+        return playerList[randomIndex];
+    }
+
     getFightList(t) {
         this.isProcessing = true;
         try {
@@ -80,12 +89,17 @@ export default class HeroRankMgr {
             if (t.ret === 0) {
                 this.rank = t.rank || null;
 
-                if (t.rank === 1) {
+                // 即使排名是1，如果开启了autoFightDaily且有体力，也需要继续战斗
+                if (t.rank === 1 && !this.autoFightDaily) {
                     logger.info("[群英榜管理] 当前排名第一, 不需要再打了");
                     return;
                 }
 
-                const player = this.findFirstHeroRankPlayer(t);
+                // 如果autoFightDaily开启，则随机选择一个玩家进行挑战
+                const player = this.autoFightDaily && this.energy > 0
+                    ? this.findRandomPlayer(t) // 随机选择玩家
+                    : this.findFirstHeroRankPlayer(t); // 正常选择
+
                 if (player) {
                     logger.info(`[群英榜管理] 找到玩家 ${player.showInfo.nickName} 准备攻击...`);
                     GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_FIGHT, {
@@ -125,8 +139,8 @@ export default class HeroRankMgr {
 
     isLoopActive() {
         // 检查是否启用
-        if (!this.enabled) {
-            logger.info("[群英榜管理] 停止循环。未开启速通群英榜");
+        if (!this.enabled && !this.autoFightDaily) {
+            logger.info("[群英榜管理] 停止循环。未开启光速群英榜和每日自动战斗");
             this.clear();
             return false;
         }
@@ -137,17 +151,9 @@ export default class HeroRankMgr {
             this.clear();
             return false;
         }
-
-        // 检查当前排名是否第一
-        if (this.rank === 1) {
-            logger.info("[群英榜管理] 停止循环。当前排名第一, 不需要再打了");
-            this.clear();
-            return false;
-        }
         return true;
     }
 
-    // 检查是否是 周一 00:05分
     shouldStartFight(now) {
         const isMonday = now.getDay() === 1;
         const isZeroFive = now.getHours() === 0 && now.getMinutes() >= 5 && now.getMinutes() <= 10;
@@ -161,8 +167,13 @@ export default class HeroRankMgr {
         try {
             const now = new Date();
             if (this.shouldStartFight(now)) {
-                logger.info("[群英榜管理] 开始快速打群英榜");
+                logger.info("[群英榜管理] 开始光速群英榜模式...");
                 GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_GET_FIGHT_LIST, { type: 0 });
+            } else if (this.autoFightDaily) {
+                logger.info("[群英榜管理] 开始每日自动打群英榜模式...");
+                GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_GET_FIGHT_LIST, { type: 0 });
+            } else {
+                logger.debug("[群英镑管理] 条件不满足")
             }
         } catch (error) {
             logger.error(`[群英榜管理] loopUpdate error: ${error}`);
