@@ -13,6 +13,7 @@ export default class UnionMgr {
         this.memberList = null;           // 妖盟成员列表
         this.lastCheckTime = 0;           // 上次检查时间
         this.CHECK_CD = 1000 * 60 * 10;   // 每次间隔时间
+        this.initialized = false          // 是否同步妖盟数据
         this.buyUnionGoodLists = global.account.buyUnionGoodLists || [
             230000011,
             230000001,
@@ -97,6 +98,7 @@ export default class UnionMgr {
                 }
             }
         }
+        this.initialized = true;
     }
 
     // 砍价
@@ -183,7 +185,7 @@ export default class UnionMgr {
             // 日常任务
             logger.debug("[妖盟管理] 妖盟日常任务");
             GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_DAILYTASK, {});
-    
+
             // 非周末才执行讨伐任务
             if (new Date().getDay() !== 6 && new Date().getDay() !== 0) {
                 logger.debug("[妖盟管理] 妖盟讨伐 请求砍价数据");
@@ -193,15 +195,16 @@ export default class UnionMgr {
                 logger.debug("[妖盟管理] 妖盟讨伐 领取妖盟讨伐奖励");
                 GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_GET_REWARD_INFO, {});
             }
-    
+
             this.lastCheckTime = now;
         }
     }
-    
+
     async loopUpdate() {
         if (this.isProcessing) return;
+        if (!this.initialized) return;
         this.isProcessing = true;
-    
+
         try {
             if (!this.unionId) {
                 logger.info("[妖盟管理] 未加入妖盟");
@@ -215,5 +218,5 @@ export default class UnionMgr {
         } finally {
             this.isProcessing = false;
         }
-    }    
+    }
 }
