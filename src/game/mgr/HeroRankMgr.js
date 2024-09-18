@@ -4,6 +4,7 @@ import logger from "#utils/logger.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import RegistMgr from '#game/common/RegistMgr.js';
+import UserMgr from '#game/mgr/UserMgr.js';
 
 export default class HeroRankMgr {
     constructor() {
@@ -78,8 +79,10 @@ export default class HeroRankMgr {
 
     findRandomPlayer(t) {
         const playerList = t.fightPlayerList.canFightPlayerInfoList;
-        const randomIndex = Math.floor(Math.random() * playerList.length);
-        return playerList[randomIndex];
+        const splitIndex = playerList.findIndex(player => player.showInfo.playerId == UserMgr.playerId);
+        const beforeSplit = playerList.slice(0, splitIndex - 1);
+        const randomIndex =beforeSplit.find((player) => player.showInfo.nickName.startsWith("HeroRank_Name"))|| Math.floor(Math.random() * beforeSplit.length);
+        return beforeSplit[randomIndex];
     }
 
     getFightList(t) {
