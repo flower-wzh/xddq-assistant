@@ -35,15 +35,12 @@ export default class PalaceMgr {
     async checkReward(t) {
         for (let i = 0; i < t.data.length; i++) {
             const id = t.data[i].id;
+            const rewardType = t.data[i].type;
 
-            // // TODO 临时处理 跳过星宿奖励
-            // if (id.startsWith("STAR-TRIAL-GIFT")) {
-            //     logger.error(`[仙宫管理] 跳过礼物 ${id}`);
-            //     continue;
-            // }
+            // "SendGiftType_StarTrial"/"SendGiftType_Palace"
 
             logger.info(`[仙宫管理] 收获礼物 ${id}`);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_SEND_GIFT_GET_REWARD, { id: id, getReward: true, type: "SendGiftType_Palace" });
+            GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_SEND_GIFT_GET_REWARD, { id: id, getReward: true, type: rewardType });
             await new Promise((resolve) => setTimeout(resolve, 1000));
         }
     }
