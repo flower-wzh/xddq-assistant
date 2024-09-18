@@ -61,6 +61,8 @@
         "_comment_herorank": "光速群英榜",
         "herorankBuyNumMax": [10,10,0,0,0,0,0],
         "_comment_herorankBuyNumMax": "每天可购买的最大群英榜体力, 顺序为:[周日,周一,周二,周三,周四,周五,周六]。需要囤积差不多50个体力才能保证在周一光速群英榜时打到第一, 每天最多可买10个体力,所以算上本周一可买的就需要上周五或上周六开始囤积。然而打榜单只需要打一次，其它情况下就只需要在上周日及下周一买体力,保证从周一打榜时能进排行前列就成。",
+        "herorankFightDaily": false,
+        "_comment_herorankFightDaily": "僵尸玩家每天瞎打",
         "challenge": 50,
         "_comment_challenge": "[挑战] 冒险/真火/镇妖塔 次数 0为不挑战",
         "showResult": false,
