@@ -154,7 +154,8 @@ export default class HeroRankMgr {
         return true;
     }
 
-    shouldStartFight(now) {
+    shouldStartFight() {
+        const now = new Date();
         const isMonday = now.getDay() === 1;
         const isZeroFive = now.getHours() === 0 && now.getMinutes() >= 5 && now.getMinutes() <= 10;
         return isMonday && isZeroFive && this.energy > 0;
@@ -165,8 +166,7 @@ export default class HeroRankMgr {
 
         this.isProcessing = true;
         try {
-            const now = new Date();
-            if (this.shouldStartFight(now)) {
+            if (this.shouldStartFight()) {
                 logger.info("[群英榜管理] 开始光速群英榜模式...");
                 GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_GET_FIGHT_LIST, { type: 0 });
             } else if (this.autoFightDaily) {
