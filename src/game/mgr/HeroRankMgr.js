@@ -9,12 +9,9 @@ export default class HeroRankMgr {
     constructor() {
         this.isProcessing = false;
         this.enabled = global.account.switch.herorank || false;  // 是否开启光速群英榜
-        this.buyNumDaily = 0;  // 当天已买数量
-        const dayIndex = new Date().getDay();
-        const configNum = global.account.switch.herorankBuyNumMax[dayIndex] ?? 0;  // 当天最大可买数量
-        this.buyNumMax = Math.max(Math.min(parseInt(configNum), 10), 0)
-        this.energy = 0;  // 当前剩余体力
-        this.rank = null;  // 当前排名
+        this.buyNumDaily = 0;   // 当天已买数量
+        this.energy = 0;        // 当前剩余体力
+        this.rank = null;       // 当前排名
         LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
     }
@@ -39,17 +36,25 @@ export default class HeroRankMgr {
         LoopMgr.inst.remove(this);
     }
 
+    getBuyNumMax() {
+        const dayIndex = new Date().getDay();
+        const configNum = global.account.switch.herorankBuyNumMax[dayIndex] ?? 0;
+        // 限制为10以内
+        return Math.max(Math.min(parseInt(configNum), 10), 0);
+    }
+
     SyncData(t) {
         try {
             logger.debug("[群英榜管理] 初始化");
             this.energy = t.energy || 0;
             this.buyNumDaily = t.buyNumDaily || 0;
-            //50张票用不完所以不用买太多
-            if (this.enabled && this.buyNumDaily < this.buyNumMax && this.energy <= 50) {
-                const num = this.buyNumMax - this.buyNumDaily;
+
+            const buyNumMax = this.getBuyNumMax();
+            if (this.enabled && this.buyNumDaily < buyNumMax && this.energy <= 50) {
+                const num = buyNumMax - this.buyNumDaily;
                 logger.info(`[群英榜管理] 购买体力 ${num}次`);
                 GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_BUY_ENERGY, { num: num });
-                this.buyNumDaily = this.buyNumMax;
+                this.buyNumDaily = buyNumMax;
             }
         } catch (error) {
             logger.error(`[群英榜管理] SyncData error: ${error}`);
@@ -74,10 +79,12 @@ export default class HeroRankMgr {
             logger.debug(`[群英榜管理] 收到群英榜列表${JSON.stringify(t, null, 2)}`);
             if (t.ret === 0) {
                 this.rank = t.rank || null;
+
                 if (t.rank === 1) {
                     logger.info("[群英榜管理] 当前排名第一, 不需要再打了");
                     return;
                 }
+
                 const player = this.findFirstHeroRankPlayer(t);
                 if (player) {
                     logger.info(`[群英榜管理] 找到玩家 ${player.showInfo.nickName} 准备攻击...`);
@@ -106,7 +113,7 @@ export default class HeroRankMgr {
                 this.energy = t.playerInfo.energy;
                 if (t.allBattleRecord.isWin) {
                     logger.info(`[群英榜] 当前排名: ${t.rank} 战斗胜利, 再次请求列表...`);
-                    await new Promise((resolve) => setTimeout(resolve, 2000));
+                    await new Promise((resolve) => setTimeout(resolve, 2000));  // 延迟 2 秒后继续请求列表
                 }
             }
         } catch (error) {
@@ -116,45 +123,38 @@ export default class HeroRankMgr {
         }
     }
 
-    async loopUpdate() {
-        if (this.isProcessing) return;
-        this.isProcessing = true;
+    isLoopActive() {
+        if (!this.enabled) {
+            logger.info("[群英榜管理] 停止循环。未开启速通群英榜");
+            this.clear();
+            return false;
+        }
+        if (this.energy < 1) {
+            logger.info("[群英榜管理] 停止循环。体力不足");
+            this.clear();
+            return false;
+        }
+        if (this.rank === 1) {
+            logger.info("[群英榜管理] 停止循环。当前排名第一, 不需要再打了");
+            this.clear();
+            return false;
+        }
+        return true;
+    }
 
+    shouldStartFight(now) {
+        const isMonday = now.getDay() === 1;
+        const isZeroFive = now.getHours() === 0 && now.getMinutes() >= 5 && now.getMinutes() <= 10;
+        return isMonday && isZeroFive && this.energy > 0;
+    }
+
+    async loopUpdate() {
+        if (this.isProcessing || !this.isLoopActive()) return;
+
+        this.isProcessing = true;
         try {
             const now = new Date();
-            const isMonday = now.getDay() === 1;
-
-            // 检查是否启用
-            if (!this.enabled) {
-                logger.info("[群英榜管理] 停止循环。未开启速通群英榜");
-                this.clear();
-                return;
-            }
-
-            // 检查体力
-            if (this.energy < 1) {
-                logger.info("[群英榜管理] 停止循环。体力不足");
-                this.clear();
-                return;
-            }
-
-            // 检查当前排名是否第一
-            if (this.rank === 1) {
-                logger.info("[群英榜管理] 停止循环。当前排名第一, 不需要再打了");
-                this.clear();
-                return;
-            }
-
-            // 检查是否为周一
-            if (!isMonday) {
-                logger.info("[群英榜管理] 停止循环。今天不是周一");
-                this.clear();
-                return;
-            }
-
-            // 检查是否是 0 点 5 分  1分钟打不完所以要加点时间
-            const isZeroFive = now.getHours() === 0 && now.getMinutes() >= 5 && now.getMinutes() <= 10;
-            if (this.enabled && this.energy > 0 && isZeroFive) {
+            if (this.shouldStartFight(now)) {
                 logger.info("[群英榜管理] 开始快速打群英榜");
                 GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_GET_FIGHT_LIST, { type: 0 });
             }
@@ -164,5 +164,4 @@ export default class HeroRankMgr {
             this.isProcessing = false;
         }
     }
-
 }
