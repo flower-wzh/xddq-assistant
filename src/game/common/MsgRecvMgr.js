@@ -31,6 +31,7 @@ import YueBaoMgr from "#game/mgr/YueBaoMgr.js";
 import YardDpbMgr from "#game/mgr/YardDpbMgr.js";
 import UnionTreasureMgr from "#game/mgr/UnionTreasureMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
+import UnionBountyMgr from "#game/mgr/UnionBountyMgr.js";
 
 class MsgRecvMgr {
     constructor() {}
@@ -130,6 +131,7 @@ class MsgRecvMgr {
         logger.debug("[MsgRecvMgr] 妖盟数据同步");
         UnionMgr.inst.pushMyUnionDataBroadcast(t);
         UnionTreasureMgr.inst.pushMyUnionDataBroadcast(t);
+        UnionBountyMgr.inst.pushMyUnionDataBroadcast(t);
     }
 
     // 2165 妖盟砍价数据同步
@@ -425,6 +427,16 @@ class MsgRecvMgr {
     static YardMakeMsgSync(t) {
         logger.debug("[MsgRecvMgr] 家园生产信息同步");
         YardDpbMgr.inst.YardMakeMsgSync(t)
+    }
+
+    //213602 进入妖盟悬赏返回
+    static UnionBountyEnterMapResp(t){
+        UnionBountyMgr.inst.UnionBountyEnterMapResp(t);
+    }
+
+    //213614 押镖界面
+    static UnionBountyOpenBountyEventResp(t){
+        UnionBountyMgr.inst.UnionBountyOpenBountyEventResp(t);
     }
 
     // TODO 以下暂时不想写

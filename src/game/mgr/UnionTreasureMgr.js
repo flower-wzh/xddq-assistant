@@ -45,8 +45,6 @@ export default class UnionTreasureMgr {
     // 推送妖盟数据
     pushMyUnionDataBroadcast(t) {
         this.unionId = t.baseData.unionId || null;
-        this.memberNum = t.baseData.memberNum || null;
-        this.memberList = this.collectPlayerData(t.memberList) || [];
     }
 
     // 请求进入寻宝返回
