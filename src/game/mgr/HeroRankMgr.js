@@ -11,7 +11,8 @@ export default class HeroRankMgr {
         this.enabled = global.account.switch.herorank || false;  // 是否开启光速群英榜
         this.buyNumDaily = 0;  // 当天已买数量
         const dayIndex = new Date().getDay();
-        this.buyNumMax = global.account.switch.herorankBuyNumMax[dayIndex] ?? 0;  // 当天最大可买数量
+        const configNum = global.account.switch.herorankBuyNumMax[dayIndex] ?? 0;  // 当天最大可买数量
+        this.buyNumMax = Math.max(Math.min(parseInt(configNum), 10), 0)
         this.energy = 0;  // 当前剩余体力
         this.rank = null;  // 当前排名
         LoopMgr.inst.add(this);
