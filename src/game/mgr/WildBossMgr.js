@@ -9,6 +9,7 @@ import RegistMgr from '#game/common/RegistMgr.js';
 
 export default class WildBossMgr {
     constructor() {
+        this.enabled = global.account.switch.wildBoss??true;                              // 默认开启
         this.AD_REWARD_DAILY_MAX_NUM = 6 + (PlayerAttributeMgr.isMonthCardVip ? 2 : 0);   // 每日最大领取次数
         this.AD_REWARD_CD = 1000;                                                         // 每次间隔时间
         this.isProcessing = false;
@@ -70,6 +71,11 @@ export default class WildBossMgr {
     }
 
     async loopUpdate() {
+        if (!this.enabled) {
+            logger.info("[挑战妖王管理] 挑战妖王未开启");
+            return;
+        }
+
         if (this.isProcessing) return;
         this.isProcessing = true;
 

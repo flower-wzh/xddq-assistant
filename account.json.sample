@@ -84,13 +84,17 @@
         "challengeIndex": 0,
         "_comment_challengeIndex": "推图选择分身0,1,2,仅在开启推图时生效",
         "activity":true,
-        "_comment_activity": "开启自动领取活动奖励,400等级以下以及新区禁止打开,否则有风险"
+        "_comment_activity": "开启自动领取活动奖励,400等级以下以及新区禁止打开,否则有风险",
+        "wildBoss": true,
+        "_comment_wildBoss": "挑战妖王开关，默认开启"
     },
     "chopTree": {
         "stop": {
             "num": 100,
             "_comment_num": "桃子数量<该数 砍树停止",
-            "level": 999,
+            "doNum": "infinity",
+            "_comment_doNum": "砍几个后停止，默认无穷大"
+            "level": "infinity",
             "_comment_level": "玩家等级等于该数 设置为渡劫等级 砍树停止"
         },
         "showResult": true,
@@ -132,6 +136,12 @@
         }
     },
     "talent": {
+        "stop": {
+            "stopNum": 500,
+            "_comment_stopNum": "先天灵草数量<该数 激发停止",
+            "doNum": "infinity",
+            "_comment_doNum": "砍几个后停止,默认无穷大. 如果只需做仙缘任务, 请设置为3"
+        },
         "showResult": true,
         "_comment_showResult": "显示灵脉结果 防焦虑",
         "separation": {

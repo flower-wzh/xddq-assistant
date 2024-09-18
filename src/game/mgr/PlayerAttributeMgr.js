@@ -105,6 +105,7 @@ export default class PlayerAttributeMgr {
         this.unDealTalentDataMsg = [];                              // 未处理灵脉数据
         this.talentEnabled = global.account.switch.talent || false; // 是否开启砍灵脉
         this.previousFlowerNum = 0;                                 // 用于存储上一次的灵脉花数量
+        this.initFlowerNum = -1;                                    // 初灵脉花数量
 
         // 🔒储存状态防止出现问题
         this.isProcessing = false;
@@ -315,28 +316,42 @@ export default class PlayerAttributeMgr {
 
     doChopTree() {
         const peachNum = BagMgr.inst.getGoodsNum(100004);
+    
+        // 记录初始数量
         if (this.initPeachNum == -1) {
             this.initPeachNum = peachNum;
         }
 
-        if (peachNum <= global.account.chopTree.stop.num || this.level <= global.account.chopTree.stop.level) {
-            logger.warn(`[砍树] 停止任务`);
+        // 停止砍树的桃子数量
+        const stopNum = global.account.chopTree?.stop?.num ?? 50;
+        // 停止砍树的玩家等级
+        const stopLevel = const stopLevel = (typeof global.account.chopTree?.stop?.level === 'string' && global.account.chopTree.stop.level.toLowerCase() === 'infinity') ? Infinity : (global.account.chopTree?.stop?.level || Infinity);
+        // 默认为不限制执行次数, 砍多少次就停
+        const doNum = (typeof global.account.chopTree?.stop?.doNum === 'string' && global.account.chopTree.stop.doNum.toLowerCase() === 'infinity') ? Infinity : (global.account.chopTree?.stop?.doNum || Infinity);
+
+        // 已经完成的砍树次数
+        const hasDoNum = this.initPeachNum - peachNum;
+
+        // 判断是否停止任务
+        if (peachNum <= stopNum || this.level <= stopLevel || hasDoNum >= doNum) {
+            logger.warn(`[砍树] 停止任务, 还剩余 ${peachNum} 桃子`);
             this.chopEnabled = false;
 
             // 任务完成后切换为默认分身
-            this.switchToDefaultSeparation()
+            this.switchToDefaultSeparation();
             WorkFlowMgr.inst.remove("ChopTree");
             return;
-        } else {
-            if (peachNum !== this.previousPeachNum) {
-                logger.info(`[砍树] 还剩 ${peachNum} 桃子`);
-                this.previousPeachNum = peachNum; // 更新上一次数量
-            }
+        }
+
+        // 更新上一次数量
+        if (peachNum !== this.previousPeachNum) {
+            logger.info(`[砍树] 还剩 ${peachNum} 桃子`);
+            this.previousPeachNum = peachNum;
             Attribute.Chop(this.chopTimes);
             Attribute.CheckUnfinishedEquipment();
         }
 
-        // TODO 加个counter 当大于350后 且在妖盟中 触发下面任务
+        // 当加入妖盟且砍了350颗桃后
         if (UnionMgr.inst.inUnion && !this.doneUnionTask) {
             if (peachNum - this.initPeachNum >= 350) {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [120001, 120002, 120003, 120004, 120005] });
@@ -620,22 +635,38 @@ export default class PlayerAttributeMgr {
 
     doAutoTalent() {
         const flowerNum = BagMgr.inst.getGoodsNum(100007);
+
+        // 记录初始数量
+        if (this.initFlowerNum == -1) {
+            this.initFlowerNum = flowerNum;
+        }
+
+        // 停止数量
+        const stopNum = global.account.talent?.stop?.stopNum ?? this.talentCreateTimes;
+        // 默认为不限制执行次数, 砍多少次就停
+        const doNum = (typeof global.account.talent?.stop?.doNum === 'string' && global.account.talent.stop.doNum.toLowerCase() === 'infinity') ? Infinity : (global.account.talent?.stop?.doNum || Infinity);
+
+        // 已经完成的数量
+        const hasDoNum = this.initFlowerNum - flowerNum;
+
+        // 判断是否停止任务
+        if (flowerNum < stopNum || hasDoNum >= doNum) {
+                logger.warn(`[灵脉] 停止任务, 还剩余 ${flowerNum} 先天灵草`);
+                this.talentEnabled = false;
+
+                // 任务完成后切换为默认分身
+                this.switchToDefaultSeparation();
+                WorkFlowMgr.inst.remove("Talent");
+                return;
+        }
+
+        // 更新上一次数量
         if (flowerNum !== this.previousFlowerNum) {
             logger.info(`[灵脉] 还剩 ${flowerNum} 灵脉花`);
-            this.previousFlowerNum = flowerNum; // 更新上一次数量
+            this.previousFlowerNum = flowerNum;
+            Attribute.RandomTalentReq(this.talentCreateTimes);
+            Attribute.CheckUnfinishedTalent();
         }
-
-        if (flowerNum < this.talentCreateTimes) {
-            logger.warn(`[灵脉] 停止任务`);
-            this.talentEnabled = false;
-
-            // 任务完成后切换为默认分身
-            this.switchToDefaultSeparation()
-            WorkFlowMgr.inst.remove("Talent");
-            return;
-        }
-        Attribute.RandomTalentReq(this.talentCreateTimes);
-        Attribute.CheckUnfinishedTalent();
     }
 
     // 207 仙树初始化以及自动升级
