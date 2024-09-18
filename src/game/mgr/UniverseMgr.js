@@ -68,7 +68,7 @@ export default class UniverseMgr {
             return;
         }
         // 连线
-        GameNetMgr.inst.sendPbMsg(Protocol.S_UNIVERSE_DRAW_TWICE, { pos: this.selectPos() }, null);
+        GameNetMgr.inst.sendPbMsg(Protocol.S_UNIVERSE_DRAW_TWICE, { pos: this.selectPos() });
     }
 
     // 随机选择坐标

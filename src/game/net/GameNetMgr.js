@@ -102,11 +102,11 @@ class GameNetMgr {
             token: this.token,
             language: "zh_cn"
         };
-        this.sendPbMsg(Protocol.S_PLAYER_LOGIN, loginData, null);
+        this.sendPbMsg(Protocol.S_PLAYER_LOGIN, loginData);
     }
 
     ping() {
-        this.sendPbMsg(Protocol.S_PLAYER_PING, null, null);
+        this.sendPbMsg(Protocol.S_PLAYER_PING, null);
     }
 
     addHandler(msgId, handler) {

@@ -74,7 +74,7 @@ export default class YardDpbMgr {
         }
         if (this.freeDrawTimes < this.FREE_NUM) {
             logger.info(`[仙居管理] 还剩 ${this.FREE_NUM - this.freeDrawTimes} 次免费次数`);
-            GameNetMgr.inst.sendPbMsg(Protocol.S_YARDPB_BUILD_DRAW, { isTen: false, isUseADTime: false, isADType: false, poolId: 0 }, null);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_YARDPB_BUILD_DRAW, { isTen: false, isUseADTime: false, isADType: false, poolId: 0 });
             this.freeDrawTimes++;
         }
     }
@@ -99,7 +99,7 @@ export default class YardDpbMgr {
                     const buildId = i.yardCellMsg.buildId;
                     if (whileList.includes(buildId)) { // 过滤特定的 buildId
                         logger.info(`[仙居管理] 开始收菜： ${buildId}`);
-                        GameNetMgr.inst.sendPbMsg(Protocol.S_YARDPB_BUILD_GAIN_REWARD, { uniqueId: uniqueId, buildId: buildId }, null);
+                        GameNetMgr.inst.sendPbMsg(Protocol.S_YARDPB_BUILD_GAIN_REWARD, { uniqueId: uniqueId, buildId: buildId });
                     }
                 }
                 this.lastGainRewardTime = now;
@@ -112,7 +112,7 @@ export default class YardDpbMgr {
         this.isProcessing = true;
         try {
             if (!this.lock) {
-                GameNetMgr.inst.sendPbMsg(Protocol.S_YARDPB_ENTER, { targetPlayerId: UserMgr.playerId }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_YARDPB_ENTER, { targetPlayerId: UserMgr.playerId });
                 this.lock = true
             }
             // 抽奖

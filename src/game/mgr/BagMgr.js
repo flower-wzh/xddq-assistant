@@ -100,7 +100,7 @@ export default class BagMgr {
             const books = this.getGoodsNum(100008);
             if (books > 0) {
                 logger.info(`[背包管理] 还剩 ${books} 万年灵芝`);
-                GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_READ_BOOK, { readTimes: books.toString() }, null);
+                GameNetMgr.inst.sendPbMsg(Protocol.S_TALENT_READ_BOOK, { readTimes: books.toString() });
             }
         } catch (error) {
             logger.error(`[背包管理] 循环任务失败 ${error}`);

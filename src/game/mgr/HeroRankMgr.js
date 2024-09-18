@@ -106,18 +106,14 @@ export default class HeroRankMgr {
 
                 if (player) {
                     logger.info(`[群英榜管理] 找到玩家 ${player.showInfo.nickName} 准备攻击...`);
-                    GameNetMgr.inst.sendPbMsg(
-                        Protocol.S_HERORANK_FIGHT,
-                        {
-                            targetId: "0",
-                            targetRank: player.rank,
-                            masterId: player.masterId,
-                            masterLv: player.masterLv,
-                            appearanceId: player.showInfo.appearanceId,
-                            cloudId: player.showInfo.equipCloudId,
-                        },
-                        null
-                    );
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_FIGHT, {
+                        targetId: "0",
+                        targetRank: player.rank,
+                        masterId: player.masterId,
+                        masterLv: player.masterLv,
+                        appearanceId: player.showInfo.appearanceId,
+                        cloudId: player.showInfo.equipCloudId,
+                    });
                 }
             }
         } catch (error) {
