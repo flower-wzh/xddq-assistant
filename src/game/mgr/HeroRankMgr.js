@@ -42,7 +42,8 @@ export default class HeroRankMgr {
 
     getBuyNumMax() {
         const dayIndex = new Date().getDay();
-        const configNum = global.account.switch.herorankBuyNumMax[dayIndex] ?? 0;
+        const herorankBuyNumMax = global.account?.switch?.herorankBuyNumMax;
+        const configNum = Array.isArray(herorankBuyNumMax) ? (herorankBuyNumMax[dayIndex] ?? 0) : 0;
         // 限制为10以内
         return Math.max(Math.min(parseInt(configNum), 10), 0);
     }
