@@ -74,7 +74,7 @@ export default class YueBaoMgr {
                 // 当 recordList 为空且仙玉大于 depositNum 时，执行存钱操作
                 const xianYu = BagMgr.inst.getGoodsNum(100000) || 0;
 
-                if (playerData.recordList.length === 0 && xianYu > depositNum) {
+                if (playerData.depositNum == 0 && playerData.endTime == "0" && xianYu > depositNum) {
                     logger.info(`[余额宝管理] 执行存款操作 存款: ${global.colors.green}${depositNum}${global.colors.reset} 利息: ${global.colors.red}${rewardNum}${global.colors.reset}`);
                     GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_DEPOSIT, { activityId: 10004986, index: 1, depositNum: depositNum });
                 }
