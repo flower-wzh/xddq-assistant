@@ -4,7 +4,7 @@ import logger from "#utils/logger.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class MagicTreasureMgr {
     constructor() {
@@ -49,7 +49,7 @@ export default class MagicTreasureMgr {
                 poolId: nextIndex + 1,
                 freeDrawTimes: 0,
                 adFreeTimes: 0,
-                lastAdTime: "0"
+                lastAdTime: "0",
             });
         }
 
@@ -86,8 +86,10 @@ export default class MagicTreasureMgr {
         this.isProcessing = true;
 
         try {
-            if (this.jackpotData.every(i => i.adFreeTimes >= this.AD_REWARD_DAILY_MAX_NUM)
-                && this.jackpotData.every(i => i.freeDrawTimes >= this.FREE_NUM)) {
+            if (
+                this.jackpotData.every((i) => i.adFreeTimes >= this.AD_REWARD_DAILY_MAX_NUM) &&
+                this.jackpotData.every((i) => i.freeDrawTimes >= this.FREE_NUM)
+            ) {
                 this.clear();
                 logger.info("[法宝管理] 达到每日最大领取次数，停止奖励领取");
                 this.isProcessing = false;

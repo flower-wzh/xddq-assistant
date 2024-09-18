@@ -3,11 +3,11 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import PlayerAttributeMgr from "#game/mgr/PlayerAttributeMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class DestinyMgr {
     constructor() {
-        this.AD_REWARD_CD = 30 * 60 * 1000;  // 每次间隔时间 (30分钟)
+        this.AD_REWARD_CD = 30 * 60 * 1000; // 每次间隔时间 (30分钟)
         this.lastAdRewardTime = 0;
 
         this.isProcessing = false;

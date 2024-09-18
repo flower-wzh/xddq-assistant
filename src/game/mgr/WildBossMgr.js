@@ -5,7 +5,7 @@ import LoopMgr from "#game/common/LoopMgr.js";
 import PlayerAttributeMgr from "#game/mgr/PlayerAttributeMgr.js";
 import PalaceMgr from "#game/mgr/PalaceMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class WildBossMgr {
     constructor() {

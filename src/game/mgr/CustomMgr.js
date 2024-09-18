@@ -3,7 +3,7 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class CustomMgr {
     constructor() {
@@ -50,7 +50,7 @@ export default class CustomMgr {
         if (now - this.lastExecuteTime >= this.CUSTOM_INTERVAL) {
             this.lastExecuteTime = now;
             if (SystemUnlockMgr.PUPIL) {
-                // 进入宗门系统 
+                // 进入宗门系统
                 GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_ENTER, {});
                 if (global.account.switch.pupil) {
                     GameNetMgr.inst.sendPbMsg(Protocol.S_PUPIL_TRAIN, { isOneKey: 1 });
@@ -61,7 +61,7 @@ export default class CustomMgr {
                 // 仙宫外部数据请求
                 GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_ENTER_OUTER, {});
             }
-       
+
             if (SystemUnlockMgr.GATHERENERGY) {
                 // 进入聚灵阵
                 GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {});
@@ -72,9 +72,6 @@ export default class CustomMgr {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_ENTER, { activityId: 10004986 });
             }
 
-            // 进入仙域商途
-            GameNetMgr.inst.sendPbMsg(Protocol.S_SKY_TRADE_ENTER, { activityId: 10027240 });
-
             // 道友一键赠送和领取
             GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 1 });
             GameNetMgr.inst.sendPbMsg(Protocol.S_FRIEND_ONE_KEY, { type: 2 });
@@ -84,8 +81,8 @@ export default class CustomMgr {
             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BBS, { activityId: 0, conditionId: 0 });
             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_GAME_CIRCLE, { activityId: 0, conditionId: 0 });
             // 运势购买
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 250100, mallId: 400000010, count: 1 });// 免费运势
-            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 250101, mallId: 400000010, count: 1 });// 免费运势
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 250100, mallId: 400000010, count: 1 }); // 免费运势
+            GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 250101, mallId: 400000010, count: 1 }); // 免费运势
             for (let i = 0; i < 20; i++) {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250100, times: 1 }); // 运势抽奖
                 GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_LUCKY_DRAW, { activityId: 250101, times: 1 }); // 运势抽奖
@@ -95,7 +92,7 @@ export default class CustomMgr {
             GameNetMgr.inst.sendPbMsg(Protocol.S_ACTIVITY_BUY_MALL_GOODS, { activityId: 9875533, mallId: 400000003, count: 1 });
             // 福泽签到
             for (let i = 0; i < 8; i++) {
-                const conditionId = 10000 + i
+                const conditionId = 10000 + i;
                 GameNetMgr.inst.sendPbMsg(Protocol.S_GOOD_FORTUNE_GET_REWARD_REQ, { activityId: 9295167, conditionId: conditionId, type: 1 });
             }
             // 疯狂聚宝盆签到

@@ -1,6 +1,6 @@
 import logger from "#utils/logger.js";
 import DBMgr from "#game/common/DBMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class SystemUnlockMgr {
     constructor() {

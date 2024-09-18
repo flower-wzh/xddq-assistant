@@ -4,8 +4,8 @@ import logger from "#utils/logger.js";
 import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
-import WorkFlowMgr from '#game/common/WorkFlowMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
+import WorkFlowMgr from "#game/common/WorkFlowMgr.js";
 
 export default class InvadeMgr {
     constructor() {
@@ -51,18 +51,18 @@ export default class InvadeMgr {
 
     completeTask() {
         logger.info(`[异兽入侵] 任务完成`);
-        PlayerAttributeMgr.inst.switchToDefaultSeparation();  // 切换到默认分身
+        PlayerAttributeMgr.inst.switchToDefaultSeparation(); // 切换到默认分身
         this.clear();
         WorkFlowMgr.inst.remove("Invade");
     }
 
     async loopUpdate() {
         if (!WorkFlowMgr.inst.canExecute("Invade") || !this.enabled || this.isProcessing) return;
-        
+
         this.isProcessing = true;
         try {
             if (this.battleNum >= this.maxCount) {
-                this.completeTask();  // 如果达到最大挑战次数，任务完成
+                this.completeTask(); // 如果达到最大挑战次数，任务完成
                 return;
             }
 
@@ -72,7 +72,7 @@ export default class InvadeMgr {
             // 切换到分身
             const idx = global.account.switch.invadeIndex || 0;
             PlayerAttributeMgr.inst.setSeparationIdx(idx);
-            
+
             // 挑战
             GameNetMgr.inst.sendPbMsg(Protocol.S_INVADE_CHALLENGE, {});
             this.battleNum++;

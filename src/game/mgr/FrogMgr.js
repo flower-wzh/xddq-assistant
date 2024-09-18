@@ -2,7 +2,7 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class FrogMgr {
     constructor() {
@@ -24,7 +24,7 @@ export default class FrogMgr {
     reset() {
         this._instance = null;
     }
-    
+
     clear() {
         LoopMgr.inst.remove(this);
     }

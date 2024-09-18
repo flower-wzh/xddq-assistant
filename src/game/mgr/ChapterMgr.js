@@ -68,10 +68,10 @@ export default class ChapterMgr {
                 // 任务完成后切换为默认分身
                 PlayerAttributeMgr.inst.switchToDefaultSeparation();
             } else {
-                //切换到分身
+                // 切换到分身
                 const idx = global.account.switch.challengeIndex || 0;
                 PlayerAttributeMgr.inst.setSeparationIdx(idx);
-                //挑战
+                // 挑战
                 GameNetMgr.inst.sendPbMsg(Protocol.S_STAGE_CHALLENGE, {});
                 this.challenge--;
                 await new Promise((resolve) => setTimeout(resolve, 1000 * 10));

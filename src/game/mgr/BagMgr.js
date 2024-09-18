@@ -1,9 +1,9 @@
 import GameNetMgr from "#game/net/GameNetMgr.js";
-import Protocol from '#game/net/Protocol.js';
+import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
-import LoopMgr from '#game/common/LoopMgr.js';
+import LoopMgr from "#game/common/LoopMgr.js";
 import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class BagMgr {
     constructor() {
@@ -52,7 +52,7 @@ export default class BagMgr {
     }
 
     setMallCount(mallId, count) {
-        const mallItem = this.mallBuyCountList.find(item => item.mallId === mallId);
+        const mallItem = this.mallBuyCountList.find((item) => item.mallId === mallId);
         if (mallItem) {
             mallItem.count = count;
         } else {
@@ -61,7 +61,7 @@ export default class BagMgr {
     }
 
     isMallCountZero(mallId) {
-        const mallItem = this.mallBuyCountList.find(item => item.mallId === mallId);
+        const mallItem = this.mallBuyCountList.find((item) => item.mallId === mallId);
         return mallItem ? mallItem.count === 0 : false;
     }
 

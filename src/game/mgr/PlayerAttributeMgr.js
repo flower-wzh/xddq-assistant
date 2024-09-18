@@ -6,8 +6,8 @@ import DBMgr from "#game/common/DBMgr.js";
 import BagMgr from "#game/mgr/BagMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import UnionMgr from "#game/mgr/UnionMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
-import WorkFlowMgr from '#game/common/WorkFlowMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
+import WorkFlowMgr from "#game/common/WorkFlowMgr.js";
 
 class Attribute {
     static Chop(times = 1) {
@@ -325,7 +325,7 @@ export default class PlayerAttributeMgr {
         // 停止砍树的桃子数量
         const stopNum = global.account.chopTree?.stop?.num ?? 50;
         // 停止砍树的玩家等级
-        const stopLevel = const stopLevel = (typeof global.account.chopTree?.stop?.level === 'string' && global.account.chopTree.stop.level.toLowerCase() === 'infinity') ? Infinity : (global.account.chopTree?.stop?.level || Infinity);
+        const stopLevel = (typeof global.account.chopTree?.stop?.level === 'string' && global.account.chopTree.stop.level.toLowerCase() === 'infinity') ? Infinity : (global.account.chopTree?.stop?.level || Infinity);
         // 默认为不限制执行次数, 砍多少次就停
         const doNum = (typeof global.account.chopTree?.stop?.doNum === 'string' && global.account.chopTree.stop.doNum.toLowerCase() === 'infinity') ? Infinity : (global.account.chopTree?.stop?.doNum || Infinity);
 

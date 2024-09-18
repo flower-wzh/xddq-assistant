@@ -57,7 +57,7 @@ export default class YueBaoMgr {
         // 计算利率
         const depositNum = this.calculateDepositNum();
         const rewardNum = this.calculateReward(depositNum);
-                        
+
         if (t.ret == 0) {
             const playerData = t.playerData;
 

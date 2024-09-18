@@ -4,43 +4,35 @@ import logger from "#utils/logger.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import UserMgr from "#game/mgr/UserMgr.js";
 import BagMgr from "#game/mgr/BagMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class UnionMgr {
     constructor() {
-        this.unionId = null;              // 妖盟ID
-        this.memberNum = null;            // 妖盟成员数量
-        this.memberList = null;           // 妖盟成员列表
-        this.lastCheckTime = 0;           // 上次检查时间
-        this.CHECK_CD = 1000 * 60 * 10;   // 每次间隔时间
-        this.initialized = false          // 是否同步妖盟数据
-        this.buyUnionGoodLists = global.account.buyUnionGoodLists || [
-            230000011,
-            230000001,
-            230000002,
-            230000005,
-            230000006,
-            230000013,
-            230000014
-        ];
+        this.unionId = null;            // 妖盟ID
+        this.memberNum = null;          // 妖盟成员数量
+        this.memberList = null;         // 妖盟成员列表
+        this.lastCheckTime = 0;         // 上次检查时间
+        this.CHECK_CD = 1000 * 60 * 10; // 每次间隔时间
+        this.initialized = false;       // 是否同步妖盟数据
+        this.buyUnionGoodLists = global.account.buyUnionGoodLists || [230000011, 230000001, 230000002, 230000005, 230000006, 230000013, 230000014];
         this.buyUnionGoodListsDict = {
-            "230000001": "小仙桃",
-            "230000002": "大仙桃",
-            "230000003": "小灵兽果",
-            "230000004": "大灵兽果",
-            "230000005": "小净瓶水",
-            "230000006": "大净瓶水",
-            "230000007": "道书",
-            "230000008": "传说随机精怪碎片",
-            "230000009": "灵石",
-            "230000010": "传说精怪碎片",
-            "230000011": "免费仙桃",
-            "230000012": "腾蛇信物",
-            "230000013": "小玄黄果",
-            "230000014": "大玄黄果"
+            230000001: "小仙桃",
+            230000002: "大仙桃",
+            230000003: "小灵兽果",
+            230000004: "大灵兽果",
+            230000005: "小净瓶水",
+            230000006: "大净瓶水",
+            230000007: "道书",
+            230000008: "传说随机精怪碎片",
+            230000009: "灵石",
+            230000010: "传说精怪碎片",
+            230000011: "免费仙桃",
+            230000012: "腾蛇信物",
+            230000013: "小玄黄果",
+            230000014: "大玄黄果",
         };
-        this.unionBargainNum = global.account.unionBargainNum || 0
-        this.unionBargainPrice = global.account.unionBargainPrice || 0
+        this.unionBargainNum = global.account.unionBargainNum || 0;
+        this.unionBargainPrice = global.account.unionBargainPrice || 0;
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
@@ -67,9 +59,9 @@ export default class UnionMgr {
     }
 
     collectPlayerData(data) {
-        return data.map(member => ({
+        return data.map((member) => ({
             userId: member.playerData.playerId,
-            nickName: member.playerData.nickName
+            nickName: member.playerData.nickName,
         }));
     }
 
@@ -122,9 +114,7 @@ export default class UnionMgr {
         const hours = now.getHours();
 
         // 一般是晚上0点到2点，中午11点到13点, 进行妖盟讨伐
-        const isBattleAllowed =
-            (hours >= 0 && hours < 2) ||
-            (hours >= 11 && hours < 13);
+        const isBattleAllowed = (hours >= 0 && hours < 2) || (hours >= 11 && hours < 13);
 
         if (isBattleAllowed && t.addBuffCount < 1) {
             logger.info("[妖盟管理] 妖盟讨伐 妖盟布阵");
@@ -168,7 +158,7 @@ export default class UnionMgr {
             { threshold: 250, index: 1 },
             { threshold: 500, index: 2 },
             { threshold: 750, index: 3 },
-            { threshold: 1000, index: 4 }
+            { threshold: 1000, index: 4 },
         ];
 
         for (const action of actions) {

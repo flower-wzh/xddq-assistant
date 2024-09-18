@@ -4,18 +4,18 @@ import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class UniverseMgr {
     constructor() {
         this.isProcessing = false;
-        this.stoneNum = 0;                      //造化石数量
-        this.stoneNumMax = 10;                  //免费造化石数量上限
-        this.freeDrawTimes = 0;                 //免费抽玄决次数
-        this.AD_REWARD_DAILY_DRAW_MAX_NUM = 2;  //免费玄决上限
-        this.drawTwiceStatus = 0; //天地轮盘抽奖类型1:普通，2:观察,3:连线
-        this.pos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; //天地轮盘：连线坐标
-        this.cachePos = []; //已使用过的连线坐标
+        this.stoneNum = 0;                                  // 造化石数量
+        this.stoneNumMax = 10;                              // 免费造化石数量上限
+        this.freeDrawTimes = 0;                             // 免费抽玄决次数
+        this.AD_REWARD_DAILY_DRAW_MAX_NUM = 2;              // 免费玄决上限
+        this.drawTwiceStatus = 0;                           // 天地轮盘抽奖类型1:普通，2:观察,3:连线
+        this.pos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; // 天地轮盘：连线坐标
+        this.cachePos = [];                                 // 已使用过的连线坐标
         LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
     }
@@ -63,11 +63,11 @@ export default class UniverseMgr {
     // 天地轮盘二次抽奖
     UniverseDrawTwiceReq() {
         if (this.drawTwiceStatus == 2) {
-            //观察
+            // 观察
             GameNetMgr.inst.sendPbMsg(Protocol.S_UNIVERSE_DRAW_TWICE, { pos: 1 });
             return;
         }
-        //连线
+        // 连线
         GameNetMgr.inst.sendPbMsg(Protocol.S_UNIVERSE_DRAW_TWICE, { pos: this.selectPos() }, null);
     }
 
@@ -107,12 +107,12 @@ export default class UniverseMgr {
                 this.stoneNum = 0;
             }
             if (this.freeDrawTimes < 2) {
-                //免费洞察天机抽取
+                // 免费洞察天机抽取
                 this.UniverseSkillDrawReq();
                 this.freeDrawTimes++;
             }
             if (this.drawTwiceStatus > 1) {
-                //天地轮盘二次抽奖
+                // 天地轮盘二次抽奖
                 this.UniverseDrawTwiceReq();
             }
         } catch (error) {

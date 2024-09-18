@@ -3,8 +3,8 @@ import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
-import UserMgr from '#game/mgr/UserMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
+import UserMgr from "#game/mgr/UserMgr.js";
 
 export default class HeroRankMgr {
     constructor() {
@@ -79,9 +79,9 @@ export default class HeroRankMgr {
 
     findRandomPlayer(t) {
         const playerList = t.fightPlayerList.canFightPlayerInfoList;
-        const splitIndex = playerList.findIndex(player => player.showInfo.playerId == UserMgr.playerId);
+        const splitIndex = playerList.findIndex((player) => player.showInfo.playerId == UserMgr.playerId);
         const beforeSplit = playerList.slice(0, splitIndex - 1);
-        const randomIndex =beforeSplit.find((player) => player.showInfo.nickName.startsWith("HeroRank_Name"))|| Math.floor(Math.random() * beforeSplit.length);
+        const randomIndex = beforeSplit.find((player) => player.showInfo.nickName.startsWith("HeroRank_Name")) || Math.floor(Math.random() * beforeSplit.length);
         return beforeSplit[randomIndex];
     }
 
@@ -99,20 +99,25 @@ export default class HeroRankMgr {
                 }
 
                 // 如果autoFightDaily开启，则随机选择一个玩家进行挑战
-                const player = this.autoFightDaily && this.energy > 0
-                    ? this.findRandomPlayer(t) // 随机选择玩家
-                    : this.findFirstHeroRankPlayer(t); // 正常选择
+                const player =
+                    this.autoFightDaily && this.energy > 0
+                        ? this.findRandomPlayer(t) // 随机选择玩家
+                        : this.findFirstHeroRankPlayer(t); // 正常选择
 
                 if (player) {
                     logger.info(`[群英榜管理] 找到玩家 ${player.showInfo.nickName} 准备攻击...`);
-                    GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_FIGHT, {
-                        targetId: "0",
-                        targetRank: player.rank,
-                        masterId: player.masterId,
-                        masterLv: player.masterLv,
-                        appearanceId: player.showInfo.appearanceId,
-                        cloudId: player.showInfo.equipCloudId,
-                    }, null);
+                    GameNetMgr.inst.sendPbMsg(
+                        Protocol.S_HERORANK_FIGHT,
+                        {
+                            targetId: "0",
+                            targetRank: player.rank,
+                            masterId: player.masterId,
+                            masterLv: player.masterLv,
+                            appearanceId: player.showInfo.appearanceId,
+                            cloudId: player.showInfo.equipCloudId,
+                        },
+                        null
+                    );
                 }
             }
         } catch (error) {
@@ -130,7 +135,7 @@ export default class HeroRankMgr {
                 this.energy = t.playerInfo.energy;
                 if (t.allBattleRecord.isWin) {
                     logger.info(`[群英榜] 当前排名: ${t.rank} 战斗胜利, 再次请求列表...`);
-                    await new Promise((resolve) => setTimeout(resolve, 2000));  // 延迟 2 秒后继续请求列表
+                    await new Promise((resolve) => setTimeout(resolve, 2000)); // 延迟 2 秒后继续请求列表
                 }
             }
         } catch (error) {
@@ -176,7 +181,7 @@ export default class HeroRankMgr {
                 logger.info("[群英榜管理] 开始每日自动打群英榜模式...");
                 GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_GET_FIGHT_LIST, { type: 0 });
             } else {
-                logger.debug("[群英镑管理] 条件不满足")
+                logger.debug("[群英镑管理] 条件不满足");
             }
         } catch (error) {
             logger.error(`[群英榜管理] loopUpdate error: ${error}`);

@@ -1,7 +1,7 @@
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import logger from "#utils/logger.js";
-import RegistMgr from '#game/common/RegistMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
 import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 
 export default class ActivityMgr {

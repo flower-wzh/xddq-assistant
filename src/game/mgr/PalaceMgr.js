@@ -2,7 +2,7 @@ import GameNetMgr from "#game/net/GameNetMgr.js";
 import Protocol from "#game/net/Protocol.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import logger from "#utils/logger.js";
-import RegistMgr from '#game/common/RegistMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class PalaceMgr {
     constructor() {
@@ -30,24 +30,23 @@ export default class PalaceMgr {
         this._instance = null;
     }
 
-    clear() { }
+    clear() {}
 
     async checkReward(t) {
         for (let i = 0; i < t.data.length; i++) {
             const id = t.data[i].id;
-    
+
             // // TODO 临时处理 跳过星宿奖励
             // if (id.startsWith("STAR-TRIAL-GIFT")) {
             //     logger.error(`[仙宫管理] 跳过礼物 ${id}`);
             //     continue;
             // }
-    
+
             logger.info(`[仙宫管理] 收获礼物 ${id}`);
             GameNetMgr.inst.sendPbMsg(Protocol.S_PALACE_SEND_GIFT_GET_REWARD, { id: id, getReward: true, type: "SendGiftType_Palace" });
             await new Promise((resolve) => setTimeout(resolve, 1000));
         }
     }
-    
 
     PalaceWorshipRsp(t) {
         if (t.titleId) {

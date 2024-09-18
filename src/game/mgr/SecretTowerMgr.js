@@ -4,8 +4,8 @@ import logger from "#utils/logger.js";
 import PlayerAttributeMgr from "./PlayerAttributeMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
-import WorkFlowMgr from '#game/common/WorkFlowMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
+import WorkFlowMgr from "#game/common/WorkFlowMgr.js";
 
 export default class SecretTowerMgr {
     constructor() {
@@ -72,13 +72,12 @@ export default class SecretTowerMgr {
             } else {
                 // 切换到分身
                 const idx = global.account.switch.challengeIndex || 0;
-                PlayerAttributeMgr.inst.setSeparationIdx(idx)
+                PlayerAttributeMgr.inst.setSeparationIdx(idx);
                 // 挑战
                 GameNetMgr.inst.sendPbMsg(Protocol.S_SECRETTOWER_FIGHT, { type: 1 });
                 this.challenge--;
                 await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
             }
-
         } catch (error) {
             logger.error(`[六道秘境] loopUpdate error: ${error}`);
         } finally {

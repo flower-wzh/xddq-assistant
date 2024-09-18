@@ -3,7 +3,7 @@ import logger from "#utils/logger.js";
 import GameNetMgr from "#game/net/GameNetMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class PetsMgr {
     constructor() {

@@ -5,7 +5,7 @@ import AdRewardMgr from "#game/mgr/AdRewardMgr.js";
 import BagMgr from "#game/mgr/BagMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
-import RegistMgr from '#game/common/RegistMgr.js';
+import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class GatherEnergyMgr {
     constructor() {
