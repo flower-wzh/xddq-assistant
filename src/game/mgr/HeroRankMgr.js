@@ -8,11 +8,12 @@ import RegistMgr from '#game/common/RegistMgr.js';
 export default class HeroRankMgr {
     constructor() {
         this.isProcessing = false;
-        this.enabled = global.account.switch.herorank || false;
-        this.buyNumDaily = 0;
-        this.buyNumMax = 10;
-        this.energy = 0;
-        this.rank = null;
+        this.enabled = global.account.switch.herorank || false;  // 是否开启光速群英榜
+        this.buyNumDaily = 0;  // 当天已买数量
+        const dayIndex = new Date().getDay();
+        this.buyNumMax = global.account.switch.herorankBuyNumMax[dayIndex] ?? 0;  // 当天最大可买数量
+        this.energy = 0;  // 当前剩余体力
+        this.rank = null;  // 当前排名
         LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
     }
