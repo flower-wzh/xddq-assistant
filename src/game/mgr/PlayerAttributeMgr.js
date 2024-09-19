@@ -766,22 +766,28 @@ export default class PlayerAttributeMgr {
 
             // 检查分身是否存在
             if (!this.separationChecked && !this.separation) {
+                const retries = 3;
                 const delay = 3000;
 
-                try {
-                    Attribute.FetchSeparation();
-
-                    await new Promise(resolve => setTimeout(resolve, delay));
-
-                    if (!this.separation) {
-                        throw new Error('获取分身失败');
-                    } else {
-                        logger.info(`[获取分身] ${global.colors.red}获取分身成功${global.colors.reset}`);
+                for (let attempt = 1; attempt <= retries; attempt++) {
+                    try {
+                        Attribute.FetchSeparation();
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        if (!this.separation) {
+                            throw new Error('获取分身失败');
+                        } else {
+                            logger.info(`[获取分身] ${global.colors.red}获取分身成功${global.colors.reset}`);
+                            break;
+                        }
+                    } catch (error) {
+                        logger.warn(`[获取分身] 第 ${attempt}/${retries} 次尝试失败, 等待 ${delay / 1000} 秒后重试...`);
+                        if (attempt < retries) {
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                        } else {
+                            logger.error(`[获取分身] 重试 ${retries} 次后仍然失败，跳过分身检查`);
+                        }
                     }
-                } catch (error) {
-                    logger.error(`[获取分身] 等待 ${delay / 1000} 秒后仍然失败，跳过分身检查`);
                 }
-
                 this.separationChecked = true;
             }
 
