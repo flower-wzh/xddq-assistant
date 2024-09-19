@@ -13,7 +13,17 @@
         { "ItemId": 100044, "minItemLv": 5, "isCheck": false, "description": "天衍令" },
         { "ItemId": 100047, "minItemLv": 5, "isCheck": false, "description": "昆仑铁" }
     ],
-    "_comment_rules": "福地规则 每个规则对应一个物品 minItemLv为最低品质 isCheck为是否开启检查",
+    "rulesWeak": [
+        { "ItemId": 100004, "minItemLv": 5, "isCheck": true, "description": "仙桃" },
+        { "ItemId": 100025, "minItemLv": 4, "isCheck": true, "description": "净瓶水" },
+        { "ItemId": 100044, "minItemLv": 5, "isCheck": true, "description": "天衍令" }
+    ],
+    "rulesStrong": [
+        { "ItemId": 100004, "minItemLv": 5, "isCheck": true, "description": "仙桃" },
+        { "ItemId": 100025, "minItemLv": 3, "isCheck": true, "description": "净瓶水" },
+        { "ItemId": 100044, "minItemLv": 5, "isCheck": true, "description": "天衍令" }
+    ],
+    "_comment_rules": "福地规则 每个规则对应一个物品 minItemLv为最低品质 isCheck为是否开启检查。rulesWeak为老鼠在虚弱时偷取的规则,方便占坑到晚上10点时重新派遣；rulesStrong为高效时间段偷取规则(10-12,18-20,22-24时)",
     "homeland": {
         "ignoreTimeCheck": false,
         "_comment_ignoreTimeCheck": "福地忽略时间检测"
