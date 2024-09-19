@@ -89,7 +89,7 @@ export default class YardDpbMgr {
     YardBuildGainReward() {
         if (!this.retLock) return;
         const now = Date.now();
-        const whileList = [ 1001, 1002, 1003, 1004 ] // 1001 采药, 1002 收丹药 , 1003 收桃子, 1004 收孕育
+        const whileList = [1001, 1002, 1003, 1004] // 1001 采药, 1002 收丹药 , 1003 收桃子, 1004 收孕育
 
         if (this.lastGainRewardTime == 0 || now - this.lastGainRewardTime >= this.GainRewardCD) {
             if (this.buildingMsg.length > 0) {
@@ -99,6 +99,14 @@ export default class YardDpbMgr {
                     if (whileList.includes(buildId)) { // 过滤特定的 buildId
                         logger.info(`[仙居管理] 开始收菜： ${buildId}`);
                         GameNetMgr.inst.sendPbMsg(Protocol.S_YARDPB_BUILD_GAIN_REWARD, { uniqueId: uniqueId, buildId: buildId });
+                    }
+                    if (buildId == 1002 && i.yardBuildDetailMsg.status == 0) {  //炼丹grassNum/500
+                        const num = Math.floor(this.grassNum / 500);
+                        GameNetMgr.inst.sendPbMsg(Protocol.S_YARDPB_BUILD_MAKE, { uniqueId: uniqueId, buildId: buildId, num: num, isCancel: false });
+                    }
+                    if (buildId == 1004 && i.yardBuildDetailMsg.status == 0) {  //孕育。只孕育最后一个
+                        const crop = this.YardCropMsg[this.YardCropMsg.length - 1]
+                        GameNetMgr.inst.sendPbMsg(Protocol.S_YARDPB_BUILD_MAKE, { uniqueId: uniqueId, buildId: buildId, productId: crop.itemId, num: crop.count, isCancel: false });
                     }
                 }
                 this.lastGainRewardTime = now;

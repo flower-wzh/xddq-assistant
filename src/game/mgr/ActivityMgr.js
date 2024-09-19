@@ -52,7 +52,7 @@ export default class ActivityMgr {
             const activityId = t.activity.activityId;
 
             // 黑名单会跳过
-            const blackList = [9211906, 9295167, 9269555]
+            const blackList = [9295167, 9269555]
             if (blackList.includes(activityId)) {
                 logger.debug(`[活动管理] ${activityId} 被跳过`);
                 return;
