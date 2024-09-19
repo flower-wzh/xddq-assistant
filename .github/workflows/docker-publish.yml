@@ -35,4 +35,3 @@ jobs:
           push: true
           tags: |
             genchsusu/xddq:latest
-            genchsusu/xddq:${{ github.sha }}
