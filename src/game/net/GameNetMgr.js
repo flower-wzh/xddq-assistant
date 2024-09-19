@@ -50,7 +50,7 @@ class GameNetMgr {
         logger.debug("[WebSocket] 开始心跳");
         GameNetMgr.inst.net.heartbeatStart();
         logger.debug("[LoopMgr] 开始循环任务");
-        setTimeout(() => {LoopMgr.inst.start();}, 3000);//延迟启动定时任务3s
+        setTimeout(() => {LoopMgr.inst.start();}, 2000);//延迟启动定时任务2s
         // LoopMgr.inst.start()
         WorkFlowMgr.inst.start()
     }
