@@ -106,6 +106,7 @@ export default class PlayerAttributeMgr {
         this.talentEnabled = global.account.switch.talent || false; // 是否开启砍灵脉
         this.previousFlowerNum = 0;                                 // 用于存储上一次的灵脉花数量
         this.initFlowerNum = -1;                                    // 初灵脉花数量
+        this.separationLock = true;                                // 锁一下分身数据返回
 
         // 🔒储存状态防止出现问题
         this.isProcessing = false;
@@ -164,6 +165,7 @@ export default class PlayerAttributeMgr {
 
     // 215 同步分身数据
     checkSeparation(t) {
+        this.separationLock = false;
         if (t.ret === 0 && Array.isArray(t.useSeparationDataMsg) && t.useSeparationDataMsg.length === 3) {
             logger.debug("[属性管理] 有分身数据");
             this.separation = true;
@@ -758,6 +760,7 @@ export default class PlayerAttributeMgr {
 
     async loopUpdate() {
         if (this.isProcessing) return;
+        if(this.separationLock) return; //分身数据没有下发就先不执行
         this.isProcessing = true;
 
         try {
