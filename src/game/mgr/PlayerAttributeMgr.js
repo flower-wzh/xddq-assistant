@@ -347,9 +347,9 @@ export default class PlayerAttributeMgr {
         if (peachNum !== this.previousPeachNum) {
             logger.info(`[砍树] 还剩 ${peachNum} 桃子`);
             this.previousPeachNum = peachNum;
-            Attribute.Chop(this.chopTimes);
-            Attribute.CheckUnfinishedEquipment();
         }
+        Attribute.Chop(this.chopTimes);
+        Attribute.CheckUnfinishedEquipment();
 
         // 当加入妖盟且砍了350颗桃后
         if (UnionMgr.inst.inUnion && !this.doneUnionTask) {

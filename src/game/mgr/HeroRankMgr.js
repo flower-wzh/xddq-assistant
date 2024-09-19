@@ -16,6 +16,7 @@ export default class HeroRankMgr {
         this.buyNumDaily = 0;   // 当天已买数量
         this.energy = 0;        // 当前剩余体力
         this.rank = null;       // 当前排名
+        this.lock = false;       // 加锁加锁请求太快了~
         LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
     }
@@ -82,8 +83,7 @@ export default class HeroRankMgr {
         const playerList = t.fightPlayerList.canFightPlayerInfoList;
         const splitIndex = playerList.findIndex((player) => player.showInfo.playerId == UserMgr.playerId);
         const beforeSplit = playerList.slice(0, splitIndex - 1);
-        const randomIndex = beforeSplit.find((player) => player.showInfo.nickName.startsWith("HeroRank_Name")) || Math.floor(Math.random() * beforeSplit.length);
-        return beforeSplit[randomIndex];
+        return beforeSplit.find((player) => player.showInfo.nickName.startsWith("HeroRank_Name")) || beforeSplit[Math.floor(Math.random() * beforeSplit.length)];
     }
 
     getFightList(t) {
@@ -115,11 +115,13 @@ export default class HeroRankMgr {
                         appearanceId: player.showInfo.appearanceId,
                         cloudId: player.showInfo.equipCloudId,
                     });
+                    this.energy--;
                 }
             }
         } catch (error) {
             logger.error(`[群英榜管理] getFightList error: ${error}`);
         } finally {
+            this.lock = false;
             this.isProcessing = false;
         }
     }
@@ -168,7 +170,7 @@ export default class HeroRankMgr {
 
     async loopUpdate() {
         if (this.isProcessing || !this.isLoopActive()) return;
-
+        if (this.lock) return;
         this.isProcessing = true;
         try {
             if (this.shouldStartFight()) {
@@ -183,6 +185,7 @@ export default class HeroRankMgr {
         } catch (error) {
             logger.error(`[群英榜管理] loopUpdate error: ${error}`);
         } finally {
+            this.lock = true;
             this.isProcessing = false;
         }
     }
