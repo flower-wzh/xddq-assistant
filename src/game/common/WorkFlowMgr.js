@@ -41,8 +41,6 @@ export default class WorkFlowMgr {
     }
 
     async start() {
-        await new Promise((resolve) => setTimeout(resolve, 2000));  // 等待一下,同步账号数据需要时间
-
         // 添加0级项目
         const ChopTree = global.account.switch.chopTree || false;
         if (ChopTree) {

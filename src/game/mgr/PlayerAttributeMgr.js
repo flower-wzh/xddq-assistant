@@ -666,9 +666,9 @@ export default class PlayerAttributeMgr {
         if (flowerNum !== this.previousFlowerNum) {
             logger.info(`[灵脉] 还剩 ${flowerNum} 灵脉花`);
             this.previousFlowerNum = flowerNum;
-            Attribute.RandomTalentReq(this.talentCreateTimes);
-            Attribute.CheckUnfinishedTalent();
         }
+        Attribute.RandomTalentReq(this.talentCreateTimes);
+        Attribute.CheckUnfinishedTalent();
     }
 
     // 207 仙树初始化以及自动升级
@@ -762,24 +762,59 @@ export default class PlayerAttributeMgr {
         if (this.isProcessing) return;
         if(this.separationLock) return; //分身数据没有下发就先不执行
         this.isProcessing = true;
-
+    
         try {
             // 自动升级仙树
             this.processReward();
 
-            // 自动砍树
+            // 检查分身是否存在
+            if (!this.separationChecked && !this.separation) {
+                const retries = 3;
+                const delay = 3000;
+
+                for (let attempt = 1; attempt <= retries; attempt++) {
+                    try {
+                        Attribute.FetchSeparation();
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        if (!this.separation) {
+                            throw new Error('获取分身失败');
+                        } else {
+                            logger.info(`[获取分身] 获取分身成功`);
+                            break;
+                        }
+                    } catch (error) {
+                        logger.warn(`[获取分身] 第 ${attempt}/${retries} 次尝试失败, 等待 ${delay / 1000} 秒后重试...`);
+                        if (attempt < retries) {
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                        } else {
+                            logger.error(`[获取分身] 重试 ${retries} 次后仍然失败，跳过分身检查`);
+                        }
+                    }
+                }
+                this.separationChecked = true;
+            }
+
+            // 分身不存在跳过后续任务
+            if (!this.separation) {
+                logger.debug(`[获取分身] 未找到分身，跳过任务`);
+                WorkFlowMgr.inst.remove("ChopTree");
+                WorkFlowMgr.inst.remove("Talent");
+                return;
+            }
+    
+            // 自动砍树逻辑
             if (WorkFlowMgr.inst.canExecute("ChopTree")) {
-                if (this.chopEnabled && this.separation) {
+                if (this.chopEnabled) {
                     this.doChopTree();
                 } else {
                     WorkFlowMgr.inst.remove("ChopTree");
                     logger.warn(`[砍树] 未执行`);
                 }
             }
-
-            // 自动砍灵脉
+    
+            // 自动砍灵脉逻辑
             if (WorkFlowMgr.inst.canExecute("Talent")) {
-                if (this.talentEnabled && this.separation) {
+                if (this.talentEnabled) {
                     this.doAutoTalent();
                 } else {
                     WorkFlowMgr.inst.remove("Talent");
