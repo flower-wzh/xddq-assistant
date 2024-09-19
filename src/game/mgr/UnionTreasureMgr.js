@@ -14,6 +14,7 @@ export default class UnionTreasureMgr {
         this.mapDatas = null;
         this.lock = false;
         this.callback = false;
+        this.rewardStatus = false;
         LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
     }
@@ -56,7 +57,6 @@ export default class UnionTreasureMgr {
 
     // 寻宝
     UnionTreasureDrawChip() {
-        console.log(this.lotteryTimes);
         for (let i = this.lotteryTimes; i < this.lotteryTimesMax; i++) {
             logger.info(`[妖盟寻宝] 第${i}次寻宝`);
             GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_TREASURE_DRWA_CHIP, {});
@@ -69,6 +69,17 @@ export default class UnionTreasureMgr {
         logger.info(`[妖盟寻宝] 开始领奖`);
         for (let i = 290001; i < 290006; i++) {
             GameNetMgr.inst.sendPbMsg(Protocol.S_TASK_GET_REWARD, { taskId: [i] });
+        }
+        this.rewardStatus = true;
+    }
+
+    //挖箱子
+    UnionTreasureHuntTreasureReq() {
+       const treasureHunt = this.mapDatas.find((hunt) => hunt.status == 2)
+        if (treasureHunt) {
+            logger.info(`[妖盟寻宝] 挖取宝箱:${treasureHunt.pos}`);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_TREASURE_HUNT_TREASURE, { pos: treasureHunt.pos });
+            this.mapDatas = this.mapDatas.filter((hunt) => hunt.pos !== treasureHunt.pos);
         }
     }
 
@@ -83,15 +94,14 @@ export default class UnionTreasureMgr {
                 logger.info(`[妖盟寻宝] 进入寻宝`);
                 return;
             }
+
             if (!this.callback) return;
-            if (this.lotteryTimes >= this.lotteryTimesMax) {
+            if (this.lotteryTimes >= this.lotteryTimesMax && this.rewardStatus == false) {
                 this.getReward();
                 logger.info(`[妖盟寻宝] 寻宝已完成,终止任务`);
-                this.clear();
-                return;
             }
-
-            this.UnionTreasureDrawChip();
+            this.UnionTreasureDrawChip(); // 寻宝
+            this.UnionTreasureHuntTreasureReq(); //检查挖箱子
         } catch (error) {
             logger.error(`[妖盟寻宝] loopUpdate error: ${error}`);
         } finally {
