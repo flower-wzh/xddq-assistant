@@ -12,7 +12,6 @@ export default class UnionTreasureMgr {
         this.lotteryTimes = null;
         this.lotteryTimesMax = 3;
         this.mapDatas = null;
-        this.lock = false;
         this.callback = false;
         this.rewardStatus = false;
         LoopMgr.inst.add(this);
@@ -75,7 +74,7 @@ export default class UnionTreasureMgr {
 
     //挖箱子
     UnionTreasureHuntTreasureReq() {
-       const treasureHunt = this.mapDatas.find((hunt) => hunt.status == 2)
+        const treasureHunt = this.mapDatas.find((hunt) => hunt.status == 2)
         if (treasureHunt) {
             logger.info(`[妖盟寻宝] 挖取宝箱:${treasureHunt.pos}`);
             GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_TREASURE_HUNT_TREASURE, { pos: treasureHunt.pos });
@@ -88,14 +87,10 @@ export default class UnionTreasureMgr {
         this.isProcessing = true;
         if (!this.inUnion) return;
         try {
-            if (this.lotteryTimes == null && !this.lock) {
-                this.lock = true;
+            if (!this.callback){
                 GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_TREASURE_ENTER, {});
-                logger.info(`[妖盟寻宝] 进入寻宝`);
                 return;
             }
-
-            if (!this.callback) return;
             if (this.lotteryTimes >= this.lotteryTimesMax && this.rewardStatus == false) {
                 this.getReward();
                 logger.info(`[妖盟寻宝] 寻宝已完成,终止任务`);
