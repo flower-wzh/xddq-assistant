@@ -106,7 +106,7 @@ export default class YardDpbMgr {
                     }
                     if (buildId == 1004 && i.yardBuildDetailMsg.status == 0) {  //孕育。只孕育最后一个
                         const crop = this.YardCropMsg[this.YardCropMsg.length - 1]
-                        const cropNum=56+(8*i.yardBuildDetailMsg.level)
+                        const cropNum = 48 + (12 * i.yardBuildDetailMsg.level)
                         GameNetMgr.inst.sendPbMsg(Protocol.S_YARDPB_BUILD_MAKE, { uniqueId: uniqueId, buildId: buildId, productId: crop.itemId, num: cropNum, isCancel: false });
                     }
                 }
