@@ -650,7 +650,7 @@ export default class PlayerAttributeMgr {
         const hasDoNum = this.initFlowerNum - flowerNum;
 
         // 判断是否停止任务
-        if (flowerNum < stopNum || hasDoNum >= doNum) {
+        if (flowerNum <= stopNum || hasDoNum >= doNum) {
                 logger.warn(`[灵脉] 停止任务, 还剩余 ${flowerNum} 先天灵草`);
                 this.talentEnabled = false;
 
