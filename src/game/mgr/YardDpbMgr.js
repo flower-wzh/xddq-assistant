@@ -22,7 +22,6 @@ export default class YardDpbMgr {
         this.lastGainRewardTime = 0;            // 上次领取时间
 
         this.isProcessing = false;
-        this.lock = false;
         this.retLock = false;
 
         LoopMgr.inst.add(this);
@@ -111,9 +110,8 @@ export default class YardDpbMgr {
         if (this.isProcessing) return;
         this.isProcessing = true;
         try {
-            if (!this.lock) {
+            if (!this.retLock) {
                 GameNetMgr.inst.sendPbMsg(Protocol.S_YARDPB_ENTER, { targetPlayerId: UserMgr.playerId });
-                this.lock = true
             }
             // 抽奖
             this.processReward();
