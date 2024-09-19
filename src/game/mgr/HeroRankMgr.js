@@ -186,7 +186,7 @@ export default class HeroRankMgr {
             if (this.shouldStartFight()) {
                 logger.info("[群英榜管理] 开始光速群英榜模式...");
                 GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_GET_FIGHT_LIST, { type: 0 });
-            } else if (this.autoFightDaily && this.BattleErr >= 6) {
+            } else if (this.autoFightDaily && this.BattleErr <= 6) {
                 logger.info("[群英榜管理] 开始每日自动打群英榜模式...");
                 GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_GET_FIGHT_LIST, { type: 0 });
             } else {
