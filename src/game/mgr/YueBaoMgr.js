@@ -5,6 +5,7 @@ import BagMgr from "#game/mgr/BagMgr.js";
 import DBMgr from "#game/common/DBMgr.js";
 import PlayerAttributeMgr from "#game/mgr/PlayerAttributeMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
+import LoopMgr from "#game/common/LoopMgr.js";
 import RegistMgr from "#game/common/RegistMgr.js";
 
 export default class YueBaoMgr {
@@ -18,6 +19,11 @@ export default class YueBaoMgr {
             limitLevel: 22,
         };
 
+        this.INTERVAL = 1000 * 30;
+        this.lastExecuteTime = 0;
+        this.isProcessing = false;
+
+        LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
     }
 
@@ -37,7 +43,9 @@ export default class YueBaoMgr {
         this._instance = null;
     }
 
-    clear() {}
+    clear() {
+        LoopMgr.inst.remove(this);
+    }
 
     calculateDepositNum() {
         const realmsId = PlayerAttributeMgr.level;
@@ -81,4 +89,18 @@ export default class YueBaoMgr {
             }
         }
     }
+
+    async loopUpdate() {
+        if (this.isProcessing || Date.now() - this.lastExecuteTime < this.INTERVAL) return;
+        this.isProcessing = true;
+        this.lastExecuteTime = Date.now();
+        
+        try {
+            GameNetMgr.inst.sendPbMsg(Protocol.S_YUE_BAO_ENTER, { activityId: 10004986 });
+        } catch (error) {
+            logger.error(`[余额宝管理] loopUpdate error: ${error}`);
+        } finally {
+            this.isProcessing = false;
+        }
+    }    
 }
