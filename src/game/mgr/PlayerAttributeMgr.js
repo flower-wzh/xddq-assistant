@@ -645,10 +645,9 @@ export default class PlayerAttributeMgr {
         const stopNum = global.account.talent?.stop?.stopNum ?? this.talentCreateTimes;
         // 默认为不限制执行次数, 砍多少次就停
         const doNum = (typeof global.account.talent?.stop?.doNum === 'string' && global.account.talent.stop.doNum.toLowerCase() === 'infinity') ? Infinity : (global.account.talent?.stop?.doNum || Infinity);
-
+       
         // 已经完成的数量
         const hasDoNum = this.initFlowerNum - flowerNum;
-
         // 判断是否停止任务
         if (flowerNum <= stopNum || hasDoNum >= doNum) {
                 logger.warn(`[灵脉] 停止任务, 还剩余 ${flowerNum} 先天灵草`);
@@ -665,7 +664,11 @@ export default class PlayerAttributeMgr {
             logger.info(`[灵脉] 还剩 ${flowerNum} 灵脉花`);
             this.previousFlowerNum = flowerNum;
         }
-        Attribute.RandomTalentReq(this.talentCreateTimes);
+        const times = this.talentCreateTimes
+        if (flowerNum < this.talentCreateTimes) {
+            times = 1
+        }
+        Attribute.RandomTalentReq(times);
         Attribute.CheckUnfinishedTalent();
     }
 
