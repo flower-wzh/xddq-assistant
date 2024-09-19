@@ -17,6 +17,7 @@ export default class HeroRankMgr {
         this.energy = 0;        // 当前剩余体力
         this.rank = null;       // 当前排名
         this.lock = false;      // 加锁加锁请求太快了~
+        this.BattleErr = 0;      // 战斗失败次数     
         LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
     }
@@ -107,14 +108,21 @@ export default class HeroRankMgr {
 
                 if (player) {
                     logger.info(`[群英榜管理] 找到玩家 ${player.showInfo.nickName} 准备攻击...`);
-                    GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_FIGHT, {
-                        targetId: "0",
+                    const fight={//真人
+                        targetId:player.showInfo.playerId,
                         targetRank: player.rank,
-                        masterId: player.masterId,
-                        masterLv: player.masterLv,
-                        appearanceId: player.showInfo.appearanceId,
-                        cloudId: player.showInfo.equipCloudId,
-                    });
+                        masterId: 0,
+                        masterLv: 0,
+                        appearanceId:0,
+                        cloudId:0,
+                    }
+                    if(player.masterId){ //人机
+                        fight.masterId=player.masterId
+                        fight.masterLv=player.masterLv
+                        fight.appearanceId= player.showInfo.appearanceId
+                        fight.cloudId= player.showInfo.equipCloudId
+                    }
+                    GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_FIGHT, fight);
                     this.energy--;
                 }
             }
@@ -135,6 +143,8 @@ export default class HeroRankMgr {
                 if (t.allBattleRecord.isWin) {
                     logger.info(`[群英榜] 当前排名: ${t.rank} 战斗胜利, 再次请求列表...`);
                     await new Promise((resolve) => setTimeout(resolve, 2000)); // 延迟 2 秒后继续请求列表
+                } else {
+                    this.BattleErr += 1;
                 }
             }
         } catch (error) {
@@ -176,7 +186,7 @@ export default class HeroRankMgr {
             if (this.shouldStartFight()) {
                 logger.info("[群英榜管理] 开始光速群英榜模式...");
                 GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_GET_FIGHT_LIST, { type: 0 });
-            } else if (this.autoFightDaily) {
+            } else if (this.autoFightDaily && this.BattleErr >= 6) {
                 logger.info("[群英榜管理] 开始每日自动打群英榜模式...");
                 GameNetMgr.inst.sendPbMsg(Protocol.S_HERORANK_GET_FIGHT_LIST, { type: 0 });
             } else {
