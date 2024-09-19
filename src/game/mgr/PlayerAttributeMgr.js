@@ -106,7 +106,6 @@ export default class PlayerAttributeMgr {
         this.talentEnabled = global.account.switch.talent || false; // 是否开启砍灵脉
         this.previousFlowerNum = 0;                                 // 用于存储上一次的灵脉花数量
         this.initFlowerNum = -1;                                    // 初灵脉花数量
-        this.separationLock = true;                                // 锁一下分身数据返回
 
         // 🔒储存状态防止出现问题
         this.isProcessing = false;
@@ -165,7 +164,6 @@ export default class PlayerAttributeMgr {
 
     // 215 同步分身数据
     checkSeparation(t) {
-        this.separationLock = false;
         if (t.ret === 0 && Array.isArray(t.useSeparationDataMsg) && t.useSeparationDataMsg.length === 3) {
             logger.debug("[属性管理] 有分身数据");
             this.separation = true;
@@ -760,7 +758,6 @@ export default class PlayerAttributeMgr {
 
     async loopUpdate() {
         if (this.isProcessing) return;
-        if(this.separationLock) return; //分身数据没有下发就先不执行
         this.isProcessing = true;
     
         try {
@@ -769,28 +766,22 @@ export default class PlayerAttributeMgr {
 
             // 检查分身是否存在
             if (!this.separationChecked && !this.separation) {
-                const retries = 3;
                 const delay = 3000;
 
-                for (let attempt = 1; attempt <= retries; attempt++) {
-                    try {
-                        Attribute.FetchSeparation();
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        if (!this.separation) {
-                            throw new Error('获取分身失败');
-                        } else {
-                            logger.info(`[获取分身] 获取分身成功`);
-                            break;
-                        }
-                    } catch (error) {
-                        logger.warn(`[获取分身] 第 ${attempt}/${retries} 次尝试失败, 等待 ${delay / 1000} 秒后重试...`);
-                        if (attempt < retries) {
-                            await new Promise(resolve => setTimeout(resolve, delay));
-                        } else {
-                            logger.error(`[获取分身] 重试 ${retries} 次后仍然失败，跳过分身检查`);
-                        }
+                try {
+                    Attribute.FetchSeparation();
+
+                    await new Promise(resolve => setTimeout(resolve, delay));
+
+                    if (!this.separation) {
+                        throw new Error('获取分身失败');
+                    } else {
+                        logger.info(`[获取分身] ${global.colors.red}获取分身成功${global.colors.reset}`);
                     }
+                } catch (error) {
+                    logger.error(`[获取分身] 等待 ${delay / 1000} 秒后仍然失败，跳过分身检查`);
                 }
+
                 this.separationChecked = true;
             }
 

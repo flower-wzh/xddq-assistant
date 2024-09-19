@@ -16,7 +16,7 @@ export default class HeroRankMgr {
         this.buyNumDaily = 0;   // 当天已买数量
         this.energy = 0;        // 当前剩余体力
         this.rank = null;       // 当前排名
-        this.lock = false;       // 加锁加锁请求太快了~
+        this.lock = false;      // 加锁加锁请求太快了~
         LoopMgr.inst.add(this);
         RegistMgr.inst.add(this);
     }
