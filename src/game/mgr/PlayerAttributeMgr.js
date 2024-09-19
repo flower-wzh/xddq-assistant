@@ -664,7 +664,7 @@ export default class PlayerAttributeMgr {
             logger.info(`[灵脉] 还剩 ${flowerNum} 灵脉花`);
             this.previousFlowerNum = flowerNum;
         }
-        const times = this.talentCreateTimes
+        let times = this.talentCreateTimes
         if (flowerNum < this.talentCreateTimes) {
             times = 1
         }
