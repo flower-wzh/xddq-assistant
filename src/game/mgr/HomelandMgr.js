@@ -84,8 +84,8 @@ export default class HomelandMgr {
 
         // 如果配置中没有定义rules, 则使用默认规则, 默认只偷取3级以上的仙桃
         this.rules = global.account.rules || HomelandMgr.DEFAULT_RULES;
-        this.rulesWeak = global.account.rulesWeak || HomelandMgr.DEFAULT_RULES;  // 当虚弱状态下的偷取规则
-        this.rulesStrong = global.account.rulesStrong || HomelandMgr.DEFAULT_RULES;  // 高效时间段采集规则
+        this.rulesWeak = global.account.rulesWeak || HomelandMgr.WEAK_RULES;         // 虚弱状态下的偷取规则
+        this.rulesStrong = global.account.rulesStrong || HomelandMgr.STRONG_RULES;   // 高效时间段采集规则
         this.isInitialized = false;
 
         this.isProcessing = false;
@@ -142,6 +142,16 @@ export default class HomelandMgr {
         { ItemId: 100047, minItemLv: 5, isCheck: false, description: "昆仑铁" },
     ]
 
+    static WEAK_RULES = [
+        { ItemId: 100004, minItemLv: 5, isCheck: true, description: "仙桃" },
+        { ItemId: 100025, minItemLv: 4, isCheck: true, description: "净瓶水" }
+    ]
+
+    static STRONG_RULES = [
+        { ItemId: 100004, minItemLv: 4, isCheck: true, description: "仙桃" },
+        { ItemId: 100025, minItemLv: 3, isCheck: true, description: "净瓶水" }
+    ]
+
     static get inst() {
         if (!this._instance) {
             this._instance = new HomelandMgr();
@@ -162,24 +172,28 @@ export default class HomelandMgr {
     }
 
     generateTemplate(rules=this.rules) {
-        const priority = [100029, 100044, 100000, 100003, 100047, 100004, 100025];
+        // 桃>瓶>天衍令>琉璃珠>仙玉>昆仑铁>灵石
+        const priority = [100004, 100025, 100044, 100029, 100000, 100047, 100003];
         return this.initializeResult(priority, rules);
     }
 
     initializeResult(priority, rules=[]) {
         const result = {};
-        priority.forEach((itemId) => {
-            const rule = rules.find((rule) => rule.ItemId == itemId);
-            if (rule && rule.isCheck) {
-                for (let lv = 5; lv >= rule.minItemLv; lv--) {
+        for (let lv = 5; lv >= 1; lv--) {
+            priority.forEach((itemId) => {
+                const rule = rules.find((rule) => rule.ItemId == itemId);
+                if (rule && rule.isCheck && lv >= rule.minItemLv) {
                     result[`${itemId}=${lv}`] = [];
                 }
-            }
-        });
+            });
+        }
+
         // Generate rules description
-        const description = this.generateRulesDescription(rules);
-        const s = rules == this.rulesStrong ? '[高效时间]' : (rules == this.rulesWeak ? '[虚弱状态]' : '[正常状态]')
-        logger.info(`[福地管理] ${s} 将采集${description}`);
+        if (rules == this.rules) {
+            const description = this.generateRulesDescription(rules);
+            logger.info(`[福地管理] 将采集${description}`);
+        }
+
         return result;
     }
 
@@ -188,28 +202,30 @@ export default class HomelandMgr {
         return descriptions.join(" | ");
     }
 
-    adjustRulesForLowEnergy() {
-        // 检查当前时间是否在允许刷新时间段
+    adjustRules() {
         const now = new Date();
         const hours = now.getHours();
-
+    
         if (this.worker.energy < 20) {
             // 虚弱状态下的规则调整
+            let additionalRule = {};
             if (hours >= 2 && hours < 8) {
-                this.template = this.generateTemplate(this.rulesWeak).push({"100004=3": []});
+                additionalRule = { "100004=3": [] };
                 logger.debug(`[福地管理] [虚弱状态] 当前能量: ${this.worker.energy} 2-8点: 还会偷3级仙桃`);
             } else if (hours >= 8 && hours < 16) {
-                this.template = this.generateTemplate(this.rulesWeak).push({"100004=2": []});
+                additionalRule = { "100004=2": [] };
                 logger.debug(`[福地管理] [虚弱状态] 当前能量: ${this.worker.energy} 8-16点: 还会偷2级仙桃`);
             } else if (hours >= 16 && hours < 18) {
-                this.template = this.generateTemplate(this.rulesWeak).push({"100004=1": []});
-                logger.debug(`[福地管理] [虚弱状态] 当前能量: ${this.worker.energy} 16-18点: 还会偷1级`);
+                additionalRule = { "100004=1": [] };
+                logger.debug(`[福地管理] [虚弱状态] 当前能量: ${this.worker.energy} 16-18点: 还会偷1级仙桃`);
             } else {
                 this.template = this.generateTemplate(this.rules);
+                return;
             }
+            this.template = { ...this.generateTemplate(this.rulesWeak), ...additionalRule };
             this.isInitialized = true;
         } else {
-            // 检查是否处于高效时间段，设置特殊规则
+            // 检查是否处于高效时间段, 设置特殊规则
             if (this.highEfficiencyTime(hours)) {
                 this.template = this.generateTemplate(this.rulesStrong);
                 logger.debug(`[福地管理] [高效时间] 当前能量: ${this.worker.energy}`);
@@ -217,7 +233,7 @@ export default class HomelandMgr {
                 return;
             }
 
-            // 当能量恢复时，重新初始化规则模板，只执行一次
+            // 当能量恢复时, 重新初始化规则模板, 只执行一次
             if (!this.template || this.isInitialized) {
                 logger.info("[福地管理] 初始化规则模板");
                 this.template = this.generateTemplate(this.rules);
@@ -237,7 +253,7 @@ export default class HomelandMgr {
         this.worker.energy = t.energy || 0;
 
         // 调整规则根据当前能量状态
-        this.adjustRulesForLowEnergy();
+        this.adjustRules();
 
         if (t.freeWorkerNum > 0 && t.energy > 0) {
             logger.info(`[福地管理] 有${t.freeWorkerNum}只空闲老鼠, 还剩${t.energy}体力`);
