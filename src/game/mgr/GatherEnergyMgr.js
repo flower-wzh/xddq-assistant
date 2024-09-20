@@ -14,10 +14,10 @@ export default class GatherEnergyMgr {
         this.getAdRewardTimes = 0;          // 已领取次数, 默认为0, 防止夜间不work
         this.lastAdRewardTime = 0;          // 上次领取时间
         this.openNum = 0;                   // 聚灵阵开启数量
-        this.attendNum = 0;                 // 聚灵阵参加数量                 
+        this.attendNum = 0;                 // 聚灵阵参加数量
         this.num = 0;                       // 腾蛇信物数量
         this.lock = false;                  // 锁一下，避免拿不到
-
+        this.enabled = global.account.switch.gatherEnergy || false;  // 是否可以开启自己的聚灵阵
         this.isProcessing = false;
 
         LoopMgr.inst.add(this);
@@ -84,14 +84,13 @@ export default class GatherEnergyMgr {
         }
         logger.info(`[聚灵阵管理] 开启聚灵阵${num * 2}小时`);
         GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_OPEN, { num: num });
-    
+
         // 防止启动过多
         this.lock = false;
         // 手动赋值
         this.openNum = 1;
         // 再发一次消息
         GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ENTER_NEW, {});
-        
     }
 
     processReward() {
@@ -120,7 +119,7 @@ export default class GatherEnergyMgr {
             const now = new Date();
             const currentHour = now.getHours();
 
-            if ((currentHour == 20 || currentHour == 10) && this.lock) {
+            if ((currentHour == 20 || currentHour == 10) && this.lock && this.enabled) {
                 this.openGatherEnergy()
             }
         } catch (error) {
