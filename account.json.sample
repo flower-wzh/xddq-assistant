@@ -96,7 +96,9 @@
         "activity":true,
         "_comment_activity": "开启自动领取活动奖励,400等级以下以及新区禁止打开,否则有风险",
         "wildBoss": true,
-        "_comment_wildBoss": "挑战妖王开关，默认开启"
+        "_comment_wildBoss": "挑战妖王开关，默认开启",
+        "gatherEnergy": true,
+        "_comment_gatherEnergy": "聚灵阵开关，默认开启。有时为了囤积螣蛇信物,不想每天都把领取的消耗掉,可设置为false,则将不会开启自己的聚灵阵"
     },
     "chopTree": {
         "stop": {
