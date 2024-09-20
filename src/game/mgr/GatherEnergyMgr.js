@@ -6,6 +6,7 @@ import BagMgr from "#game/mgr/BagMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import LoopMgr from "#game/common/LoopMgr.js";
 import RegistMgr from "#game/common/RegistMgr.js";
+import UserMgr from "#game/mgr/UserMgr.js";
 
 export default class GatherEnergyMgr {
     constructor() {
@@ -104,6 +105,41 @@ export default class GatherEnergyMgr {
         }
     }
 
+
+
+    // 聚灵阵列表
+    // 规则: 21点30 开始检查聚灵阵,聚灵阵开启时长大于第二天10点小于21点30,且产能最高
+    GatherEnergyFirstListViewResp(t) {
+        const filteredData = t.list.filter(item => item.openerMsg.playerId !== UserMgr.playerId);
+        const now = new Date();
+        const nextDay = new Date(now);
+        nextDay.setUTCDate(nextDay.getUTCDate() + 1);
+        nextDay.setUTCHours(0, 0, 0, 0);
+        const nextDay10amMs = new Date(nextDay).setUTCHours(10, 0, 0, 0);
+        const nextDay2130pmMs = new Date(nextDay).setUTCHours(21, 30, 0, 0);
+        let maxIncome = 0;
+        let maxIncomeObj = null;
+        
+        filteredData.forEach(item => {
+            const endTimeMs = parseInt(item.energyBaseMsg.endTime, 10);
+            const income = parseInt(item.energyBaseMsg.income, 10);
+            if (endTimeMs >= nextDay10amMs && endTimeMs < nextDay2130pmMs && income > maxIncome) {
+                maxIncome = income;
+                maxIncomeObj = item;
+            }
+        });
+
+        if (maxIncomeObj == null) {
+            logger.error("[聚灵阵管理] 当前无符合的聚灵阵");
+            return
+        }
+
+        //入阵坐下
+        logger.error(`[聚灵阵管理] 进入 ${maxIncomeObj.openerMsg.nickName} 聚灵阵 产能:${maxIncomeObj.energyBaseMsg.income} 结束时间 ${new Date(maxIncomeObj.energyBaseMsg.endTime)}`);
+        GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_ATTEND_NEW, { id: maxIncomeObj.openerMsg.playerId });// 请求聚灵阵列表
+        this.attendNum += 1;
+    }
+
     async loopUpdate() {
         if (this.isProcessing) return;
         this.isProcessing = true;
@@ -115,13 +151,19 @@ export default class GatherEnergyMgr {
             } else {
                 this.processReward();
             }
-            // TODO 自动开启聚灵阵 21:30-22:00有高级聚灵阵 自动进入
             const now = new Date();
             const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
 
             if ((currentHour == 20 || currentHour == 10) && this.lock && this.enabled) {
                 this.openGatherEnergy()
             }
+
+            // TODO 自动开启聚灵阵 21:30-22:00有高级聚灵阵 自动进入
+            if (currentHour == 21 && currentMinute >= 30 && this.attendNum == 0) {
+                GameNetMgr.inst.sendPbMsg(Protocol.S_GATHER_ENERGY_FIRST_LIST_VIEW, { offset: 0, filterType: 1 });// 请求聚灵阵列表
+            }
+
         } catch (error) {
             logger.error(`[聚灵阵管理] loopUpdate error: ${error}`);
         } finally {

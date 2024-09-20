@@ -32,6 +32,7 @@ import YardDpbMgr from "#game/mgr/YardDpbMgr.js";
 import UnionTreasureMgr from "#game/mgr/UnionTreasureMgr.js";
 import SystemUnlockMgr from "#game/mgr/SystemUnlockMgr.js";
 import UnionBountyMgr from "#game/mgr/UnionBountyMgr.js";
+import DBMgr from "#game/common/DBMgr.js";
 
 class MsgRecvMgr {
     constructor() {}
@@ -208,6 +209,12 @@ class MsgRecvMgr {
         GatherEnergyMgr.inst.checkReward(t);
     }
 
+    // 207020 打开聚灵阵一级列表界面（参与人数）
+    static GatherEnergyFirstListViewResp(t) {
+        logger.debug("[MsgRecvMgr] 聚灵阵状态同步");
+        GatherEnergyMgr.inst.GatherEnergyFirstListViewResp(t);
+    }
+
     // 402 关卡挑战
     static ChallengeRspMsg(t) {
         logger.debug("[MsgRecvMgr] 关卡挑战");
@@ -325,6 +332,19 @@ class MsgRecvMgr {
         }
     }
 
+    //解析活动奖励返回
+    static RspGetActivityConditionReward(t) {
+        logger.debug("[MsgRecvMgr] 解析活动奖励返回");
+        if (t.ret == 0) {
+            const rewardsArray = t.rewards.split('|');
+            rewardsArray.forEach(reward => {
+                const [key, value] = reward.split('=');
+                const rewardName = DBMgr.inst.getLanguageWord(`Items-${key}`)
+                logger.info(`[活动管理] 获得: ${rewardName} 数量: ${value} `);
+            });
+        }
+    }
+
     // 1051 同步福地鼠宝数据
     static SyncHomelandMsg(t) {
         logger.debug("[MsgRecvMgr] 同步福地鼠宝数据");
@@ -431,11 +451,13 @@ class MsgRecvMgr {
 
     //213602 进入妖盟悬赏返回
     static UnionBountyEnterMapResp(t){
+        logger.debug("[MsgRecvMgr] 进入妖盟悬赏同步")
         UnionBountyMgr.inst.UnionBountyEnterMapResp(t);
     }
 
     //213614 押镖界面
     static UnionBountyOpenBountyEventResp(t){
+        logger.debug("[MsgRecvMgr] 押镖界面")
         UnionBountyMgr.inst.UnionBountyOpenBountyEventResp(t);
     }
 
