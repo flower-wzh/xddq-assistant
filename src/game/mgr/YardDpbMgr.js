@@ -97,7 +97,7 @@ export default class YardDpbMgr {
                     const buildId = i.yardCellMsg.buildId;
                     const buildName = whileDic[buildId] ?? '';
                     if (buildName.length > 0) { // 过滤特定的 buildId
-                        logger.info(`[仙居管理] 开始收菜： ${buildName}`);
+                        logger.info(`[仙居管理] 开始收菜：${buildName}`);
                         GameNetMgr.inst.sendPbMsg(Protocol.S_YARDPB_BUILD_GAIN_REWARD, { uniqueId: uniqueId, buildId: buildId });
                     }
                     if (buildId == 1002 && i.yardBuildDetailMsg.status == 0) {  // 炼丹 grassNum / 500
