@@ -124,6 +124,9 @@ export default class UnionMgr {
         if (t.buff.overlay == 20 && t.battleCount < 1) {
             logger.info("[妖盟管理] 妖盟讨伐 已满20人开始战斗");
             GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_BATTLE, {});
+        } else if (hours >= 21 && t.battleCount < 1) {
+            logger.info(`[妖盟管理] 妖盟讨伐 当前${t.buff.overlay}人布阵,${hours}时, 强制开始战斗`);
+            GameNetMgr.inst.sendPbMsg(Protocol.S_UNION_BOSS_BATTLE, {});
         }
 
         if (t.battleCount == 1) {
